@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/account?ApplicationName=IDEA
+    username: postgres
+    password: postgres
+  mvc:
+    view:
+      prefix: /view/users/
+      suffix: .jsp
+  jpa:
+    show-sql: true
