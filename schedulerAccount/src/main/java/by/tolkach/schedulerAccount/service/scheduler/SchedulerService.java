@@ -1,8 +1,12 @@
-package by.tolkach.schedulerAccount.service;
+package by.tolkach.schedulerAccount.service.scheduler;
 
+import by.tolkach.schedulerAccount.dto.Schedule;
+import by.tolkach.schedulerAccount.dto.ScheduleTimeUnit;
 import org.quartz.*;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -14,25 +18,23 @@ public class SchedulerService {
         this.scheduler = scheduler;
     }
 
-    public void create(UUID operation) {
-        // Define job instance
-        JobDetail job1 = JobBuilder.newJob(CreateOperationJob.class)
+    public void create(UUID operation, Schedule schedule) {
+        JobDetail job = JobBuilder.newJob(CreateOperationJob.class)
                 .withIdentity(operation.toString(), "operations")
                 .usingJobData("operation", operation.toString())
                 .build();
 
-// Define a Trigger that will fire "now", and not repeat
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(operation.toString(), "operations")
-                .startNow()
+                .startAt(Date.from(schedule.getStartTime().toInstant(ZoneOffset.of("+03:00"))))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInSeconds(10)
-                        .withRepeatCount(10))
+                        .withIntervalInSeconds((int) schedule.getTimeUnit().toSeconds(schedule.getInterval()))
+                        .repeatForever())
+                .endAt(Date.from(schedule.getStopTime().toInstant(ZoneOffset.of("+03:00"))))
                 .build();
 
-// Schedule the job with the trigger
         try {
-            scheduler.scheduleJob(job1, trigger);
+            scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             throw new RuntimeException(e);
         }

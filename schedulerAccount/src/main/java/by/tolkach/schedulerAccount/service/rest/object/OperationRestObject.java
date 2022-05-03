@@ -1,21 +1,25 @@
-package by.tolkach.account.dto;
+package by.tolkach.schedulerAccount.service.rest.object;
 
-import by.tolkach.account.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.account.dto.serializer.LongLocalDateTimeSerializer;
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"type"})
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Operation {
+public class OperationRestObject implements Serializable {
 
     private UUID uuid;
+    private LocalDate date;
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtCreate;
@@ -23,21 +27,20 @@ public class Operation {
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtUpdate;
     private String description;
-    private long value;
-    private OperationType type;
+    private BigDecimal value = new BigDecimal(0L);
     private UUID currency;
 
-    public Operation() {
+    public OperationRestObject() {
     }
 
-    public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description,
-                     long value, OperationType type, UUID currency) {
+    public OperationRestObject(UUID uuid, LocalDate date, LocalDateTime dtCreate, LocalDateTime dtUpdate,
+                               String description, BigDecimal value, UUID currency) {
         this.uuid = uuid;
+        this.date = date;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
         this.description = description;
         this.value = value;
-        this.type = type;
         this.currency = currency;
     }
 
@@ -47,6 +50,14 @@ public class Operation {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public LocalDateTime getDtCreate() {
@@ -73,20 +84,12 @@ public class Operation {
         this.description = description;
     }
 
-    public long getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
-    public void setValue(long value) {
+    public void setValue(BigDecimal value) {
         this.value = value;
-    }
-
-    public OperationType getType() {
-        return type;
-    }
-
-    public void setType(OperationType type) {
-        this.type = type;
     }
 
     public UUID getCurrency() {
@@ -100,11 +103,11 @@ public class Operation {
     public static class Builder {
 
         private UUID uuid;
+        private LocalDate date;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
         private String description;
-        private long value;
-        private OperationType type;
+        private BigDecimal value = new BigDecimal(0L);
         private UUID currency;
 
         private Builder() {
@@ -116,6 +119,11 @@ public class Operation {
 
         public Builder setUuid(UUID uuid) {
             this.uuid = uuid;
+            return this;
+        }
+
+        public Builder setDate(LocalDate date) {
+            this.date = date;
             return this;
         }
 
@@ -134,13 +142,8 @@ public class Operation {
             return this;
         }
 
-        public Builder setValue(long value) {
+        public Builder setValue(BigDecimal value) {
             this.value = value;
-            return this;
-        }
-
-        public Builder setType(OperationType type) {
-            this.type = type;
             return this;
         }
 
@@ -149,8 +152,8 @@ public class Operation {
             return this;
         }
 
-        public Operation build() {
-            return new Operation(uuid, dtCreate, dtUpdate, description, value, type, currency);
+        public OperationRestObject build() {
+            return new OperationRestObject(uuid, date, dtCreate, dtUpdate, description, value, currency);
         }
     }
 }

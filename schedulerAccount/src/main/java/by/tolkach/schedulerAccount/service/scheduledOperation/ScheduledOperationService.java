@@ -1,15 +1,14 @@
-package by.tolkach.schedulerAccount.service;
+package by.tolkach.schedulerAccount.service.scheduledOperation;
 
 import by.tolkach.schedulerAccount.dao.api.IScheduledOperationStorage;
-import by.tolkach.schedulerAccount.dao.api.entity.OperationEntity;
-import by.tolkach.schedulerAccount.dao.api.entity.ScheduleEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.ScheduledOperationEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.schedulerAccount.dto.*;
-import by.tolkach.schedulerAccount.service.api.IOperationService;
-import by.tolkach.schedulerAccount.service.api.IScheduleService;
-import by.tolkach.schedulerAccount.service.api.IScheduledOperationService;
-import by.tolkach.schedulerAccount.service.api.Pagination;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.IOperationService;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduleService;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduledOperationService;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.Pagination;
+import by.tolkach.schedulerAccount.service.scheduler.SchedulerService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -22,23 +21,20 @@ public class ScheduledOperationService implements IScheduledOperationService {
 
     private final IOperationService operationService;
     private final IScheduleService scheduleService;
+    private final SchedulerService schedulerService;
     private final IScheduledOperationStorage scheduledOperationStorage;
     private final IEntityConverter<ScheduledOperation, ScheduledOperationEntity> scheduledOperationEntityConverter;
-    private final IEntityConverter<Schedule, ScheduleEntity> scheduleEntityConverter;
-    private final IEntityConverter<Operation, OperationEntity> operationEntityConverter;
 
     public ScheduledOperationService(IOperationService operationService,
                                      IScheduleService scheduleService,
+                                     SchedulerService schedulerService,
                                      IScheduledOperationStorage scheduledOperationStorage,
-                                     IEntityConverter<ScheduledOperation, ScheduledOperationEntity> scheduledOperationEntityConverter,
-                                     IEntityConverter<Schedule, ScheduleEntity> scheduleEntityConverter,
-                                     IEntityConverter<Operation, OperationEntity> operationEntityConverter) {
+                                     IEntityConverter<ScheduledOperation, ScheduledOperationEntity> scheduledOperationEntityConverter) {
         this.operationService = operationService;
         this.scheduleService = scheduleService;
+        this.schedulerService = schedulerService;
         this.scheduledOperationStorage = scheduledOperationStorage;
         this.scheduledOperationEntityConverter = scheduledOperationEntityConverter;
-        this.scheduleEntityConverter = scheduleEntityConverter;
-        this.operationEntityConverter = operationEntityConverter;
     }
 
     @Override
@@ -55,6 +51,7 @@ public class ScheduledOperationService implements IScheduledOperationService {
                 .build();
         ScheduledOperationEntity createdScheduledOperation =
                 this.scheduledOperationStorage.save(this.scheduledOperationEntityConverter.toEntity(scheduledOperation));
+        this.schedulerService.create(createdOperation.getUuid(), createdSchedule);
         return this.scheduledOperationEntityConverter.toDto(createdScheduledOperation);
     }
 

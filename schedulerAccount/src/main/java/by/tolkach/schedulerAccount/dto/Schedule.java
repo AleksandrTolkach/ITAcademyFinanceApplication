@@ -1,12 +1,8 @@
 package by.tolkach.schedulerAccount.dto;
 
-import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,13 +14,13 @@ public class Schedule {
     private UUID uuid;
     private LocalDateTime startTime;
     private LocalDateTime stopTime;
-    private long interval;
+    private int interval;
     private ScheduleTimeUnit timeUnit;
 
     public Schedule() {
     }
 
-    public Schedule(UUID uuid, LocalDateTime startTime, LocalDateTime stopTime, long interval, ScheduleTimeUnit timeUnit) {
+    public Schedule(UUID uuid, LocalDateTime startTime, LocalDateTime stopTime, int interval, ScheduleTimeUnit timeUnit) {
         this.uuid = uuid;
         this.startTime = startTime;
         this.stopTime = stopTime;
@@ -56,11 +52,11 @@ public class Schedule {
         this.stopTime = stopTime;
     }
 
-    public long getInterval() {
+    public int getInterval() {
         return interval;
     }
 
-    public void setInterval(long interval) {
+    public void setInterval(int interval) {
         this.interval = interval;
     }
 
@@ -77,7 +73,7 @@ public class Schedule {
         private UUID uuid;
         private LocalDateTime startTime;
         private LocalDateTime stopTime;
-        private long interval;
+        private int interval;
         private ScheduleTimeUnit timeUnit;
 
         private Builder() {
@@ -102,7 +98,7 @@ public class Schedule {
             return this;
         }
 
-        public Builder setInterval(long interval) {
+        public Builder setInterval(int interval) {
             this.interval = interval;
             return this;
         }

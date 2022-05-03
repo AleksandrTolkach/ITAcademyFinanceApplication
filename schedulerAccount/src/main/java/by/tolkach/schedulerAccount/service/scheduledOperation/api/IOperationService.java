@@ -1,4 +1,4 @@
-package by.tolkach.schedulerAccount.service.api;
+package by.tolkach.schedulerAccount.service.scheduledOperation.api;
 
 import by.tolkach.schedulerAccount.dto.Operation;
 

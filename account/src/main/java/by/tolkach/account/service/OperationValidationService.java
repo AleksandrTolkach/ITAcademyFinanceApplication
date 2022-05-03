@@ -15,7 +15,7 @@ public class OperationValidationService implements IValidationService<Operation>
         if (nullOrEmpty(operation.getDescription())) {
             validationException.add(new SingleError("description", "Необходимо указать описание"));
         }
-        if (nullOrEmpty(operation.getCurrency())) {
+        if (nullOrEmpty(operation.getCurrency().toString())) {
             validationException.add(new SingleError("currency", "Неверная валюта"));
         }
 

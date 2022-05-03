@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
@@ -44,7 +45,7 @@ public class OperationController {
                                     @PathVariable(name = "dt_update") Long dtUpdate,
                                     @RequestBody Operation operation) {
         this.operationService.update(accountId, operationId,
-                LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC), operation);
+                LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC.), operation);
         return ResponseEntity.ok("Операция изменена");
     }
 }

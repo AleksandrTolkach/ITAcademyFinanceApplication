@@ -1,10 +1,8 @@
 package by.tolkach.schedulerAccount.controller;
 
-import by.tolkach.schedulerAccount.dto.Operation;
-import by.tolkach.schedulerAccount.dto.Schedule;
 import by.tolkach.schedulerAccount.dto.ScheduleAndOperationWrapper;
 import by.tolkach.schedulerAccount.dto.SimplePageable;
-import by.tolkach.schedulerAccount.service.api.IScheduledOperationService;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduledOperationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +42,6 @@ public class ScheduledOperationController {
         this.scheduledOperationService.update(scheduledOperationId,
                 LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC),
                 wrapper.getSchedule(), wrapper.getOperation());
-        return ResponseEntity.ok("Операция добавлена к счету");
+        return ResponseEntity.ok("Запланированная операция изменена");
     }
 }

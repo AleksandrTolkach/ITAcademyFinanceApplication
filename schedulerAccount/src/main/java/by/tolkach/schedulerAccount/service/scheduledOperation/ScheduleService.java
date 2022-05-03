@@ -1,10 +1,10 @@
-package by.tolkach.schedulerAccount.service;
+package by.tolkach.schedulerAccount.service.scheduledOperation;
 
 import by.tolkach.schedulerAccount.dao.api.IScheduleStorage;
 import by.tolkach.schedulerAccount.dao.api.entity.ScheduleEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.schedulerAccount.dto.Schedule;
-import by.tolkach.schedulerAccount.service.api.IScheduleService;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduleService;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

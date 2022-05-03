@@ -1,6 +1,5 @@
 package by.tolkach.account.dao.api.entity;
 
-import by.tolkach.account.dto.Currency;
 import by.tolkach.account.dto.OperationType;
 
 import javax.persistence.*;
@@ -19,7 +18,7 @@ public class OperationEntity {
     private long value;
     @Enumerated(EnumType.STRING)
     private OperationType type;
-    private Currency currency;
+    private UUID currency;
     @ManyToOne
     private AccountEntity account;
 
@@ -27,7 +26,7 @@ public class OperationEntity {
     }
 
     public OperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description,
-                           long value, OperationType type, Currency currency, AccountEntity account) {
+                           long value, OperationType type, UUID currency, AccountEntity account) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -86,11 +85,11 @@ public class OperationEntity {
         this.type = type;
     }
 
-    public Currency getCurrency() {
+    public UUID getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(UUID currency) {
         this.currency = currency;
     }
 
@@ -110,7 +109,7 @@ public class OperationEntity {
         private String description;
         private long value;
         private OperationType type;
-        private Currency currency;
+        private UUID currency;
         private AccountEntity account;
 
         private Builder() {
@@ -150,7 +149,7 @@ public class OperationEntity {
             return this;
         }
 
-        public Builder setCurrency(Currency currency) {
+        public Builder setCurrency(UUID currency) {
             this.currency = currency;
             return this;
         }
