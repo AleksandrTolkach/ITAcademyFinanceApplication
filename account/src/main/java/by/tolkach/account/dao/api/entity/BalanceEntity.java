@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "finance", name = "balances")
+@Table(schema = "application", name = "balances")
 public class BalanceEntity {
 
     @Id
-    private UUID id;
+    private UUID uuid;
     @OneToOne
     private AccountEntity account;
     private long sum;
@@ -19,20 +19,20 @@ public class BalanceEntity {
     public BalanceEntity() {
     }
 
-    public BalanceEntity(UUID id, AccountEntity account, long balance, LocalDateTime dtCreate, LocalDateTime dtUpdate) {
-        this.id = id;
+    public BalanceEntity(UUID uuid, AccountEntity account, long balance, LocalDateTime dtCreate, LocalDateTime dtUpdate) {
+        this.uuid = uuid;
         this.account = account;
         this.sum = balance;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(UUID id) {
+        this.uuid = id;
     }
 
     public AccountEntity getAccount() {
@@ -69,7 +69,7 @@ public class BalanceEntity {
 
     public static class Builder {
 
-        private UUID id;
+        private UUID uuid;
         private AccountEntity account;
         private long sum;
         private LocalDateTime dtCreate;
@@ -82,8 +82,8 @@ public class BalanceEntity {
             return new Builder();
         }
 
-        public Builder setId(UUID id) {
-            this.id = id;
+        public Builder setUuid(UUID uuid) {
+            this.uuid = uuid;
             return this;
         }
 
@@ -108,7 +108,7 @@ public class BalanceEntity {
         }
 
         public BalanceEntity build() {
-            return new BalanceEntity(id, account, sum, dtCreate, dtUpdate);
+            return new BalanceEntity(uuid, account, sum, dtCreate, dtUpdate);
         }
     }
 }

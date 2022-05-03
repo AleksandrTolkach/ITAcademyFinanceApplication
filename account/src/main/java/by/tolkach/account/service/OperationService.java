@@ -42,18 +42,18 @@ public class OperationService implements IOperationService {
         operation = this.operationValidationService.validate(operation);
         AccountEntity accountEntity = this.accountEntityConverter.toEntity(this.accountService.read(accountId));
         OperationEntity operationEntity = this.operationEntityConverter.toEntity(operation);
-        operationEntity.setId(UUID.randomUUID());
+        operationEntity.setUuid(UUID.randomUUID());
         operationEntity.setDtCreate(LocalDateTime.now().withNano(0));
         operationEntity.setDtUpdate(operationEntity.getDtCreate());
         operationEntity.setAccount(accountEntity);
         operationEntity.setType(OperationType.RECEIVE);
         this.operationStorage.save(operationEntity);
-        return this.read(operationEntity.getId());
+        return this.read(operationEntity.getUuid());
     }
 
     @Override
     public Page<Operation> read(UUID id, SimplePageable pageable) {
-        List<OperationEntity> operationEntities = this.operationStorage.findAllByAccount_Id(id,
+        List<OperationEntity> operationEntities = this.operationStorage.findAllByAccount_Uuid(id,
                 PageRequest.of(pageable.getPage(), pageable.getSize()));
         return Pagination.pageOf(Operation.class, OperationEntity.class)
                 .properties(operationEntities, pageable, (int) this.operationStorage.count(),
@@ -68,7 +68,7 @@ public class OperationService implements IOperationService {
     @Override
     public Operation update(UUID accountId, UUID operationId, LocalDateTime dtUpdate, Operation operation) {
         OperationEntity operationEntity =
-                this.operationStorage.findByAccount_IdAndIdAndDtUpdate(accountId, operationId, dtUpdate);
+                this.operationStorage.findByAccount_UuidAndUuidAndDtUpdate(accountId, operationId, dtUpdate);
         operationEntity.setDescription(operation.getDescription());
         operationEntity.setValue(operation.getValue());
         operationEntity.setCurrency(operation.getCurrency());

@@ -30,7 +30,7 @@ public class AccountService implements IAccountService {
     @Override
     public Account create(Account account) {
         this.accountStorage.save(this.accountEntityConverter.toEntity(account));
-        return this.read(account.getId());
+        return this.read(account.getUuid());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account update(UUID id, LocalDateTime dtUpdate, Account account) {
-        AccountEntity entity = this.accountStorage.findByIdAndDtUpdate(id, dtUpdate);
+        AccountEntity entity = this.accountStorage.findByUuidAndDtUpdate(id, dtUpdate);
         entity.setTitle(account.getTitle());
         entity.setDescription(account.getDescription());
         entity.setType(account.getType());

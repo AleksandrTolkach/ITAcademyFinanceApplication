@@ -9,7 +9,7 @@ public class OperationEntityConvertor implements IEntityConverter<Operation, Ope
     @Override
     public OperationEntity toEntity(Operation operation) {
         return OperationEntity.Builder.createBuilder()
-                .setId(operation.getId())
+                .setUuid(operation.getUuid())
                 .setDtCreate(operation.getDtCreate())
                 .setDtUpdate(operation.getDtUpdate())
                 .setDescription(operation.getDescription())
@@ -22,7 +22,7 @@ public class OperationEntityConvertor implements IEntityConverter<Operation, Ope
     @Override
     public Operation toDto(OperationEntity entity) {
         return Operation.Builder.createBuilder()
-                .setId(entity.getId())
+                .setUuid(entity.getUuid())
                 .setDtCreate(entity.getDtCreate())
                 .setDtUpdate(entity.getDtUpdate())
                 .setDescription(entity.getDescription())

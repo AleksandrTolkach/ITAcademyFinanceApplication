@@ -36,9 +36,9 @@ public class AccountController {
     @RequestMapping(value = "/{id}/dt_update/{dt_update}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable UUID id,
-                                    @PathVariable(name = "dt_update") Long dtUpdateRaw,
+                                    @PathVariable(name = "dt_update") Long dtUpdate,
                                     @RequestBody Account account) {
-        this.accountService.update(id, LocalDateTime.ofEpochSecond(dtUpdateRaw, 0, ZoneOffset.UTC), account);
+        this.accountService.update(id, LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC), account);
         return ResponseEntity.ok("Счёт обновлен");
     }
 

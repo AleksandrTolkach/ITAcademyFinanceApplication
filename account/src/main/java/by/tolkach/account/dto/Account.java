@@ -7,13 +7,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Account {
 
-    private UUID id;
+    private UUID uuid;
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtCreate;
@@ -22,16 +23,16 @@ public class Account {
     private LocalDateTime dtUpdate;
     private String title;
     private String description;
-    private long balance;
+    private BigDecimal balance = new BigDecimal(0);
     private AccountType type;
     private Currency currency;
 
     public Account() {
     }
 
-    public Account(UUID id, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description,
-                   long balance, AccountType type, Currency currency) {
-        this.id = id;
+    public Account(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description,
+                   BigDecimal balance, AccountType type, Currency currency) {
+        this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
         this.title = title;
@@ -41,12 +42,12 @@ public class Account {
         this.currency = currency;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getTitle() {
@@ -65,11 +66,11 @@ public class Account {
         this.description = description;
     }
 
-    public long getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(long balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
@@ -107,12 +108,12 @@ public class Account {
 
     public static class Builder {
 
-        private UUID id;
+        private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
         private String title;
         private String description;
-        private long balance;
+        private BigDecimal balance;
         private AccountType type;
         private Currency currency;
 
@@ -123,8 +124,8 @@ public class Account {
             return new Builder();
         }
 
-        public Builder setId(UUID id) {
-            this.id = id;
+        public Builder setUuid(UUID uuid) {
+            this.uuid = uuid;
             return this;
         }
 
@@ -148,7 +149,7 @@ public class Account {
             return this;
         }
 
-        public Builder setBalance(long balance) {
+        public Builder setBalance(BigDecimal balance) {
             this.balance = balance;
             return this;
         }
@@ -164,7 +165,7 @@ public class Account {
         }
 
         public Account build() {
-            return new Account(id, dtCreate, dtUpdate, title, description, balance, type, currency);
+            return new Account(uuid, dtCreate, dtUpdate, title, description, balance, type, currency);
         }
     }
 }

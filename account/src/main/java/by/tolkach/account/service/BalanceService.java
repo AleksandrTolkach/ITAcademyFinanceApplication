@@ -32,25 +32,25 @@ public class BalanceService implements IBalanceService {
         AccountEntity accountEntity = this.accountEntityConverter
                 .toEntity(account);
         this.balanceStorage.save(BalanceEntity.Builder.createBuilder()
-                .setId(UUID.randomUUID())
+                .setUuid(UUID.randomUUID())
                 .setAccount(accountEntity)
                 .setSum(0L)
                 .setDtCreate(accountEntity.getDtCreate())
                 .setDtUpdate(accountEntity.getDtCreate())
                 .build());
-        return this.read(accountEntity.getId());
+        return this.read(accountEntity.getUuid());
     }
 
     @Override
     public Balance read(UUID accountId) {
-        BalanceEntity balanceEntity = this.balanceStorage.findByAccount_Id(accountId);
+        BalanceEntity balanceEntity = this.balanceStorage.findByAccount_Uuid(accountId);
         Balance balance = this.balanceEntityConverter.toDto(balanceEntity);
         return balance;
     }
 
     @Override
     public Balance update(UUID  accountId, LocalDateTime dtUpdate, Long num) {
-        BalanceEntity balanceEntity = this.balanceStorage.findByAccount_IdAndDtUpdate(accountId, dtUpdate);
+        BalanceEntity balanceEntity = this.balanceStorage.findByAccount_UuidAndDtUpdate(accountId, dtUpdate);
         balanceEntity.setSum(balanceEntity.getSum() + num);
         balanceEntity.setDtUpdate(LocalDateTime.now().withNano(0));
         this.balanceStorage.save(balanceEntity);

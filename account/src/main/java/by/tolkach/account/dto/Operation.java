@@ -15,7 +15,7 @@ import java.util.UUID;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Operation {
 
-    private UUID id;
+    private UUID uuid;
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtCreate;
@@ -30,9 +30,9 @@ public class Operation {
     public Operation() {
     }
 
-    public Operation(UUID id, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description,
+    public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description,
                      long value, OperationType type, Currency currency) {
-        this.id = id;
+        this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
         this.description = description;
@@ -41,12 +41,12 @@ public class Operation {
         this.currency = currency;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public LocalDateTime getDtCreate() {
@@ -99,7 +99,7 @@ public class Operation {
 
     public static class Builder {
 
-        private UUID id;
+        private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
         private String description;
@@ -114,8 +114,8 @@ public class Operation {
             return new Builder();
         }
 
-        public Builder setId(UUID id) {
-            this.id = id;
+        public Builder setUuid(UUID uuid) {
+            this.uuid = uuid;
             return this;
         }
 
@@ -150,7 +150,7 @@ public class Operation {
         }
 
         public Operation build() {
-            return new Operation(id, dtCreate, dtUpdate, description, value, type, currency);
+            return new Operation(uuid, dtCreate, dtUpdate, description, value, type, currency);
         }
     }
 }

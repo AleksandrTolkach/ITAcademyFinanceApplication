@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties({"stackTrace", "suppressed", "cause", "message", "localizedMessage"})
-public class ValidationException extends IllegalArgumentException {
+public class MultipleErrorsException extends IllegalArgumentException {
 
     private String logRef = "structured_error";
-    private List<ValidationError> errors = new ArrayList<>();
+    private List<SingleError> errors = new ArrayList<>();
     private int errorsCount = 0;
 
-    public ValidationException() {
+    public MultipleErrorsException() {
     }
 
-    public ValidationException(String logRef, List<ValidationError> error) {
+    public MultipleErrorsException(String logRef, List<SingleError> error) {
         this.logRef = logRef;
         this.errors = error;
     }
@@ -25,11 +25,11 @@ public class ValidationException extends IllegalArgumentException {
         return logRef;
     }
 
-    public List<ValidationError> getErrors() {
+    public List<SingleError> getErrors() {
         return errors;
     }
 
-    public void add(ValidationError error) {
+    public void add(SingleError error) {
         this.errors.add(error);
         this.increaseErrorsCount();
 

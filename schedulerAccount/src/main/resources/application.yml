@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/schedulerAccount?ApplicationName=IDEA
+    username: postgres
+    password: postgres
+  mvc:
+    view:
+      prefix: /view/users/
+      suffix: .jsp
+  jpa:
+    show-sql: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+      platform: postgres
+    properties:
+      "org.quartz.jobStore.driverDelegateClass": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
+      "org.quartz.jobStore.tablePrefix" : "quartz.QRTZ_"

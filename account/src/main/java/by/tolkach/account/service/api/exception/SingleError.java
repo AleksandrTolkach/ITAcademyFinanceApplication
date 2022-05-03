@@ -1,14 +1,14 @@
 package by.tolkach.account.service.api.exception;
 
-public class ValidationError {
+public class SingleError {
 
     private String field;
     private String message;
 
-    public ValidationError() {
+    public SingleError() {
     }
 
-    public ValidationError(String field, String message) {
+    public SingleError(String field, String message) {
         this.field = field;
         this.message = message;
     }

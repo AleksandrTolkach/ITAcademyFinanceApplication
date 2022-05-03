@@ -2,8 +2,8 @@ package by.tolkach.account.service;
 
 import by.tolkach.account.dto.Operation;
 import by.tolkach.account.service.api.IValidationService;
-import by.tolkach.account.service.api.exception.ValidationError;
-import by.tolkach.account.service.api.exception.ValidationException;
+import by.tolkach.account.service.api.exception.SingleError;
+import by.tolkach.account.service.api.exception.MultipleErrorsException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,12 +11,12 @@ public class OperationValidationService implements IValidationService<Operation>
 
     @Override
     public Operation validate(Operation operation) {
-        ValidationException validationException = new ValidationException();
+        MultipleErrorsException validationException = new MultipleErrorsException();
         if (nullOrEmpty(operation.getDescription())) {
-            validationException.add(new ValidationError("description", "Необходимо указать описание"));
+            validationException.add(new SingleError("description", "Необходимо указать описание"));
         }
         if (nullOrEmpty(operation.getCurrency())) {
-            validationException.add(new ValidationError("currency", "Неверная валюта"));
+            validationException.add(new SingleError("currency", "Неверная валюта"));
         }
 
         if (validationException.getErrorCount() > 0) {

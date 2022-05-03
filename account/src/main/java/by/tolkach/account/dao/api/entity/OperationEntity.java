@@ -8,18 +8,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "finance", name = "operations")
+@Table(schema = "application", name = "operations")
 public class OperationEntity {
 
     @Id
-    @Column(name = "\"id\"")
-    private UUID id;
+    private UUID uuid;
     private LocalDateTime dtCreate;
     private LocalDateTime dtUpdate;
-    @Column(name = "\"description\"")
     private String description;
     private long value;
-    @Column(name = "\"type\"")
     @Enumerated(EnumType.STRING)
     private OperationType type;
     private Currency currency;
@@ -29,9 +26,9 @@ public class OperationEntity {
     public OperationEntity() {
     }
 
-    public OperationEntity(UUID id, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description,
+    public OperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description,
                            long value, OperationType type, Currency currency, AccountEntity account) {
-        this.id = id;
+        this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
         this.description = description;
@@ -41,12 +38,12 @@ public class OperationEntity {
         this.account = account;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public LocalDateTime getDtCreate() {
@@ -107,7 +104,7 @@ public class OperationEntity {
 
     public static class Builder {
 
-        private UUID id;
+        private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
         private String description;
@@ -123,8 +120,8 @@ public class OperationEntity {
             return new Builder();
         }
 
-        public Builder setId(UUID id) {
-            this.id = id;
+        public Builder setUuid(UUID uuid) {
+            this.uuid = uuid;
             return this;
         }
 
@@ -164,7 +161,7 @@ public class OperationEntity {
         }
 
         public OperationEntity build() {
-            return new OperationEntity(id, dtCreate, dtUpdate, description, value, type, currency, account);
+            return new OperationEntity(uuid, dtCreate, dtUpdate, description, value, type, currency, account);
         }
     }
 }

@@ -9,7 +9,7 @@ public class BalanceEntityConverter implements IEntityConverter<Balance, Balance
     @Override
     public BalanceEntity toEntity(Balance balance) {
         return BalanceEntity.Builder.createBuilder()
-                .setId(balance.getId())
+                .setUuid(balance.getUuid())
                 .setSum(balance.getSum())
                 .setDtCreate(balance.getDtCreate())
                 .setDtUpdate(balance.getDtUpdate())
@@ -19,11 +19,11 @@ public class BalanceEntityConverter implements IEntityConverter<Balance, Balance
     @Override
     public Balance toDto(BalanceEntity entity) {
         return Balance.Builder.createBuilder()
-                .setId(entity.getId())
+                .setUuid(entity.getUuid())
                 .setSum(entity.getSum())
                 .setDtCreate(entity.getDtCreate())
                 .setDtUpdate(entity.getDtUpdate())
-                .setAccount(entity.getAccount().getId())
+                .setAccount(entity.getAccount().getUuid())
                 .build();
     }
 }

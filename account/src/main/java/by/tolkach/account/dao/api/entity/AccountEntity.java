@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "finance", name = "accounts")
+@Table(schema = "application", name = "accounts")
 public class AccountEntity {
 
     @Id
-    private UUID id;
+    private UUID uuid;
     private String title;
     private String description;
     @Enumerated(EnumType.STRING)
@@ -24,9 +24,9 @@ public class AccountEntity {
     public AccountEntity() {
     }
 
-    public AccountEntity(UUID id, String title, String description, AccountType type,
+    public AccountEntity(UUID uuid, String title, String description, AccountType type,
                          Currency currency, LocalDateTime dtCreate, LocalDateTime dtUpdate) {
-        this.id = id;
+        this.uuid = uuid;
         this.title = title;
         this.description = description;
         this.type = type;
@@ -35,12 +35,12 @@ public class AccountEntity {
         this.dtUpdate = dtUpdate;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(UUID id) {
+        this.uuid = id;
     }
 
     public String getTitle() {
@@ -93,7 +93,7 @@ public class AccountEntity {
 
     public static class Builder {
 
-        private UUID id;
+        private UUID uuid;
         private String title;
         private String description;
         private AccountType type;
@@ -108,8 +108,8 @@ public class AccountEntity {
             return new Builder();
         }
 
-        public Builder setId(UUID id) {
-            this.id = id;
+        public Builder setUuid(UUID uuid) {
+            this.uuid = uuid;
             return this;
         }
 
@@ -144,7 +144,7 @@ public class AccountEntity {
         }
 
         public AccountEntity build() {
-            return new AccountEntity(id, title, description, type, currency, dtCreate, dtUpdate);
+            return new AccountEntity(uuid, title, description, type, currency, dtCreate, dtUpdate);
         }
     }
 }

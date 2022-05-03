@@ -16,7 +16,7 @@ public class AccountEntityConverter implements IEntityConverter<Account, Account
     @Override
     public AccountEntity toEntity(Account account) {
         return AccountEntity.Builder.createBuilder()
-                .setId(account.getId())
+                .setUuid(account.getUuid())
                 .setTitle(account.getTitle())
                 .setDescription(account.getDescription())
                 .setType(account.getType())
@@ -29,7 +29,7 @@ public class AccountEntityConverter implements IEntityConverter<Account, Account
     @Override
     public Account toDto(AccountEntity entity) {
         return Account.Builder.createBuilder()
-                .setId(entity.getId())
+                .setUuid(entity.getUuid())
                 .setTitle(entity.getTitle())
                 .setDescription(entity.getDescription())
                 .setType(entity.getType())
