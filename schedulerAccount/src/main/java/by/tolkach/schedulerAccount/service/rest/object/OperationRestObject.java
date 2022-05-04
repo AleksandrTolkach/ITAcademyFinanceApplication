@@ -26,6 +26,7 @@ public class OperationRestObject implements Serializable {
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtUpdate;
+    private UUID account;
     private String description;
     private BigDecimal value = new BigDecimal(0L);
     private UUID currency;
@@ -34,11 +35,12 @@ public class OperationRestObject implements Serializable {
     }
 
     public OperationRestObject(UUID uuid, LocalDate date, LocalDateTime dtCreate, LocalDateTime dtUpdate,
-                               String description, BigDecimal value, UUID currency) {
+                               UUID account, String description, BigDecimal value, UUID currency) {
         this.uuid = uuid;
         this.date = date;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
+        this.account = account;
         this.description = description;
         this.value = value;
         this.currency = currency;
@@ -76,6 +78,14 @@ public class OperationRestObject implements Serializable {
         this.dtUpdate = dtUpdate;
     }
 
+    public UUID getAccount() {
+        return account;
+    }
+
+    public void setAccount(UUID account) {
+        this.account = account;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -106,6 +116,7 @@ public class OperationRestObject implements Serializable {
         private LocalDate date;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
+        private UUID account;
         private String description;
         private BigDecimal value = new BigDecimal(0L);
         private UUID currency;
@@ -137,6 +148,11 @@ public class OperationRestObject implements Serializable {
             return this;
         }
 
+        public Builder setAccount(UUID account) {
+            this.account = account;
+            return this;
+        }
+
         public Builder setDescription(String description) {
             this.description = description;
             return this;
@@ -153,7 +169,7 @@ public class OperationRestObject implements Serializable {
         }
 
         public OperationRestObject build() {
-            return new OperationRestObject(uuid, date, dtCreate, dtUpdate, description, value, currency);
+            return new OperationRestObject(uuid, date, dtCreate, dtUpdate, account, description, value, currency);
         }
     }
 }

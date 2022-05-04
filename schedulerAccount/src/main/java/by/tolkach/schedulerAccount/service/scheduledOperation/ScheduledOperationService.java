@@ -4,6 +4,7 @@ import by.tolkach.schedulerAccount.dao.api.IScheduledOperationStorage;
 import by.tolkach.schedulerAccount.dao.api.entity.ScheduledOperationEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.schedulerAccount.dto.*;
+import by.tolkach.schedulerAccount.service.rest.api.IRestClientService;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IOperationService;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduleService;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduledOperationService;
@@ -72,6 +73,7 @@ public class ScheduledOperationService implements IScheduledOperationService {
         this.scheduleService.update(scheduledOperationEntity.getSchedule().getUuid(), schedule);
         this.operationService.update(scheduledOperationEntity.getOperation().getUuid(), operation);
         scheduledOperationEntity.setDtUpdate(LocalDateTime.now().withNano(0));
+        this.schedulerService.update(scheduledOperationEntity.getOperation().getUuid(), schedule);
         return this.scheduledOperationEntityConverter
                 .toDto(this.scheduledOperationStorage.save(scheduledOperationEntity));
     }

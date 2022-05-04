@@ -1,10 +1,15 @@
 package by.tolkach.schedulerAccount.dto;
 
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -12,6 +17,12 @@ import java.util.UUID;
 public class Operation {
 
     private UUID uuid;
+    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
+    private LocalDateTime dtUpdate;
+    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
+    private LocalDateTime dtCreate;
     private UUID account;
     private String description;
     private BigDecimal value = new BigDecimal(0L);
@@ -20,8 +31,11 @@ public class Operation {
     public Operation() {
     }
 
-    public Operation(UUID uuid, UUID account, String description, BigDecimal value, UUID currency) {
+    public Operation(UUID uuid, LocalDateTime dtUpdate, LocalDateTime dtCreate, UUID account, String description,
+                     BigDecimal value, UUID currency) {
         this.uuid = uuid;
+        this.dtUpdate = dtUpdate;
+        this.dtCreate = dtCreate;
         this.account = account;
         this.description = description;
         this.value = value;
@@ -34,6 +48,22 @@ public class Operation {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public LocalDateTime getDtUpdate() {
+        return dtUpdate;
+    }
+
+    public void setDtUpdate(LocalDateTime dtUpdate) {
+        this.dtUpdate = dtUpdate;
+    }
+
+    public LocalDateTime getDtCreate() {
+        return dtCreate;
+    }
+
+    public void setDtCreate(LocalDateTime dtCreate) {
+        this.dtCreate = dtCreate;
     }
 
     public UUID getAccount() {
@@ -71,6 +101,8 @@ public class Operation {
     public static class Builder {
 
         private UUID uuid;
+        private LocalDateTime dtUpdate;
+        private LocalDateTime dtCreate;
         private UUID account;
         private String description;
         private BigDecimal value = new BigDecimal(0L);
@@ -85,6 +117,16 @@ public class Operation {
 
         public Builder setUuid(UUID uuid) {
             this.uuid = uuid;
+            return this;
+        }
+
+        public Builder setDtUpdate(LocalDateTime dtUpdate) {
+            this.dtUpdate = dtUpdate;
+            return this;
+        }
+
+        public Builder setDtCreate(LocalDateTime dtCreate) {
+            this.dtCreate = dtCreate;
             return this;
         }
 
@@ -109,7 +151,7 @@ public class Operation {
         }
 
         public Operation build() {
-            return new Operation(uuid, account, description, value, currency);
+            return new Operation(uuid, dtUpdate, dtCreate, account, description, value, currency);
         }
     }
 }

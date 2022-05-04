@@ -48,7 +48,7 @@ public class OperationService implements IOperationService {
         operationEntity.setAccount(accountEntity);
         operationEntity.setType(OperationType.RECEIVE);
         this.operationStorage.save(operationEntity);
-        return this.read(operationEntity.getUuid());
+        return this.read(operationEntity.getUuid(), accountId);
     }
 
     @Override
@@ -61,8 +61,9 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public Operation read(UUID id) {
-        return this.operationEntityConverter.toDto(this.operationStorage.findById(id).orElse(null));
+    public Operation read(UUID operationId, UUID accountId) {
+        return this.operationEntityConverter.toDto(this.operationStorage
+                .findByUuidAndAccount_Uuid(operationId, accountId));
     }
 
     @Override
@@ -74,6 +75,6 @@ public class OperationService implements IOperationService {
         operationEntity.setCurrency(operation.getCurrency());
         operationEntity.setDtUpdate(LocalDateTime.now().withNano(0));
         this.operationStorage.save(operationEntity);
-        return this.read(operationId);
+        return this.read(operationId, accountId);
     }
 }

@@ -10,6 +10,6 @@ import java.util.UUID;
 public interface IOperationService {
     Operation create(Operation operation, UUID accountId);
     Page<Operation> read(UUID accountId, SimplePageable pageable);
-    Operation read(UUID accountId);
+    Operation read(UUID operationId, UUID accountId);
     Operation update(UUID accountId, UUID operationId, LocalDateTime dtUpdate, Operation operation);
 }

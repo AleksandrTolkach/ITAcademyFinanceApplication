@@ -45,8 +45,8 @@ public class OperationDecoratorService implements IOperationService {
     }
 
     @Override
-    public Operation read(UUID accountId) {
-        return this.operationService.read(accountId);
+    public Operation read(UUID operationId, UUID accountId) {
+        return this.operationService.read(operationId, accountId);
     }
 
     @Override

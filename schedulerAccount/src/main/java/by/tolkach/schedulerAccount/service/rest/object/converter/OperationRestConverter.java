@@ -10,6 +10,9 @@ public class OperationRestConverter implements IRestObjectConverter<Operation, O
     public OperationRestObject toRestObject(Operation operation) {
         return OperationRestObject.Builder.createBuilder()
                 .setUuid(operation.getUuid())
+                .setDtUpdate(operation.getDtUpdate())
+                .setDtCreate(operation.getDtCreate())
+                .setAccount(operation.getAccount())
                 .setDescription(operation.getDescription())
                 .setValue(operation.getValue())
                 .setCurrency(operation.getCurrency())
@@ -20,8 +23,11 @@ public class OperationRestConverter implements IRestObjectConverter<Operation, O
     public Operation toDto(OperationRestObject restObject) {
         return Operation.Builder.createBuilder()
                 .setUuid(restObject.getUuid())
+                .setDtUpdate(restObject.getDtUpdate())
+                .setDtCreate(restObject.getDtCreate())
                 .setDescription(restObject.getDescription())
                 .setValue(restObject.getValue())
+                .setAccount(restObject.getAccount())
                 .setCurrency(restObject.getCurrency())
                 .build();
     }
