@@ -3,7 +3,6 @@ package by.tolkach.schedulerAccount.service.scheduler;
 import by.tolkach.schedulerAccount.dto.Schedule;
 import by.tolkach.schedulerAccount.service.scheduler.api.ISchedulerService;
 import org.quartz.*;
-import org.quartz.impl.SchedulerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;

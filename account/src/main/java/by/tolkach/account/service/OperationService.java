@@ -77,4 +77,11 @@ public class OperationService implements IOperationService {
         this.operationStorage.save(operationEntity);
         return this.read(operationId, accountId);
     }
+
+    @Override
+    public void delete(UUID accountId, UUID operationId, LocalDateTime dtUpdate) {
+        OperationEntity operationEntity =
+                this.operationStorage.findByAccount_UuidAndUuidAndDtUpdate(accountId, operationId, dtUpdate);
+        this.operationStorage.delete(operationEntity);
+    }
 }

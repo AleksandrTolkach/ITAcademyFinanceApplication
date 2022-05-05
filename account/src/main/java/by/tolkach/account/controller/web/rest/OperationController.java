@@ -11,7 +11,7 @@ import java.time.ZoneOffset;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/account/{id}/operation")
+@RequestMapping("/account/{uuid}/operation")
 public class OperationController {
 
     private final IOperationService operationService;
@@ -22,34 +22,44 @@ public class OperationController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> index(@PathVariable UUID id, @RequestParam(name = "page", required = false) Integer page,
+    public ResponseEntity<?> index(@PathVariable(name = "uuid") UUID accountId, @RequestParam(name = "page", required = false) Integer page,
                                    @RequestParam(name = "size", required = false) Integer size) {
-        return ResponseEntity.ok(this.operationService.read(id, new SimplePageable(page, size)));
+        return ResponseEntity.ok(this.operationService.read(accountId, new SimplePageable(page, size)));
     }
 
     @RequestMapping(value = "/{uuid_operation}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> index(@PathVariable(name = "id") UUID accountId,
+    public ResponseEntity<?> index(@PathVariable(name = "uuid") UUID accountId,
                                    @PathVariable(name = "uuid_operation") UUID operationId) {
         return ResponseEntity.ok(this.operationService.read(operationId, accountId));
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> create(@PathVariable UUID id,
+    public ResponseEntity<?> create(@PathVariable(name = "uuid") UUID accountId,
                                     @RequestBody Operation operation) {
-        this.operationService.create(operation, id);
+        this.operationService.create(operation, accountId);
         return ResponseEntity.ok("Операция добавлена к счету");
     }
 
     @RequestMapping(value = "/{uuid_operation}/dt_update/{dt_update}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(name = "id") UUID accountId,
+    public ResponseEntity<?> update(@PathVariable(name = "uuid") UUID accountId,
                                     @PathVariable(name = "uuid_operation") UUID operationId,
                                     @PathVariable(name = "dt_update") Long dtUpdate,
                                     @RequestBody Operation operation) {
         this.operationService.update(accountId, operationId,
                 LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC), operation);
         return ResponseEntity.ok("Операция изменена");
+    }
+
+    @RequestMapping(value = "/{uuid_operation}/dt_update/{dt_update}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<?> delete(@PathVariable(name = "uuid") UUID accountID,
+                                    @PathVariable(name = "uuid_operation") UUID operationId,
+                                    @PathVariable(name = "dt_update") Long dtUpdate) {
+        this.operationService.delete(accountID, operationId,
+                LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC));
+        return ResponseEntity.ok("Операция удалена");
     }
 }

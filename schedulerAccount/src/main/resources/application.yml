@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/schedulerAccount?ApplicationName=IDEA
+    url: jdbc:postgresql://localhost:5432/scheduler_account?ApplicationName=IDEA
     username: postgres
     password: postgres
   mvc:

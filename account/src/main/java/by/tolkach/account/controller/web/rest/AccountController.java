@@ -33,6 +33,13 @@ public class AccountController {
         return ResponseEntity.ok(this.accountService.read(id));
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> create(@RequestBody Account account) {
+        this.accountService.create(account);
+        return ResponseEntity.ok("Счёт добавлен в ваш профиль");
+    }
+
     @RequestMapping(value = "/{id}/dt_update/{dt_update}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable UUID id,
@@ -40,12 +47,5 @@ public class AccountController {
                                     @RequestBody Account account) {
         this.accountService.update(id, LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC), account);
         return ResponseEntity.ok("Счёт обновлен");
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Account account) {
-        this.accountService.create(account);
-        return ResponseEntity.ok("Счёт добавлен в ваш профиль");
     }
 }

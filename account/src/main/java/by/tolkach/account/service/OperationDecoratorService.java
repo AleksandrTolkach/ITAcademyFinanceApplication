@@ -55,4 +55,15 @@ public class OperationDecoratorService implements IOperationService {
         this.accountService.update(accountId, dtUpdate, this.accountService.read(accountId));
         return this.operationService.update(accountId, operationId, dtUpdate, operation);
     }
+
+    @Override
+    public void delete(UUID accountId, UUID operationId, LocalDateTime dtUpdate) {
+        Operation operation = this.read(operationId, accountId);
+        if (!operation.getDtUpdate().equals(dtUpdate)) {
+            throw new RuntimeException("Неверный dt_update");
+        }
+        this.balanceService.update(accountId,
+                this.balanceService.read(accountId).getDtUpdate(), (operation.getValue() * -1));
+        this.operationService.delete(accountId, operationId, dtUpdate);
+    }
 }

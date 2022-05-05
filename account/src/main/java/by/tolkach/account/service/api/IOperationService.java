@@ -12,4 +12,5 @@ public interface IOperationService {
     Page<Operation> read(UUID accountId, SimplePageable pageable);
     Operation read(UUID operationId, UUID accountId);
     Operation update(UUID accountId, UUID operationId, LocalDateTime dtUpdate, Operation operation);
+    void delete(UUID accountId, UUID operationId, LocalDateTime dtUpdate);
 }
