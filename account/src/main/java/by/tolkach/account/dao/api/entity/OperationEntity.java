@@ -8,12 +8,8 @@ import java.util.UUID;
 
 @Entity
 @Table(schema = "application", name = "operations")
-public class OperationEntity {
+public class OperationEntity extends EssenceEntity {
 
-    @Id
-    private UUID uuid;
-    private LocalDateTime dtCreate;
-    private LocalDateTime dtUpdate;
     private String description;
     private long value;
     @Enumerated(EnumType.STRING)
@@ -25,40 +21,14 @@ public class OperationEntity {
     public OperationEntity() {
     }
 
-    public OperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description,
-                           long value, OperationType type, UUID currency, AccountEntity account) {
-        this.uuid = uuid;
-        this.dtCreate = dtCreate;
-        this.dtUpdate = dtUpdate;
+    public OperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description, long value,
+                           OperationType type, UUID currency, AccountEntity account) {
+        super(uuid, dtCreate, dtUpdate);
         this.description = description;
         this.value = value;
         this.type = type;
         this.currency = currency;
         this.account = account;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
-    public LocalDateTime getDtCreate() {
-        return dtCreate;
-    }
-
-    public void setDtCreate(LocalDateTime dtCreate) {
-        this.dtCreate = dtCreate;
-    }
-
-    public LocalDateTime getDtUpdate() {
-        return dtUpdate;
-    }
-
-    public void setDtUpdate(LocalDateTime dtUpdate) {
-        this.dtUpdate = dtUpdate;
     }
 
     public String getDescription() {

@@ -1,26 +1,15 @@
 package by.tolkach.account.dto;
 
-import by.tolkach.account.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.account.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Account {
+public class Account extends Essence {
 
-    private UUID uuid;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
-    private LocalDateTime dtCreate;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
-    private LocalDateTime dtUpdate;
     private String title;
     private String description;
     private BigDecimal balance = new BigDecimal(0);
@@ -32,22 +21,12 @@ public class Account {
 
     public Account(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description,
                    BigDecimal balance, AccountType type, Currency currency) {
-        this.uuid = uuid;
-        this.dtCreate = dtCreate;
-        this.dtUpdate = dtUpdate;
+        super(uuid, dtCreate, dtUpdate);
         this.title = title;
         this.description = description;
         this.balance = balance;
         this.type = type;
         this.currency = currency;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public String getTitle() {
@@ -88,22 +67,6 @@ public class Account {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
-    }
-
-    public LocalDateTime getDtCreate() {
-        return dtCreate;
-    }
-
-    public void setDtCreate(LocalDateTime dtCreate) {
-        this.dtCreate = dtCreate;
-    }
-
-    public LocalDateTime getDtUpdate() {
-        return dtUpdate;
-    }
-
-    public void setDtUpdate(LocalDateTime dtUpdate) {
-        this.dtUpdate = dtUpdate;
     }
 
     public static class Builder {

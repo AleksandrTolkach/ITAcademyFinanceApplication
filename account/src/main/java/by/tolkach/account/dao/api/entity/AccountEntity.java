@@ -9,38 +9,24 @@ import java.util.UUID;
 
 @Entity
 @Table(schema = "application", name = "accounts")
-public class AccountEntity {
+public class AccountEntity extends EssenceEntity {
 
-    @Id
-    private UUID uuid;
     private String title;
     private String description;
     @Enumerated(EnumType.STRING)
     private AccountType type;
     private Currency currency;
-    private LocalDateTime dtCreate;
-    private LocalDateTime dtUpdate;
 
     public AccountEntity() {
     }
 
-    public AccountEntity(UUID uuid, String title, String description, AccountType type,
-                         Currency currency, LocalDateTime dtCreate, LocalDateTime dtUpdate) {
-        this.uuid = uuid;
+    public AccountEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate,
+                         String title, String description, AccountType type, Currency currency) {
+        super(uuid, dtCreate, dtUpdate);
         this.title = title;
         this.description = description;
         this.type = type;
         this.currency = currency;
-        this.dtCreate = dtCreate;
-        this.dtUpdate = dtUpdate;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID id) {
-        this.uuid = id;
     }
 
     public String getTitle() {
@@ -75,31 +61,15 @@ public class AccountEntity {
         this.currency = currency;
     }
 
-    public LocalDateTime getDtCreate() {
-        return dtCreate;
-    }
-
-    public void setDtCreate(LocalDateTime dtCreate) {
-        this.dtCreate = dtCreate;
-    }
-
-    public LocalDateTime getDtUpdate() {
-        return dtUpdate;
-    }
-
-    public void setDtUpdate(LocalDateTime dtUpdate) {
-        this.dtUpdate = dtUpdate;
-    }
-
     public static class Builder {
 
         private UUID uuid;
+        private LocalDateTime dtCreate;
+        private LocalDateTime dtUpdate;
         private String title;
         private String description;
         private AccountType type;
         private Currency currency;
-        private LocalDateTime dtCreate;
-        private LocalDateTime dtUpdate;
 
         private Builder() {
         }
@@ -144,7 +114,7 @@ public class AccountEntity {
         }
 
         public AccountEntity build() {
-            return new AccountEntity(uuid, title, description, type, currency, dtCreate, dtUpdate);
+            return new AccountEntity(uuid, dtCreate, dtUpdate, title, description, type, currency);
         }
     }
 }
