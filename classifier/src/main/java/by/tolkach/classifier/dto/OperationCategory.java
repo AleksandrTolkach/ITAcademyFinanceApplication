@@ -23,4 +23,43 @@ public class OperationCategory extends Essence{
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public static class Builder {
+
+        private UUID uuid;
+        private LocalDateTime dtCreate;
+        private LocalDateTime dtUpdate;
+        private String title;
+
+        private Builder() {
+        }
+
+        public static Builder createBuilder() {
+            return new Builder();
+        }
+
+        public Builder setUuid(UUID uuid) {
+            this.uuid = uuid;
+            return this;
+        }
+
+        public Builder setDtCreate(LocalDateTime dtCreate) {
+            this.dtCreate = dtCreate;
+            return this;
+        }
+
+        public Builder setDtUpdate(LocalDateTime dtUpdate) {
+            this.dtUpdate = dtUpdate;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public OperationCategory build() {
+            return new OperationCategory(uuid, dtCreate, dtUpdate, title);
+        }
+    }
 }
