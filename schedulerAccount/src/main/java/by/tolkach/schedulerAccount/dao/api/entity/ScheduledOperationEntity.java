@@ -6,12 +6,8 @@ import java.util.UUID;
 
 @Entity
 @Table(schema = "application", name = "scheduledOperations")
-public class ScheduledOperationEntity {
+public class ScheduledOperationEntity extends EssenceEntity {
 
-    @Id
-    private UUID uuid;
-    private LocalDateTime dtCreate;
-    private LocalDateTime dtUpdate;
     @OneToOne
     private ScheduleEntity schedule;
     @OneToOne
@@ -22,35 +18,9 @@ public class ScheduledOperationEntity {
 
     public ScheduledOperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate,
                                     ScheduleEntity schedule, OperationEntity operation) {
-        this.uuid = uuid;
-        this.dtCreate = dtCreate;
-        this.dtUpdate = dtUpdate;
+        super(uuid, dtCreate, dtUpdate);
         this.schedule = schedule;
         this.operation = operation;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
-    public LocalDateTime getDtCreate() {
-        return dtCreate;
-    }
-
-    public void setDtCreate(LocalDateTime dtCreate) {
-        this.dtCreate = dtCreate;
-    }
-
-    public LocalDateTime getDtUpdate() {
-        return dtUpdate;
-    }
-
-    public void setDtUpdate(LocalDateTime dtUpdate) {
-        this.dtUpdate = dtUpdate;
     }
 
     public ScheduleEntity getSchedule() {

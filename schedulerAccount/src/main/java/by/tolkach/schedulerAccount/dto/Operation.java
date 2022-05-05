@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@JsonIgnoreProperties({"uuid"})
+@JsonIgnoreProperties({"uuid", "dt_update", "dt_create"})
 public class Operation {
 
     private UUID uuid;
