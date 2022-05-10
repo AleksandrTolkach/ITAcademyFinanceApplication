@@ -1,7 +1,7 @@
 package by.tolkach.account.service.rest.api;
 
 import by.tolkach.account.dto.Currency;
-import by.tolkach.account.dto.OperationCategory;
+import by.tolkach.account.dto.operation.OperationCategory;
 
 import java.util.UUID;
 

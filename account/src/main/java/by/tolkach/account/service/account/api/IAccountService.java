@@ -1,6 +1,6 @@
 package by.tolkach.account.service.account.api;
 
-import by.tolkach.account.dto.Account;
+import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.dto.Page;
 import by.tolkach.account.dto.SimplePageable;
 

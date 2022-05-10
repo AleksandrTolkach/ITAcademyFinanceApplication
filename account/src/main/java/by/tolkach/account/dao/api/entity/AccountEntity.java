@@ -1,6 +1,6 @@
 package by.tolkach.account.dao.api.entity;
 
-import by.tolkach.account.dto.AccountType;
+import by.tolkach.account.dto.account.AccountType;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;

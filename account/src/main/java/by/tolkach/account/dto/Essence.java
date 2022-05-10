@@ -2,7 +2,6 @@ package by.tolkach.account.dto;
 
 import by.tolkach.account.dto.serializer.LongLocalDateTimeDeserializer;
 import by.tolkach.account.dto.serializer.LongLocalDateTimeSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

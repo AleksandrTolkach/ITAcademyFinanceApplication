@@ -1,6 +1,6 @@
 package by.tolkach.account.dao.api.entity;
 
-import by.tolkach.account.dto.OperationType;
+import by.tolkach.account.dto.operation.OperationType;
 
 import javax.persistence.*;
 import java.time.LocalDate;

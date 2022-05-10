@@ -1,5 +1,5 @@
 package by.tolkach.account.service.account;
-import by.tolkach.account.dto.Account;
+import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.dto.Page;
 import by.tolkach.account.dto.SimplePageable;
 import by.tolkach.account.service.account.api.IAccountService;

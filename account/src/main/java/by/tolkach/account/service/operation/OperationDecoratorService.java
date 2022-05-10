@@ -1,6 +1,6 @@
 package by.tolkach.account.service.operation;
 
-import by.tolkach.account.dto.Operation;
+import by.tolkach.account.dto.operation.Operation;
 import by.tolkach.account.dto.Page;
 import by.tolkach.account.dto.SimplePageable;
 import by.tolkach.account.service.account.api.IAccountService;

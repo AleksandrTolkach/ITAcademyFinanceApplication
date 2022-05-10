@@ -1,4 +1,4 @@
-package by.tolkach.account.dto;
+package by.tolkach.account.dto.account;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

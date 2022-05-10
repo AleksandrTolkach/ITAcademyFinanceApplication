@@ -1,4 +1,4 @@
-package by.tolkach.account.dto;
+package by.tolkach.account.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 

@@ -1,5 +1,6 @@
-package by.tolkach.account.dto;
+package by.tolkach.account.dto.account;
 
+import by.tolkach.account.dto.Essence;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 

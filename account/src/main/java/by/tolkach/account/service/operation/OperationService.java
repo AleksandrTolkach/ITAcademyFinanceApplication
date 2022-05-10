@@ -2,6 +2,9 @@ package by.tolkach.account.service.operation;
 
 import by.tolkach.account.dao.api.IOperationStorage;
 import by.tolkach.account.dto.*;
+import by.tolkach.account.dto.account.Account;
+import by.tolkach.account.dto.operation.Operation;
+import by.tolkach.account.dto.operation.OperationType;
 import by.tolkach.account.service.account.api.IAccountService;
 import by.tolkach.account.service.api.exception.NotFoundError;
 import by.tolkach.account.service.operation.api.IOperationService;
@@ -67,7 +70,7 @@ public class OperationService implements IOperationService {
 
     @Override
     public Operation update(UUID accountId, UUID operationId, LocalDateTime dtUpdate, Operation operation) {
-        OperationEntity operationEntity = this.operationStorage.findByAccount_UuidAndUuid(accountId, operationId);
+        OperationEntity operationEntity = this.operationStorage.findByUuidAndAccount_Uuid(operationId, accountId);
         if (operation == null) {
             throw new NotFoundError("Указанного счета не существует.");
         }
@@ -82,7 +85,7 @@ public class OperationService implements IOperationService {
     @Override
     public void delete(UUID accountId, UUID operationId, LocalDateTime dtUpdate) {
         OperationEntity operationEntity =
-                this.operationStorage.findByAccount_UuidAndUuid(accountId, operationId);
+                this.operationStorage.findByUuidAndAccount_Uuid(operationId, accountId);
         if (operationEntity == null) {
             throw new NotFoundError("Указаны неверные id операции или счета");
         }

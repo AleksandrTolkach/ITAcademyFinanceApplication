@@ -1,7 +1,7 @@
 package by.tolkach.account.controller.web.rest;
 
 import by.tolkach.account.controller.web.PageChecker;
-import by.tolkach.account.dto.Operation;
+import by.tolkach.account.dto.operation.Operation;
 import by.tolkach.account.service.operation.api.IOperationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

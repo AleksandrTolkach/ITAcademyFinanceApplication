@@ -1,7 +1,7 @@
 package by.tolkach.account.service.account.api;
 
-import by.tolkach.account.dto.Account;
-import by.tolkach.account.dto.Balance;
+import by.tolkach.account.dto.account.Account;
+import by.tolkach.account.dto.account.Balance;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

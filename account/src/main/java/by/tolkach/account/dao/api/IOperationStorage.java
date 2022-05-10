@@ -12,5 +12,4 @@ import java.util.UUID;
 public interface IOperationStorage extends PagingAndSortingRepository<OperationEntity, UUID> {
     List<OperationEntity> findAllByAccount_Uuid(UUID id, Pageable pageable);
     OperationEntity findByUuidAndAccount_Uuid(UUID operationId, UUID accountId);
-    OperationEntity findByAccount_UuidAndUuid(UUID accountId, UUID operationId);
 }

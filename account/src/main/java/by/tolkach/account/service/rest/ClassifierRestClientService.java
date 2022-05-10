@@ -1,7 +1,7 @@
 package by.tolkach.account.service.rest;
 
 import by.tolkach.account.dto.Currency;
-import by.tolkach.account.dto.OperationCategory;
+import by.tolkach.account.dto.operation.OperationCategory;
 import by.tolkach.account.service.rest.api.IClassifierRestClientService;
 import by.tolkach.account.service.rest.object.CurrencyRestObject;
 import by.tolkach.account.service.rest.object.OperationCategoryRestObject;

@@ -1,6 +1,6 @@
 package by.tolkach.account.service.rest.object.converter;
 
-import by.tolkach.account.dto.OperationCategory;
+import by.tolkach.account.dto.operation.OperationCategory;
 import by.tolkach.account.service.rest.object.OperationCategoryRestObject;
 import org.springframework.stereotype.Component;
 

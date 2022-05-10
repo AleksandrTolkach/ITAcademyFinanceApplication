@@ -1,7 +1,7 @@
 package by.tolkach.account.dao.api.entity.converter;
 
 import by.tolkach.account.dao.api.entity.BalanceEntity;
-import by.tolkach.account.dto.Balance;
+import by.tolkach.account.dto.account.Balance;
 import org.springframework.stereotype.Component;
 
 @Component

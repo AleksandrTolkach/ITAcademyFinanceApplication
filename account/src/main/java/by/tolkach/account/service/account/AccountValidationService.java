@@ -1,6 +1,6 @@
 package by.tolkach.account.service.account;
 
-import by.tolkach.account.dto.Account;
+import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.service.api.IValidationService;
 import by.tolkach.account.service.api.exception.SingleError;
 import by.tolkach.account.service.api.exception.MultipleErrorsException;
