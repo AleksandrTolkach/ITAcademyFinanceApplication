@@ -101,7 +101,7 @@ public class OperationService implements IOperationService {
         operationEntity.setDtCreate(LocalDateTime.now().withNano(0));
         operationEntity.setDtUpdate(operationEntity.getDtCreate());
         operationEntity.setAccount(accountEntity);
-        operationEntity.setType(OperationType.RECEIVE);
+        operationEntity.setType(operationEntity.getValue() >= 0 ? OperationType.RECEIVE : OperationType.SPEND);
         return operationEntity;
     }
 

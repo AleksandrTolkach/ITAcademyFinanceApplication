@@ -1,11 +1,12 @@
-package by.tolkach.account.service.rest.api;
+package by.tolkach.schedulerAccount.service.rest.api;
 
-import by.tolkach.account.dto.Currency;
-import by.tolkach.account.dto.operation.OperationCategory;
+import by.tolkach.schedulerAccount.dto.Currency;
+import by.tolkach.schedulerAccount.dto.OperationCategory;
 
 import java.util.UUID;
 
 public interface IClassifierRestClientService {
     Currency readCurrency(UUID currencyId);
     OperationCategory readOperationCategory(UUID operationCategoryId);
+
 }

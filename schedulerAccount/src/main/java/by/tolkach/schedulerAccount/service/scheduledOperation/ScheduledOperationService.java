@@ -4,7 +4,7 @@ import by.tolkach.schedulerAccount.dao.api.IScheduledOperationStorage;
 import by.tolkach.schedulerAccount.dao.api.entity.ScheduledOperationEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.schedulerAccount.dto.*;
-import by.tolkach.schedulerAccount.service.rest.api.ICurrencyRestClientService;
+import by.tolkach.schedulerAccount.service.rest.api.IClassifierRestClientService;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IOperationService;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduleService;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduledOperationService;
@@ -24,7 +24,7 @@ public class ScheduledOperationService implements IScheduledOperationService {
     private final IScheduleService scheduleService;
     private final SchedulerService schedulerService;
     private final IScheduledOperationStorage scheduledOperationStorage;
-    private final ICurrencyRestClientService currencyRestClientService;
+    private final IClassifierRestClientService classifierRestClientService;
     private final IEntityConverter<ScheduledOperation, ScheduledOperationEntity> scheduledOperationEntityConverter;
 
     public ScheduledOperationService(IOperationService operationService,
@@ -32,18 +32,19 @@ public class ScheduledOperationService implements IScheduledOperationService {
                                      SchedulerService schedulerService,
                                      IScheduledOperationStorage scheduledOperationStorage,
                                      IEntityConverter<ScheduledOperation, ScheduledOperationEntity> scheduledOperationEntityConverter,
-                                     ICurrencyRestClientService currencyRestClientService) {
+                                     IClassifierRestClientService currencyRestClientService) {
         this.operationService = operationService;
         this.scheduleService = scheduleService;
         this.schedulerService = schedulerService;
         this.scheduledOperationStorage = scheduledOperationStorage;
         this.scheduledOperationEntityConverter = scheduledOperationEntityConverter;
-        this.currencyRestClientService = currencyRestClientService;
+        this.classifierRestClientService = currencyRestClientService;
     }
 
     @Override
     public ScheduledOperation create(Schedule schedule, Operation operation) {
-        this.currencyRestClientService.read(operation.getCurrency());
+        this.classifierRestClientService.readCurrency(operation.getCurrency());
+        this.classifierRestClientService.readOperationCategory(operation.getCategory());
         Operation createdOperation = this.operationService.create(operation);
         Schedule createdSchedule = this.scheduleService.create(schedule);
         LocalDateTime dtCreate = LocalDateTime.now().withNano(0);
@@ -72,7 +73,7 @@ public class ScheduledOperationService implements IScheduledOperationService {
     @Override
     public ScheduledOperation update(UUID scheduledOperationId, LocalDateTime dtUpdate, Schedule schedule,
                                      Operation operation) {
-        this.currencyRestClientService.read(operation.getCurrency());
+        this.classifierRestClientService.readCurrency(operation.getCurrency());
         ScheduledOperationEntity scheduledOperationEntity =
                 this.scheduledOperationStorage.findByUuidAndDtUpdate(scheduledOperationId, dtUpdate);
         this.scheduleService.update(scheduledOperationEntity.getSchedule().getUuid(), schedule);

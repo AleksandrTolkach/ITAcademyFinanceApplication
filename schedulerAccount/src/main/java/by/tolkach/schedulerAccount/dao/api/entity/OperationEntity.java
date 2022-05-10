@@ -16,6 +16,7 @@ public class OperationEntity {
     @GeneratedValue
     private UUID uuid;
     private UUID account;
+    private UUID category;
     private String description;
     private BigDecimal value;
     private UUID currency;
@@ -23,9 +24,10 @@ public class OperationEntity {
     public OperationEntity() {
     }
 
-    public OperationEntity(UUID uuid, UUID account, String description, BigDecimal value, UUID currency) {
+    public OperationEntity(UUID uuid, UUID account, UUID category, String description, BigDecimal value, UUID currency) {
         this.uuid = uuid;
         this.account = account;
+        this.category = category;
         this.description = description;
         this.value = value;
         this.currency = currency;
@@ -45,6 +47,14 @@ public class OperationEntity {
 
     public void setAccount(UUID accountId) {
         this.account = accountId;
+    }
+
+    public UUID getCategory() {
+        return category;
+    }
+
+    public void setCategory(UUID category) {
+        this.category = category;
     }
 
     public String getDescription() {
@@ -75,6 +85,7 @@ public class OperationEntity {
 
         private UUID uuid;
         private UUID account;
+        private UUID category;
         private String description;
         private BigDecimal value;
         private UUID currency;
@@ -96,6 +107,11 @@ public class OperationEntity {
             return this;
         }
 
+        public Builder setCategory(UUID category) {
+            this.category = category;
+            return this;
+        }
+
         public Builder setDescription(String description) {
             this.description = description;
             return this;
@@ -112,7 +128,7 @@ public class OperationEntity {
         }
 
         public OperationEntity build() {
-            return new OperationEntity(uuid, account, description, value, currency);
+            return new OperationEntity(uuid, account, category, description, value, currency);
         }
     }
 }

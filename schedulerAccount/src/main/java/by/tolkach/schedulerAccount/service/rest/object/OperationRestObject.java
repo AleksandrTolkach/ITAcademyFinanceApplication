@@ -26,6 +26,7 @@ public class OperationRestObject implements Serializable {
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtUpdate;
+    private UUID category;
     private UUID account;
     private String description;
     private BigDecimal value = new BigDecimal(0L);
@@ -34,12 +35,13 @@ public class OperationRestObject implements Serializable {
     public OperationRestObject() {
     }
 
-    public OperationRestObject(UUID uuid, LocalDate date, LocalDateTime dtCreate, LocalDateTime dtUpdate,
+    public OperationRestObject(UUID uuid, LocalDate date, LocalDateTime dtCreate, LocalDateTime dtUpdate, UUID category,
                                UUID account, String description, BigDecimal value, UUID currency) {
         this.uuid = uuid;
         this.date = date;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
+        this.category = category;
         this.account = account;
         this.description = description;
         this.value = value;
@@ -76,6 +78,14 @@ public class OperationRestObject implements Serializable {
 
     public void setDtUpdate(LocalDateTime dtUpdate) {
         this.dtUpdate = dtUpdate;
+    }
+
+    public UUID getCategory() {
+        return category;
+    }
+
+    public void setCategory(UUID category) {
+        this.category = category;
     }
 
     public UUID getAccount() {
@@ -116,6 +126,7 @@ public class OperationRestObject implements Serializable {
         private LocalDate date;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
+        private UUID category;
         private UUID account;
         private String description;
         private BigDecimal value = new BigDecimal(0L);
@@ -148,6 +159,11 @@ public class OperationRestObject implements Serializable {
             return this;
         }
 
+        public Builder setCategory(UUID category) {
+            this.category = category;
+            return this;
+        }
+
         public Builder setAccount(UUID account) {
             this.account = account;
             return this;
@@ -169,7 +185,7 @@ public class OperationRestObject implements Serializable {
         }
 
         public OperationRestObject build() {
-            return new OperationRestObject(uuid, date, dtCreate, dtUpdate, account, description, value, currency);
+            return new OperationRestObject(uuid, date, dtCreate, dtUpdate, category, account, description, value, currency);
         }
     }
 }

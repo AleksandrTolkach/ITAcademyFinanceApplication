@@ -23,6 +23,7 @@ public class Operation {
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtCreate;
+    private UUID category;
     private UUID account;
     private String description;
     private BigDecimal value = new BigDecimal(0L);
@@ -31,11 +32,11 @@ public class Operation {
     public Operation() {
     }
 
-    public Operation(UUID uuid, LocalDateTime dtUpdate, LocalDateTime dtCreate, UUID account, String description,
-                     BigDecimal value, UUID currency) {
+    public Operation(UUID uuid, LocalDateTime dtUpdate, LocalDateTime dtCreate, UUID category, UUID account, String description, BigDecimal value, UUID currency) {
         this.uuid = uuid;
         this.dtUpdate = dtUpdate;
         this.dtCreate = dtCreate;
+        this.category = category;
         this.account = account;
         this.description = description;
         this.value = value;
@@ -64,6 +65,14 @@ public class Operation {
 
     public void setDtCreate(LocalDateTime dtCreate) {
         this.dtCreate = dtCreate;
+    }
+
+    public UUID getCategory() {
+        return category;
+    }
+
+    public void setCategory(UUID category) {
+        this.category = category;
     }
 
     public UUID getAccount() {
@@ -103,6 +112,7 @@ public class Operation {
         private UUID uuid;
         private LocalDateTime dtUpdate;
         private LocalDateTime dtCreate;
+        private UUID category;
         private UUID account;
         private String description;
         private BigDecimal value = new BigDecimal(0L);
@@ -130,6 +140,11 @@ public class Operation {
             return this;
         }
 
+        public Builder setCategory(UUID category) {
+            this.category = category;
+            return this;
+        }
+
         public Builder setAccount(UUID account) {
             this.account = account;
             return this;
@@ -151,7 +166,7 @@ public class Operation {
         }
 
         public Operation build() {
-            return new Operation(uuid, dtUpdate, dtCreate, account, description, value, currency);
+            return new Operation(uuid, dtUpdate, dtCreate, category, account, description, value, currency);
         }
     }
 }
