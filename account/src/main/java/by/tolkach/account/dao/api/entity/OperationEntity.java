@@ -3,6 +3,7 @@ package by.tolkach.account.dao.api.entity;
 import by.tolkach.account.dto.OperationType;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -10,7 +11,9 @@ import java.util.UUID;
 @Table(schema = "application", name = "operations")
 public class OperationEntity extends EssenceEntity {
 
+    private LocalDate date;
     private String description;
+    private UUID category;
     private long value;
     @Enumerated(EnumType.STRING)
     private OperationType type;
@@ -21,14 +24,25 @@ public class OperationEntity extends EssenceEntity {
     public OperationEntity() {
     }
 
-    public OperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description, long value,
-                           OperationType type, UUID currency, AccountEntity account) {
+    public OperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDate date,
+                           String description, UUID category, long value, OperationType type, UUID currency,
+                           AccountEntity account) {
         super(uuid, dtCreate, dtUpdate);
+        this.date = date;
         this.description = description;
+        this.category = category;
         this.value = value;
         this.type = type;
         this.currency = currency;
         this.account = account;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public String getDescription() {
@@ -37,6 +51,14 @@ public class OperationEntity extends EssenceEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UUID getCategory() {
+        return category;
+    }
+
+    public void setCategory(UUID category) {
+        this.category = category;
     }
 
     public long getValue() {
@@ -76,7 +98,9 @@ public class OperationEntity extends EssenceEntity {
         private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
+        private LocalDate date;
         private String description;
+        private UUID category;
         private long value;
         private OperationType type;
         private UUID currency;
@@ -104,8 +128,18 @@ public class OperationEntity extends EssenceEntity {
             return this;
         }
 
+        public Builder setDate(LocalDate date) {
+            this.date = date;
+            return this;
+        }
+
         public Builder setDescription(String description) {
             this.description = description;
+            return this;
+        }
+
+        public Builder setCategory(UUID category) {
+            this.category = category;
             return this;
         }
 
@@ -130,7 +164,7 @@ public class OperationEntity extends EssenceEntity {
         }
 
         public OperationEntity build() {
-            return new OperationEntity(uuid, dtCreate, dtUpdate, description, value, type, currency, account);
+            return new OperationEntity(uuid, dtCreate, dtUpdate, date, description, category, value, type, currency, account);
         }
     }
 }

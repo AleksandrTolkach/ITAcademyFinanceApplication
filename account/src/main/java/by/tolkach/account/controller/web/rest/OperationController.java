@@ -1,8 +1,8 @@
 package by.tolkach.account.controller.web.rest;
 
+import by.tolkach.account.controller.web.PageChecker;
 import by.tolkach.account.dto.Operation;
-import by.tolkach.account.dto.SimplePageable;
-import by.tolkach.account.service.api.IOperationService;
+import by.tolkach.account.service.operation.api.IOperationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +22,10 @@ public class OperationController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> index(@PathVariable(name = "uuid") UUID accountId, @RequestParam(name = "page", required = false) Integer page,
+    public ResponseEntity<?> index(@PathVariable(name = "uuid") UUID accountId,
+                                   @RequestParam(name = "page", required = false) Integer page,
                                    @RequestParam(name = "size", required = false) Integer size) {
-        return ResponseEntity.ok(this.operationService.read(accountId, new SimplePageable(page, size)));
+        return ResponseEntity.ok(this.operationService.read(accountId, PageChecker.checkParameters(page, size)));
     }
 
     @RequestMapping(value = "/{uuid_operation}", method = RequestMethod.GET)

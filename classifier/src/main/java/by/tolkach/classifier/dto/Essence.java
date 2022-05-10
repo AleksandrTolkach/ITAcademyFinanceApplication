@@ -2,13 +2,16 @@ package by.tolkach.classifier.dto;
 
 import by.tolkach.classifier.dto.serializer.LongLocalDateTimeDeserializer;
 import by.tolkach.classifier.dto.serializer.LongLocalDateTimeSerializer;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Essence {
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public abstract class Essence {
 
     private UUID uuid;
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)

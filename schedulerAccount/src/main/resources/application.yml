@@ -18,3 +18,5 @@ spring:
     properties:
       "org.quartz.jobStore.driverDelegateClass": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
       "org.quartz.jobStore.tablePrefix" : "quartz.QRTZ_"
+server:
+  port: 8083

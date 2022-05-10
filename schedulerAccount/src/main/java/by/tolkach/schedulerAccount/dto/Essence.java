@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Essence {
+public abstract class Essence {
 
     private UUID uuid;
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)

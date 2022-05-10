@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,5 +12,5 @@ import java.util.UUID;
 public interface IOperationStorage extends PagingAndSortingRepository<OperationEntity, UUID> {
     List<OperationEntity> findAllByAccount_Uuid(UUID id, Pageable pageable);
     OperationEntity findByUuidAndAccount_Uuid(UUID operationId, UUID accountId);
-    OperationEntity findByAccount_UuidAndUuidAndDtUpdate(UUID accountId, UUID operationId, LocalDateTime dtUpdate);
+    OperationEntity findByAccount_UuidAndUuid(UUID accountId, UUID operationId);
 }

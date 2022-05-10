@@ -1,8 +1,8 @@
 package by.tolkach.account.controller.web.rest;
 
+import by.tolkach.account.controller.web.PageChecker;
 import by.tolkach.account.dto.Account;
-import by.tolkach.account.dto.SimplePageable;
-import by.tolkach.account.service.api.IAccountService;
+import by.tolkach.account.service.account.api.IAccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ public class AccountController {
     @ResponseBody
     public ResponseEntity<?> index(@RequestParam(name = "page", required = false) Integer page,
                                                @RequestParam(name = "size", required = false) Integer size) {
-        return ResponseEntity.ok(this.accountService.read(new SimplePageable(page, size)));
+        return ResponseEntity.ok(this.accountService.read(PageChecker.checkParameters(page, size)));
     }
 
     @RequestMapping(value = {"/", "/{id}"}, method = RequestMethod.GET)

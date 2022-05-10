@@ -1,6 +1,7 @@
 package by.tolkach.account.controller.advice;
 
 import by.tolkach.account.service.api.exception.MultipleErrorsException;
+import by.tolkach.account.service.api.exception.NotFoundError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,7 +12,11 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(MultipleErrorsException.class)
     public ResponseEntity<MultipleErrorsException> multipleErrorsHandler(MultipleErrorsException e) {
-        return new ResponseEntity<>(new MultipleErrorsException(e.getLogRef(), e.getErrors()),
-                HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundError.class)
+    public ResponseEntity<NotFoundError> notFoundErrorHandler(NotFoundError e) {
+        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 }

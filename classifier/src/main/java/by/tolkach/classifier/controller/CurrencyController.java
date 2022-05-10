@@ -6,6 +6,8 @@ import by.tolkach.classifier.service.api.ICurrencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/classifier/currency")
 public class CurrencyController {
@@ -21,6 +23,12 @@ public class CurrencyController {
     public ResponseEntity<?> index(@RequestParam(name = "page", required = false) Integer page,
                                    @RequestParam(name = "size", required = false) Integer size) {
         return ResponseEntity.ok(this.currencyService.read(new SimplePageable(page, size)));
+    }
+
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> index(@PathVariable(name = "uuid") UUID currencyId) {
+        return ResponseEntity.ok(this.currencyService.read(currencyId));
     }
 
     @RequestMapping(method = RequestMethod.POST)

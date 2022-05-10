@@ -1,7 +1,11 @@
 package by.tolkach.schedulerAccount.dto;
 
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,7 +14,11 @@ import java.util.UUID;
 public class Currency {
 
     private UUID uuid;
+    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtCreate;
+    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtUpdate;
     private String title;
 

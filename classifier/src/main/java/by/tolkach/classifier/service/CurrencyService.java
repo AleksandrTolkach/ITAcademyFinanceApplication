@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CurrencyService implements ICurrencyService {
@@ -39,5 +40,10 @@ public class CurrencyService implements ICurrencyService {
         List<CurrencyEntity> currencyEntities = this.currencyStorage.findAllBy(PageRequest.of(pageable.getPage(), pageable.getSize()));
         return Pagination.pageOf(Currency.class, CurrencyEntity.class).properties(currencyEntities, pageable,
                 (int) this.currencyStorage.count(), this.currencyEntityConverter);
+    }
+
+    @Override
+    public Currency read(UUID currencyId) {
+        return this.currencyEntityConverter.toDto(this.currencyStorage.findById(currencyId).orElse(null));
     }
 }

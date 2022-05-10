@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @MappedSuperclass
-public class EssenceEntity {
+public abstract class EssenceEntity {
 
     @Id
     @GeneratedValue

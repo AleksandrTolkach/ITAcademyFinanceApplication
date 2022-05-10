@@ -6,6 +6,8 @@ import by.tolkach.classifier.service.api.IOperationCategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/classifier/operation/category")
 public class OperationCategoryController {
@@ -21,6 +23,12 @@ public class OperationCategoryController {
     public ResponseEntity<?> index(@RequestParam(name = "page") Integer page,
                                    @RequestParam(name = "size") Integer size) {
         return ResponseEntity.ok(this.operationCategoryService.read(new SimplePageable(page, size)));
+    }
+
+    @RequestMapping(value = "/{operation_category_uuid}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> index(@PathVariable(name = "operation_category_uuid") UUID operationCategoryId) {
+        return ResponseEntity.ok(this.operationCategoryService.read(operationCategoryId));
     }
 
     @RequestMapping(method = RequestMethod.POST)

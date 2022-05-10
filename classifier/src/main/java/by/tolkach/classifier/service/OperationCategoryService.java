@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OperationCategoryService implements IOperationCategoryService {
@@ -32,6 +33,12 @@ public class OperationCategoryService implements IOperationCategoryService {
         operationCategory.setDtUpdate(createdTime);
         OperationCategoryEntity operationCategoryEntity = this.operationCategoryEntityConverter.toEntity(operationCategory);
         return this.operationCategoryEntityConverter.toDto(this.operationCategoryStorage.save(operationCategoryEntity));
+    }
+
+    @Override
+    public OperationCategory read(UUID operationCategoryId) {
+        return this.operationCategoryEntityConverter.toDto(this.operationCategoryStorage.findById(operationCategoryId)
+                .orElse(null));
     }
 
     @Override

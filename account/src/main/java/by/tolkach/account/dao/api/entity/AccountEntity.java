@@ -1,8 +1,6 @@
 package by.tolkach.account.dao.api.entity;
 
 import by.tolkach.account.dto.AccountType;
-import by.tolkach.account.dto.Currency;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,13 +13,13 @@ public class AccountEntity extends EssenceEntity {
     private String description;
     @Enumerated(EnumType.STRING)
     private AccountType type;
-    private Currency currency;
+    private UUID currency;
 
     public AccountEntity() {
     }
 
     public AccountEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate,
-                         String title, String description, AccountType type, Currency currency) {
+                         String title, String description, AccountType type, UUID currency) {
         super(uuid, dtCreate, dtUpdate);
         this.title = title;
         this.description = description;
@@ -53,11 +51,11 @@ public class AccountEntity extends EssenceEntity {
         this.type = type;
     }
 
-    public Currency getCurrency() {
+    public UUID getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(UUID currency) {
         this.currency = currency;
     }
 
@@ -69,7 +67,7 @@ public class AccountEntity extends EssenceEntity {
         private String title;
         private String description;
         private AccountType type;
-        private Currency currency;
+        private UUID currency;
 
         private Builder() {
         }
@@ -98,7 +96,7 @@ public class AccountEntity extends EssenceEntity {
             return this;
         }
 
-        public Builder setCurrency(Currency currency) {
+        public Builder setCurrency(UUID currency) {
             this.currency = currency;
             return this;
         }

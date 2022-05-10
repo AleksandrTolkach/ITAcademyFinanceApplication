@@ -74,7 +74,7 @@
     </dependencies>
 
     <build>
-        <finalName>Messenger</finalName>
+        <finalName>${project.name}-${project.version}</finalName>
         <plugins>
 
             <plugin>

@@ -1,17 +1,18 @@
 package by.tolkach.account.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@JsonIgnoreProperties({"type"})
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Operation extends Essence {
 
+    private LocalDate date;
     private String description;
+    private UUID category;
     private long value;
     private OperationType type;
     private UUID currency;
@@ -19,13 +20,23 @@ public class Operation extends Essence {
     public Operation() {
     }
 
-    public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String description, long value,
-                     OperationType type, UUID currency) {
+    public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDate date, String description,
+                     UUID category, long value, OperationType type, UUID currency) {
         super(uuid, dtCreate, dtUpdate);
+        this.date = date;
         this.description = description;
+        this.category = category;
         this.value = value;
         this.type = type;
         this.currency = currency;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public String getDescription() {
@@ -34,6 +45,14 @@ public class Operation extends Essence {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UUID getCategory() {
+        return category;
+    }
+
+    public void setCategory(UUID category) {
+        this.category = category;
     }
 
     public long getValue() {
@@ -65,7 +84,9 @@ public class Operation extends Essence {
         private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
+        private LocalDate date;
         private String description;
+        private UUID category;
         private long value;
         private OperationType type;
         private UUID currency;
@@ -75,6 +96,11 @@ public class Operation extends Essence {
 
         public static Builder createBuilder() {
             return new Builder();
+        }
+
+        public Builder setDate(LocalDate date) {
+            this.date = date;
+            return this;
         }
 
         public Builder setUuid(UUID uuid) {
@@ -97,6 +123,11 @@ public class Operation extends Essence {
             return this;
         }
 
+        public Builder setCategory(UUID category) {
+            this.category = category;
+            return this;
+        }
+
         public Builder setValue(long value) {
             this.value = value;
             return this;
@@ -113,7 +144,7 @@ public class Operation extends Essence {
         }
 
         public Operation build() {
-            return new Operation(uuid, dtCreate, dtUpdate, description, value, type, currency);
+            return new Operation(uuid, dtCreate, dtUpdate, date, description, category, value, type, currency);
         }
     }
 }

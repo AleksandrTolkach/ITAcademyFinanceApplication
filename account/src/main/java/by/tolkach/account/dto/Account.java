@@ -14,13 +14,13 @@ public class Account extends Essence {
     private String description;
     private BigDecimal balance = new BigDecimal(0);
     private AccountType type;
-    private Currency currency;
+    private UUID currency;
 
     public Account() {
     }
 
     public Account(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description,
-                   BigDecimal balance, AccountType type, Currency currency) {
+                   BigDecimal balance, AccountType type, UUID currency) {
         super(uuid, dtCreate, dtUpdate);
         this.title = title;
         this.description = description;
@@ -61,11 +61,11 @@ public class Account extends Essence {
         this.type = type;
     }
 
-    public Currency getCurrency() {
+    public UUID getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(UUID currency) {
         this.currency = currency;
     }
 
@@ -78,7 +78,7 @@ public class Account extends Essence {
         private String description;
         private BigDecimal balance;
         private AccountType type;
-        private Currency currency;
+        private UUID currency;
 
         private Builder() {
         }
@@ -122,7 +122,7 @@ public class Account extends Essence {
             return this;
         }
 
-        public Builder setCurrency(Currency currency) {
+        public Builder setCurrency(UUID currency) {
             this.currency = currency;
             return this;
         }

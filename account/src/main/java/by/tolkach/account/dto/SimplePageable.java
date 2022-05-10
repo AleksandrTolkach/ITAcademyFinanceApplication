@@ -8,7 +8,7 @@ public class SimplePageable {
     public SimplePageable() {
     }
 
-    public SimplePageable(int page, int size) {
+    public SimplePageable(Integer page, Integer size) {
         this.page = page;
         this.size = size;
     }
