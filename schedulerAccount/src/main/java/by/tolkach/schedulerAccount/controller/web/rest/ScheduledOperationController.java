@@ -1,7 +1,11 @@
 package by.tolkach.schedulerAccount.controller.web.rest;
 
+import by.tolkach.schedulerAccount.controller.advice.WrapperValidation;
 import by.tolkach.schedulerAccount.controller.web.PageChecker;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.ScheduleAndOperationWrapper;
+import by.tolkach.schedulerAccount.dto.exception.MultipleErrorsException;
+import by.tolkach.schedulerAccount.dto.exception.NotFoundError;
+import by.tolkach.schedulerAccount.dto.exception.SingleError;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduledOperationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +19,12 @@ import java.util.UUID;
 public class ScheduledOperationController {
 
     private final IScheduledOperationService scheduledOperationService;
+    private final WrapperValidation wrapperValidation;
 
-    public ScheduledOperationController(IScheduledOperationService scheduledOperationService) {
+    public ScheduledOperationController(IScheduledOperationService scheduledOperationService,
+                                        WrapperValidation wrapperValidation) {
         this.scheduledOperationService = scheduledOperationService;
+        this.wrapperValidation = wrapperValidation;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -29,7 +36,8 @@ public class ScheduledOperationController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody ScheduleAndOperationWrapper wrapper) {
+    public ResponseEntity<?> create(@RequestBody(required = false) ScheduleAndOperationWrapper wrapper) {
+        this.wrapperValidation.validate(wrapper);
         this.scheduledOperationService.create(wrapper.getSchedule(), wrapper.getOperation());
         return ResponseEntity.ok("Операция добавлена к счету");
     }
@@ -38,7 +46,8 @@ public class ScheduledOperationController {
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable(name = "uuid") UUID scheduledOperationId,
                                     @PathVariable(name = "dt_update") Long dtUpdate,
-                                    @RequestBody ScheduleAndOperationWrapper wrapper) {
+                                    @RequestBody(required = false) ScheduleAndOperationWrapper wrapper) {
+        this.wrapperValidation.validate(wrapper);
         this.scheduledOperationService.update(scheduledOperationId,
                 LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC),
                 wrapper.getSchedule(), wrapper.getOperation());

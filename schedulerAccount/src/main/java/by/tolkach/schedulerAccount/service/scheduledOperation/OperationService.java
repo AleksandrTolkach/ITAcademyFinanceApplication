@@ -4,7 +4,7 @@ import by.tolkach.schedulerAccount.dao.api.IOperationStorage;
 import by.tolkach.schedulerAccount.dao.api.entity.OperationEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
-import by.tolkach.schedulerAccount.service.api.exception.NotFoundError;
+import by.tolkach.schedulerAccount.dto.exception.NotFoundError;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IOperationService;
 import org.springframework.stereotype.Service;
 

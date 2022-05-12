@@ -35,7 +35,7 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Account account) {
+    public ResponseEntity<?> create(@RequestBody(required = false) Account account) {
         this.accountService.create(account);
         return ResponseEntity.ok("Счёт добавлен в ваш профиль");
     }
@@ -44,7 +44,7 @@ public class AccountController {
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable UUID id,
                                     @PathVariable(name = "dt_update") Long dtUpdate,
-                                    @RequestBody Account account) {
+                                    @RequestBody(required = false) Account account) {
         this.accountService.update(id, LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC), account);
         return ResponseEntity.ok("Счёт обновлен");
     }

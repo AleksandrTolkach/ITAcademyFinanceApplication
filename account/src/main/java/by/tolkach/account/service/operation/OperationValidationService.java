@@ -2,11 +2,12 @@ package by.tolkach.account.service.operation;
 
 import by.tolkach.account.dto.operation.Operation;
 import by.tolkach.account.service.api.IValidationService;
+import by.tolkach.account.service.api.exception.NotFoundError;
 import by.tolkach.account.service.api.exception.SingleError;
 import by.tolkach.account.service.api.exception.MultipleErrorsException;
 import by.tolkach.account.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDate;
 
@@ -22,6 +23,9 @@ public class OperationValidationService implements IValidationService<Operation>
     @Override
     public Operation validate(Operation operation) {
         MultipleErrorsException validationException = new MultipleErrorsException();
+        if (operation == null) {
+            throw new NotFoundError("Необходимо передать объект операции");
+        }
         if (operation.getDate() == null) {
             operation.setDate(LocalDate.now());
         }
@@ -32,13 +36,13 @@ public class OperationValidationService implements IValidationService<Operation>
 
         try {
             this.classifierRestClientService.readOperationCategory(operation.getCategory());
-        } catch (HttpServerErrorException e) {
+        } catch (HttpClientErrorException e) {
             validationException.add(new SingleError("category", "Указанной категории нет в базе"));
         }
 
         try {
             this.classifierRestClientService.readCurrency(operation.getCurrency());
-        } catch (HttpServerErrorException e) {
+        } catch (HttpClientErrorException e) {
             validationException.add(new SingleError("currency", "Указанной валюты нет в базе"));
         }
 

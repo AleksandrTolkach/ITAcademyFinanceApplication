@@ -1,4 +1,4 @@
-package by.tolkach.schedulerAccount.service.api.exception;
+package by.tolkach.schedulerAccount.dto.exception;
 
 public class SingleError {
 

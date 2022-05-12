@@ -1,7 +1,7 @@
 package by.tolkach.schedulerAccount.controller.advice;
 
-import by.tolkach.schedulerAccount.service.api.exception.MultipleErrorsException;
-import by.tolkach.schedulerAccount.service.api.exception.NotFoundError;
+import by.tolkach.schedulerAccount.dto.exception.MultipleErrorsException;
+import by.tolkach.schedulerAccount.dto.exception.NotFoundError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -38,6 +38,9 @@ public class BalanceService implements IBalanceService {
     @Override
     public Balance read(UUID accountId) {
         BalanceEntity balanceEntity = this.balanceStorage.findByAccount_Uuid(accountId);
+        if (balanceEntity == null) {
+            throw new NotFoundError("Указан неверный ID счета.");
+        }
         return this.balanceEntityConverter.toDto(balanceEntity);
     }
 

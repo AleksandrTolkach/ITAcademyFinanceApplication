@@ -1,5 +1,6 @@
 package by.tolkach.account.service.operation;
 
+import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.dto.operation.Operation;
 import by.tolkach.account.dto.Page;
 import by.tolkach.account.dto.SimplePageable;
@@ -52,7 +53,8 @@ public class OperationDecoratorService implements IOperationService {
     public Operation update(UUID accountId, UUID operationId, LocalDateTime dtUpdate, Operation operation) {
         this.operationValidationService.validate(operation);
         this.balanceService.update(accountId, dtUpdate, operation.getValue());
-        this.accountService.update(accountId, dtUpdate, this.accountService.read(accountId));
+        Account account = this.accountService.read(accountId);
+        this.accountService.update(accountId, account.getDtUpdate(), account);
         return this.operationService.update(accountId, operationId, dtUpdate, operation);
     }
 

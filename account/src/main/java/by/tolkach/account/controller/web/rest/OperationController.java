@@ -38,7 +38,7 @@ public class OperationController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> create(@PathVariable(name = "uuid") UUID accountId,
-                                    @RequestBody Operation operation) {
+                                    @RequestBody(required = false) Operation operation) {
         this.operationService.create(operation, accountId);
         return ResponseEntity.ok("Операция добавлена к счету");
     }
@@ -48,7 +48,7 @@ public class OperationController {
     public ResponseEntity<?> update(@PathVariable(name = "uuid") UUID accountId,
                                     @PathVariable(name = "uuid_operation") UUID operationId,
                                     @PathVariable(name = "dt_update") Long dtUpdate,
-                                    @RequestBody Operation operation) {
+                                    @RequestBody(required = false) Operation operation) {
         this.operationService.update(accountId, operationId,
                 LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC), operation);
         return ResponseEntity.ok("Операция изменена");

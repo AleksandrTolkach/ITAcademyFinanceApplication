@@ -2,11 +2,12 @@ package by.tolkach.account.service.account;
 
 import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.service.api.IValidationService;
+import by.tolkach.account.service.api.exception.NotFoundError;
 import by.tolkach.account.service.api.exception.SingleError;
 import by.tolkach.account.service.api.exception.MultipleErrorsException;
 import by.tolkach.account.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 public class AccountValidationService implements IValidationService<Account> {
@@ -19,6 +20,9 @@ public class AccountValidationService implements IValidationService<Account> {
 
     @Override
     public Account validate(Account account) {
+        if (account == null) {
+            throw new NotFoundError("Необходимо передать объект счета");
+        }
         MultipleErrorsException validationException = new MultipleErrorsException();
         if (nullOrEmpty(account.getTitle())) {
             validationException.add(new SingleError("title", "Необходимо заполнить заголовок."));
@@ -32,7 +36,7 @@ public class AccountValidationService implements IValidationService<Account> {
 
         try {
             this.classifierRestClientService.readCurrency(account.getCurrency());
-        } catch (HttpServerErrorException e) {
+        } catch (HttpClientErrorException e) {
             validationException.add(new SingleError("currency", "Указанной валюты нет в базе"));
         }
 
@@ -47,6 +51,6 @@ public class AccountValidationService implements IValidationService<Account> {
     }
 
     private boolean nullOrEmpty(Enum<?> value) {
-        return value.name().equals("UNKNOWN");
+        return value == null || value.name().equals("UNKNOWN");
     }
 }

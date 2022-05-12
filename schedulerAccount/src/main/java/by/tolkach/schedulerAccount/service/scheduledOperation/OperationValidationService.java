@@ -2,10 +2,11 @@ package by.tolkach.schedulerAccount.service.scheduledOperation;
 
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
 import by.tolkach.schedulerAccount.service.api.IValidationService;
-import by.tolkach.schedulerAccount.service.api.exception.MultipleErrorsException;
-import by.tolkach.schedulerAccount.service.api.exception.SingleError;
+import by.tolkach.schedulerAccount.dto.exception.MultipleErrorsException;
+import by.tolkach.schedulerAccount.dto.exception.SingleError;
 import by.tolkach.schedulerAccount.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 @Service
@@ -26,13 +27,13 @@ public class OperationValidationService implements IValidationService<Operation>
 
         try {
             this.classifierRestClientService.readOperationCategory(operation.getCategory());
-        } catch (HttpServerErrorException e) {
+        } catch (HttpClientErrorException e) {
             validationException.add(new SingleError("category", "Указанной категории нет в базе"));
         }
 
         try {
             this.classifierRestClientService.readCurrency(operation.getCurrency());
-        } catch (HttpServerErrorException e) {
+        } catch (HttpClientErrorException e) {
             validationException.add(new SingleError("currency", "Указанной валюты нет в базе"));
         }
 
