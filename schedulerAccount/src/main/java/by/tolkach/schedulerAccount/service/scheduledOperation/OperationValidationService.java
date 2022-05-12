@@ -7,7 +7,6 @@ import by.tolkach.schedulerAccount.dto.exception.SingleError;
 import by.tolkach.schedulerAccount.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 
 @Service
 public class OperationValidationService implements IValidationService<Operation> {
