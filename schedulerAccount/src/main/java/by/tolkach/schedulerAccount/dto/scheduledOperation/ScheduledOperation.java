@@ -1,5 +1,6 @@
-package by.tolkach.schedulerAccount.dto;
+package by.tolkach.schedulerAccount.dto.scheduledOperation;
 
+import by.tolkach.schedulerAccount.dto.Essence;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 

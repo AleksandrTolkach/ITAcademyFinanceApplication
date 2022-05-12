@@ -10,13 +10,15 @@ import java.util.UUID;
 public class CurrencyEntity extends EssenceEntity {
 
     private String title;
+    private String description;
 
     public CurrencyEntity() {
     }
 
-    public CurrencyEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title) {
+    public CurrencyEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description) {
         super(uuid, dtCreate, dtUpdate);
         this.title = title;
+        this.description = description;
     }
 
     public String getTitle() {
@@ -27,12 +29,21 @@ public class CurrencyEntity extends EssenceEntity {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public static class Builder {
 
         private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
         private String title;
+        private String description;
 
         private Builder() {
         }
@@ -61,8 +72,13 @@ public class CurrencyEntity extends EssenceEntity {
             return this;
         }
 
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
         public CurrencyEntity build() {
-            return new CurrencyEntity(uuid, dtCreate, dtUpdate, title);
+            return new CurrencyEntity(uuid, dtCreate, dtUpdate, title, description);
         }
     }
 }

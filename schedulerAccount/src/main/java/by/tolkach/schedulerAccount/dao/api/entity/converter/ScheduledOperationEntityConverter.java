@@ -3,9 +3,9 @@ package by.tolkach.schedulerAccount.dao.api.entity.converter;
 import by.tolkach.schedulerAccount.dao.api.entity.OperationEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.ScheduleEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.ScheduledOperationEntity;
-import by.tolkach.schedulerAccount.dto.Operation;
-import by.tolkach.schedulerAccount.dto.Schedule;
-import by.tolkach.schedulerAccount.dto.ScheduledOperation;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.Schedule;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.ScheduledOperation;
 import org.springframework.stereotype.Component;
 
 @Component

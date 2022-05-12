@@ -1,6 +1,6 @@
 package by.tolkach.schedulerAccount.service.scheduler;
 
-import by.tolkach.schedulerAccount.dto.Schedule;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.Schedule;
 import by.tolkach.schedulerAccount.service.scheduler.api.ISchedulerService;
 import org.quartz.*;
 import org.springframework.stereotype.Service;

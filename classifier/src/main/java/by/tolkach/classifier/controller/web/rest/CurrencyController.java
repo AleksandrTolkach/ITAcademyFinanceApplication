@@ -1,7 +1,7 @@
-package by.tolkach.classifier.controller;
+package by.tolkach.classifier.controller.web.rest;
 
+import by.tolkach.classifier.controller.web.PageChecker;
 import by.tolkach.classifier.dto.Currency;
-import by.tolkach.classifier.dto.SimplePageable;
 import by.tolkach.classifier.service.api.ICurrencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class CurrencyController {
     @ResponseBody
     public ResponseEntity<?> index(@RequestParam(name = "page", required = false) Integer page,
                                    @RequestParam(name = "size", required = false) Integer size) {
-        return ResponseEntity.ok(this.currencyService.read(new SimplePageable(page, size)));
+        return ResponseEntity.ok(this.currencyService.read(PageChecker.checkParameters(page, size)));
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
@@ -33,7 +33,7 @@ public class CurrencyController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Currency currency) {
+    public ResponseEntity<?> create(@RequestBody(required = false) Currency currency) {
         this.currencyService.create(currency);
         return ResponseEntity.ok("Валюта добвалена в справочник");
     }

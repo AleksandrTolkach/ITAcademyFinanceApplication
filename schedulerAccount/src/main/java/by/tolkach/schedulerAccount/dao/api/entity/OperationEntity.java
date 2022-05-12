@@ -1,7 +1,6 @@
 package by.tolkach.schedulerAccount.dao.api.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -13,7 +12,6 @@ import java.util.UUID;
 public class OperationEntity {
 
     @Id
-    @GeneratedValue
     private UUID uuid;
     private UUID account;
     private UUID category;

@@ -14,6 +14,7 @@ public class CurrencyEntityConverter implements IEntityConverter<Currency, Curre
                 .setDtCreate(currency.getDtCreate())
                 .setDtUpdate(currency.getDtUpdate())
                 .setTitle(currency.getTitle())
+                .setDescription(currency.getDescription())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class CurrencyEntityConverter implements IEntityConverter<Currency, Curre
                 .setDtCreate(entity.getDtCreate())
                 .setDtUpdate(entity.getDtUpdate())
                 .setTitle(entity.getTitle())
+                .setDescription(entity.getDescription())
                 .build();
     }
 }

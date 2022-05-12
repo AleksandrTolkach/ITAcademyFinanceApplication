@@ -13,14 +13,14 @@ public class Pagination<T,Z> {
     } 
 
     public Page<T> properties(List<Z> items, SimplePageable pageable,
-                                       int totalElements, IEntityConverter<T,Z> converter) {
+                              long totalElements, IEntityConverter<T,Z> converter) {
         Page<T> page = new Page<>();
         for (Z item: items) {
             page.add(converter.toDto(item));
         }
-        int totalPages = totalElements / pageable.getSize();
-        return page.createPageProperty(pageable.getPage(), pageable.getSize(), totalElements,
-                totalElements / pageable.getSize(), pageable.getPage() == 0, items.size(),
+        int totalPages = (int) totalElements / pageable.getSize();
+        return page.createPageProperty(pageable.getPage(), pageable.getSize(), (int) totalElements,
+                (int) totalElements / pageable.getSize(), pageable.getPage() == 0, items.size(),
                 pageable.getPage() == totalPages);
     }
 }

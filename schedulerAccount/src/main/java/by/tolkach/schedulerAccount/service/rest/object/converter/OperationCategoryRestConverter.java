@@ -1,6 +1,6 @@
 package by.tolkach.schedulerAccount.service.rest.object.converter;
 
-import by.tolkach.schedulerAccount.dto.OperationCategory;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.OperationCategory;
 import by.tolkach.schedulerAccount.service.rest.object.OperationCategoryRestObject;
 import org.springframework.stereotype.Component;
 

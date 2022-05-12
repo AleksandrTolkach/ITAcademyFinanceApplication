@@ -7,16 +7,18 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Currency extends Essence{
+public class Currency extends Essence {
 
     private String title;
+    private String description;
 
     public Currency() {
     }
 
-    public Currency(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title) {
+    public Currency(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String title, String description) {
         super(uuid, dtCreate, dtUpdate);
         this.title = title;
+        this.description = description;
     }
 
     public String getTitle() {
@@ -27,12 +29,21 @@ public class Currency extends Essence{
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public static class Builder {
 
         private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
         private String title;
+        private String description;
 
         private Builder() {
         }
@@ -61,8 +72,13 @@ public class Currency extends Essence{
             return this;
         }
 
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
         public Currency build() {
-            return new Currency(uuid, dtCreate, dtUpdate, title);
+            return new Currency(uuid, dtCreate, dtUpdate, title, description);
         }
     }
 }

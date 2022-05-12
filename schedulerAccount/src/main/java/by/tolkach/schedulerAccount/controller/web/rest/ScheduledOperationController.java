@@ -1,7 +1,7 @@
-package by.tolkach.schedulerAccount.controller;
+package by.tolkach.schedulerAccount.controller.web.rest;
 
-import by.tolkach.schedulerAccount.dto.ScheduleAndOperationWrapper;
-import by.tolkach.schedulerAccount.dto.SimplePageable;
+import by.tolkach.schedulerAccount.controller.web.PageChecker;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.ScheduleAndOperationWrapper;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduledOperationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ public class ScheduledOperationController {
     @ResponseBody
     public ResponseEntity<?> index(@RequestParam(name = "page",required = false) Integer page,
                                    @RequestParam(name = "size", required = false) Integer size) {
-        return ResponseEntity.ok(this.scheduledOperationService.read(new SimplePageable(page, size)));
+        return ResponseEntity.ok(this.scheduledOperationService.read(PageChecker.checkParameters(page, size)));
     }
 
     @RequestMapping(method = RequestMethod.POST)

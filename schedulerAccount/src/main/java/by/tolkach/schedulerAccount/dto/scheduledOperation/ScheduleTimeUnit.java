@@ -1,7 +1,10 @@
-package by.tolkach.schedulerAccount.dto;
+package by.tolkach.schedulerAccount.dto.scheduledOperation;
+
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 
 public enum ScheduleTimeUnit {
 
+    @JsonEnumDefaultValue
     SECOND(ScheduleTimeUnit.SECOND_SCALE),
     MINUTE(ScheduleTimeUnit.MINUTE_SCALE),
     HOUR(ScheduleTimeUnit.HOUR_SCALE),

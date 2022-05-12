@@ -1,5 +1,6 @@
 package by.tolkach.schedulerAccount.dao.api.entity;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.UUID;
 public abstract class EssenceEntity {
 
     @Id
+    @GeneratedValue
     private UUID uuid;
     private LocalDateTime dtCreate;
     private LocalDateTime dtUpdate;

@@ -1,6 +1,6 @@
 package by.tolkach.schedulerAccount.dao.api.entity;
 
-import by.tolkach.schedulerAccount.dto.ScheduleTimeUnit;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.ScheduleTimeUnit;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +11,6 @@ import java.util.UUID;
 public class ScheduleEntity {
 
     @Id
-    @GeneratedValue
     private UUID uuid;
     private LocalDateTime startTime;
     private LocalDateTime stopTime;

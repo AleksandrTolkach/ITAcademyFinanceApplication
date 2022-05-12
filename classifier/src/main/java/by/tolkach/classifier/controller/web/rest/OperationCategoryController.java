@@ -1,7 +1,7 @@
-package by.tolkach.classifier.controller;
+package by.tolkach.classifier.controller.web.rest;
 
+import by.tolkach.classifier.controller.web.PageChecker;
 import by.tolkach.classifier.dto.OperationCategory;
-import by.tolkach.classifier.dto.SimplePageable;
 import by.tolkach.classifier.service.api.IOperationCategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +20,9 @@ public class OperationCategoryController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> index(@RequestParam(name = "page") Integer page,
-                                   @RequestParam(name = "size") Integer size) {
-        return ResponseEntity.ok(this.operationCategoryService.read(new SimplePageable(page, size)));
+    public ResponseEntity<?> index(@RequestParam(name = "page", required = false) Integer page,
+                                   @RequestParam(name = "size", required = false) Integer size) {
+        return ResponseEntity.ok(this.operationCategoryService.read(PageChecker.checkParameters(page, size)));
     }
 
     @RequestMapping(value = "/{operation_category_uuid}", method = RequestMethod.GET)
@@ -33,7 +33,7 @@ public class OperationCategoryController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody OperationCategory operationCategory) {
+    public ResponseEntity<?> create(@RequestBody(required = false) OperationCategory operationCategory) {
         this.operationCategoryService.create(operationCategory);
         return ResponseEntity.ok("Категория добавлена в справочник");
     }

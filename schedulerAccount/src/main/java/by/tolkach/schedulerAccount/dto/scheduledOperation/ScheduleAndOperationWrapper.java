@@ -1,4 +1,4 @@
-package by.tolkach.schedulerAccount.dto;
+package by.tolkach.schedulerAccount.dto.scheduledOperation;
 
 public class ScheduleAndOperationWrapper {
 

@@ -1,7 +1,7 @@
 package by.tolkach.schedulerAccount.service.rest;
 
 import by.tolkach.schedulerAccount.dto.Currency;
-import by.tolkach.schedulerAccount.dto.OperationCategory;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.OperationCategory;
 import by.tolkach.schedulerAccount.service.rest.api.IClassifierRestClientService;
 import by.tolkach.schedulerAccount.service.rest.object.CurrencyRestObject;
 import by.tolkach.schedulerAccount.service.rest.object.OperationCategoryRestObject;

@@ -1,4 +1,4 @@
-package by.tolkach.schedulerAccount.dto;
+package by.tolkach.schedulerAccount.dto.scheduledOperation;
 
 import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
 import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;

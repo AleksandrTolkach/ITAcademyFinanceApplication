@@ -1,7 +1,7 @@
 package by.tolkach.schedulerAccount.service.rest.api;
 
 import by.tolkach.schedulerAccount.dto.Currency;
-import by.tolkach.schedulerAccount.dto.OperationCategory;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.OperationCategory;
 
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package by.tolkach.schedulerAccount.dao.api.entity.converter;
 
 import by.tolkach.schedulerAccount.dao.api.entity.OperationEntity;
-import by.tolkach.schedulerAccount.dto.Operation;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
 import org.springframework.stereotype.Component;
 
 @Component

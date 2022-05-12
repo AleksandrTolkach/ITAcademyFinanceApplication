@@ -1,6 +1,6 @@
 package by.tolkach.schedulerAccount.service.scheduledOperation.api;
 
-import by.tolkach.schedulerAccount.dto.Schedule;
+import by.tolkach.schedulerAccount.dto.scheduledOperation.Schedule;
 
 import java.util.UUID;
 

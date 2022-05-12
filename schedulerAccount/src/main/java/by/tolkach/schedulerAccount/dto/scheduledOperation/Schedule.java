@@ -1,4 +1,4 @@
-package by.tolkach.schedulerAccount.dto;
+package by.tolkach.schedulerAccount.dto.scheduledOperation;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
