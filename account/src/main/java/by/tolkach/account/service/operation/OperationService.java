@@ -55,7 +55,7 @@ public class OperationService implements IOperationService {
         List<OperationEntity> operationEntities = this.operationStorage.findAllByAccount_Uuid(id,
                 PageRequest.of(pageable.getPage(), pageable.getSize()));
         return Pagination.pageOf(Operation.class, OperationEntity.class)
-                .properties(operationEntities, pageable, (int) this.operationStorage.count(),
+                .properties(operationEntities, pageable, operationEntities.size(),
                         this.operationEntityConverter);
     }
 
