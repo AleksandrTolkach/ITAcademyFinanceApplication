@@ -1,8 +1,12 @@
 package by.tolkach.account.dto.operation;
 
 import by.tolkach.account.dto.Essence;
+import by.tolkach.account.dto.serializer.LongLocalDateSerializer;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +15,8 @@ import java.util.UUID;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Operation extends Essence {
 
+    @JsonSerialize(using = LongLocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
     private String description;
     private UUID category;

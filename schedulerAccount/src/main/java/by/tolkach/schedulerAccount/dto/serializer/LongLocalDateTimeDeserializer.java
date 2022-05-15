@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 public class LongLocalDateTimeDeserializer extends StdDeserializer<LocalDateTime> {
 
@@ -19,7 +20,6 @@ public class LongLocalDateTimeDeserializer extends StdDeserializer<LocalDateTime
     @Override
     public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
         long epoch = Long.parseLong(p.getValueAsString());
-        return Instant.ofEpochMilli(epoch)
-                .atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(epoch), ZoneOffset.of("+03:00"));
     }
 }

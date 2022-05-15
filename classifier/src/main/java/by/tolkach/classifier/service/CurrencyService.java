@@ -57,7 +57,7 @@ public class CurrencyService implements ICurrencyService {
     }
 
     public Currency createCurrencyParameters(Currency currency) {
-        LocalDateTime createdTime = LocalDateTime.now().withNano(0);
+        LocalDateTime createdTime = LocalDateTime.now();
         currency.setDtCreate(createdTime);
         currency.setDtUpdate(createdTime);
         return currency;

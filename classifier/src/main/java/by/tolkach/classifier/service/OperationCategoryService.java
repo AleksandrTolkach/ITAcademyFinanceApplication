@@ -59,7 +59,7 @@ public class OperationCategoryService implements IOperationCategoryService {
     }
 
     public OperationCategory createOperationCategoryParameters(OperationCategory operationCategory) {
-        LocalDateTime createdTime = LocalDateTime.now().withNano(0);
+        LocalDateTime createdTime = LocalDateTime.now();
         operationCategory.setDtCreate(createdTime);
         operationCategory.setDtUpdate(createdTime);
         return operationCategory;

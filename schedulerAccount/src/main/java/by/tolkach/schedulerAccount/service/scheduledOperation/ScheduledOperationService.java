@@ -85,14 +85,14 @@ public class ScheduledOperationService implements IScheduledOperationService {
         }
         this.scheduleService.update(scheduledOperationEntity.getSchedule().getUuid(), schedule);
         this.operationService.update(scheduledOperationEntity.getOperation().getUuid(), operation);
-        scheduledOperationEntity.setDtUpdate(LocalDateTime.now().withNano(0));
+        scheduledOperationEntity.setDtUpdate(LocalDateTime.now());
         this.schedulerService.update(scheduledOperationEntity.getOperation().getUuid(), schedule);
         return this.scheduledOperationEntityConverter
                 .toDto(this.scheduledOperationStorage.save(scheduledOperationEntity));
     }
 
     public ScheduledOperation createScheduledOperationProperties(Schedule schedule, Operation operation) {
-        LocalDateTime dtCreate = LocalDateTime.now().withNano(0);
+        LocalDateTime dtCreate = LocalDateTime.now();
         return ScheduledOperation.Builder.createBuilder()
                 .setDtCreate(dtCreate)
                 .setDtUpdate(dtCreate)

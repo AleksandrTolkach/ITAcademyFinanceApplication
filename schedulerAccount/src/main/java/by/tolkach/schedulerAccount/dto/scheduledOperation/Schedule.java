@@ -1,8 +1,12 @@
 package by.tolkach.schedulerAccount.dto.scheduledOperation;
 
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,7 +16,11 @@ import java.util.UUID;
 public class Schedule {
 
     private UUID uuid;
+    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime startTime;
+    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime stopTime;
     private int interval;
     private ScheduleTimeUnit timeUnit;

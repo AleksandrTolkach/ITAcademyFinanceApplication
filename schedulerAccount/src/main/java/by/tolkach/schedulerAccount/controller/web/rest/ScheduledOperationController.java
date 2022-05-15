@@ -10,6 +10,7 @@ import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduledOper
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
@@ -49,7 +50,7 @@ public class ScheduledOperationController {
                                     @RequestBody(required = false) ScheduleAndOperationWrapper wrapper) {
         this.wrapperValidation.validate(wrapper);
         this.scheduledOperationService.update(scheduledOperationId,
-                LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC),
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneOffset.of("+03:00")),
                 wrapper.getSchedule(), wrapper.getOperation());
         return ResponseEntity.ok("Запланированная операция изменена");
     }
