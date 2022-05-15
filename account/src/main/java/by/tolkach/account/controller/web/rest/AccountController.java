@@ -6,6 +6,7 @@ import by.tolkach.account.service.account.api.IAccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
@@ -45,7 +46,7 @@ public class AccountController {
     public ResponseEntity<?> update(@PathVariable UUID id,
                                     @PathVariable(name = "dt_update") Long dtUpdate,
                                     @RequestBody(required = false) Account account) {
-        this.accountService.update(id, LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC), account);
+        this.accountService.update(id, LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneOffset.of("+03:00")), account);
         return ResponseEntity.ok("Счёт обновлен");
     }
 }

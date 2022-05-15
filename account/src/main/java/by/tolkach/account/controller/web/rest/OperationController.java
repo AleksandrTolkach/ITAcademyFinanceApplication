@@ -6,6 +6,7 @@ import by.tolkach.account.service.operation.api.IOperationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
@@ -50,7 +51,7 @@ public class OperationController {
                                     @PathVariable(name = "dt_update") Long dtUpdate,
                                     @RequestBody(required = false) Operation operation) {
         this.operationService.update(accountId, operationId,
-                LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC), operation);
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneOffset.of("+03:00")), operation);
         return ResponseEntity.ok("Операция изменена");
     }
 
@@ -60,7 +61,7 @@ public class OperationController {
                                     @PathVariable(name = "uuid_operation") UUID operationId,
                                     @PathVariable(name = "dt_update") Long dtUpdate) {
         this.operationService.delete(accountID, operationId,
-                LocalDateTime.ofEpochSecond(dtUpdate, 0, ZoneOffset.UTC));
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneOffset.of("+03:00")));
         return ResponseEntity.ok("Операция удалена");
     }
 }

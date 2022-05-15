@@ -32,7 +32,7 @@ public class AccountDecoratorService implements IAccountService {
     @Override
     public Account create(Account account) {
         this.accountValidationService.validate(account);
-        account.setDtCreate(LocalDateTime.now().withNano(0));
+        account.setDtCreate(LocalDateTime.now());
         account.setDtUpdate(account.getDtCreate());
         Account createdAccount = this.accountService.create(account);
         this.balanceService.create(createdAccount);

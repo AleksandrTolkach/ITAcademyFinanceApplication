@@ -98,7 +98,7 @@ public class OperationService implements IOperationService {
     public OperationEntity createOperationParameters(OperationEntity operationEntity, UUID accountId) {
         AccountEntity accountEntity = this.accountEntityConverter.toEntity(this.accountService.read(accountId));
         operationEntity.setUuid(UUID.randomUUID());
-        operationEntity.setDtCreate(LocalDateTime.now().withNano(0));
+        operationEntity.setDtCreate(LocalDateTime.now());
         operationEntity.setDtUpdate(operationEntity.getDtCreate());
         operationEntity.setAccount(accountEntity);
         operationEntity.setType(operationEntity.getValue() >= 0 ? OperationType.RECEIVE : OperationType.SPEND);
@@ -109,7 +109,7 @@ public class OperationService implements IOperationService {
         operationEntity.setDescription(operation.getDescription());
         operationEntity.setValue(operation.getValue());
         operationEntity.setCurrency(operation.getCurrency());
-        operationEntity.setDtUpdate(LocalDateTime.now().withNano(0));
+        operationEntity.setDtUpdate(LocalDateTime.now());
         return operationEntity;
     }
 }

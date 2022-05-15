@@ -54,7 +54,7 @@ public class BalanceService implements IBalanceService {
             throw new NotFoundError("Запись устарела. Пожалуйста обновите запрос.");
         }
         balanceEntity.setSum(balanceEntity.getSum() + num);
-        balanceEntity.setDtUpdate(LocalDateTime.now().withNano(0));
+        balanceEntity.setDtUpdate(LocalDateTime.now());
         BalanceEntity updatedEntity = this.balanceStorage.save(balanceEntity);
         return this.balanceEntityConverter.toDto(updatedEntity);
     }
