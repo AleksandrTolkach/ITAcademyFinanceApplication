@@ -23,12 +23,13 @@ public class Operation extends Essence {
     private long value;
     private OperationType type;
     private UUID currency;
+    private UUID account;
 
     public Operation() {
     }
 
     public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDate date, String description,
-                     UUID category, long value, OperationType type, UUID currency) {
+                     UUID category, long value, OperationType type, UUID currency, UUID account) {
         super(uuid, dtCreate, dtUpdate);
         this.date = date;
         this.description = description;
@@ -36,6 +37,7 @@ public class Operation extends Essence {
         this.value = value;
         this.type = type;
         this.currency = currency;
+        this.account = account;
     }
 
     public LocalDate getDate() {
@@ -86,6 +88,10 @@ public class Operation extends Essence {
         this.currency = currency;
     }
 
+    public void setAccount(UUID account) {
+        this.account = account;
+    }
+
     public static class Builder {
 
         private UUID uuid;
@@ -97,6 +103,7 @@ public class Operation extends Essence {
         private long value;
         private OperationType type;
         private UUID currency;
+        private UUID account;
 
         private Builder() {
         }
@@ -150,8 +157,13 @@ public class Operation extends Essence {
             return this;
         }
 
+        public Builder setAccount(UUID account) {
+            this.account = account;
+            return this;
+        }
+
         public Operation build() {
-            return new Operation(uuid, dtCreate, dtUpdate, date, description, category, value, type, currency);
+            return new Operation(uuid, dtCreate, dtUpdate, date, description, category, value, type, currency, account);
         }
     }
 }

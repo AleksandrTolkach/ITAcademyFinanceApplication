@@ -1,11 +1,11 @@
 package by.tolkach.report.dao.api;
 
-import by.tolkach.report.dao.api.entity.ReportEntity;
+import by.tolkach.report.dao.api.entity.reportParam.ExtendedParamEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface IReportStorage extends PagingAndSortingRepository<ReportEntity, UUID> {
+public interface IBalanceReportStorage extends PagingAndSortingRepository<ExtendedParamEntity, UUID> {
 }

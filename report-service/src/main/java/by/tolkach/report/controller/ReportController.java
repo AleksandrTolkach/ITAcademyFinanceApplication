@@ -3,6 +3,7 @@ package by.tolkach.report.controller;
 import by.tolkach.report.dto.ReportType;
 import by.tolkach.report.dto.SimplePageable;
 import by.tolkach.report.dto.reportParam.ExtendedParam;
+import by.tolkach.report.service.api.ChoiceReport;
 import by.tolkach.report.service.api.IReportService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/report")
 public class ReportController {
 
-    private final IReportService reportService;
+    private IReportService reportService;
+    private final ChoiceReport choiceReport;
 
-    public ReportController(IReportService reportService) {
-        this.reportService = reportService;
+    public ReportController(ChoiceReport choiceReport) {
+        this.choiceReport = choiceReport;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -28,6 +30,7 @@ public class ReportController {
     @ResponseBody
     public ResponseEntity<?> create(@PathVariable(name = "type") ReportType type,
                                     @RequestBody ExtendedParam extendedParam) {
+        this.reportService = choiceReport.getReportService(type);
         this.reportService.create(extendedParam, type);
         return ResponseEntity.ok("Отчет запущен");
     }

@@ -36,6 +36,12 @@ public class OperationController {
         return ResponseEntity.ok(this.operationService.read(operationId, accountId));
     }
 
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> index(@PathVariable(name = "uuid") UUID accountId) {
+        return ResponseEntity.ok(this.operationService.read(accountId));
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> create(@PathVariable(name = "uuid") UUID accountId,

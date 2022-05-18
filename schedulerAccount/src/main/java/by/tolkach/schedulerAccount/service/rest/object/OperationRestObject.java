@@ -1,12 +1,8 @@
 package by.tolkach.schedulerAccount.service.rest.object;
 
-import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,16 +12,9 @@ import java.util.UUID;
 
 @JsonIgnoreProperties({"type"})
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class OperationRestObject implements Serializable {
+public class OperationRestObject extends EssenceRestObject implements Serializable {
 
-    private UUID uuid;
     private LocalDate date;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
-    private LocalDateTime dtCreate;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
-    private LocalDateTime dtUpdate;
     private UUID category;
     private UUID account;
     private String description;
@@ -35,25 +24,15 @@ public class OperationRestObject implements Serializable {
     public OperationRestObject() {
     }
 
-    public OperationRestObject(UUID uuid, LocalDate date, LocalDateTime dtCreate, LocalDateTime dtUpdate, UUID category,
-                               UUID account, String description, BigDecimal value, UUID currency) {
-        this.uuid = uuid;
+    public OperationRestObject(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDate date,
+                               UUID category, UUID account, String description, BigDecimal value, UUID currency) {
+        super(uuid, dtCreate, dtUpdate);
         this.date = date;
-        this.dtCreate = dtCreate;
-        this.dtUpdate = dtUpdate;
         this.category = category;
         this.account = account;
         this.description = description;
         this.value = value;
         this.currency = currency;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public LocalDate getDate() {
@@ -62,22 +41,6 @@ public class OperationRestObject implements Serializable {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public LocalDateTime getDtCreate() {
-        return dtCreate;
-    }
-
-    public void setDtCreate(LocalDateTime dtCreate) {
-        this.dtCreate = dtCreate;
-    }
-
-    public LocalDateTime getDtUpdate() {
-        return dtUpdate;
-    }
-
-    public void setDtUpdate(LocalDateTime dtUpdate) {
-        this.dtUpdate = dtUpdate;
     }
 
     public UUID getCategory() {
@@ -185,7 +148,8 @@ public class OperationRestObject implements Serializable {
         }
 
         public OperationRestObject build() {
-            return new OperationRestObject(uuid, date, dtCreate, dtUpdate, category, account, description, value, currency);
+            return new OperationRestObject(uuid, dtCreate, dtUpdate, date, category,
+                    account, description, value, currency);
         }
     }
 }

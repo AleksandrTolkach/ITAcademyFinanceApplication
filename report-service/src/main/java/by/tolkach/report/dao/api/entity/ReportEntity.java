@@ -4,19 +4,14 @@ import by.tolkach.report.dao.api.entity.reportParam.ExtendedParamEntity;
 import by.tolkach.report.dto.ReportStatus;
 import by.tolkach.report.dto.ReportType;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 public class ReportEntity extends EssenceEntity {
 
-    @Id
     private ReportStatus status;
-    @Enumerated(EnumType.STRING)
     private ReportType type;
     private String description;
-    @OneToOne
     private ExtendedParamEntity params;
 
     public ReportEntity() {

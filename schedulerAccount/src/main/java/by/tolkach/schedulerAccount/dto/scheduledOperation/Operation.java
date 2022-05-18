@@ -1,12 +1,9 @@
 package by.tolkach.schedulerAccount.dto.scheduledOperation;
 
-import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;
+import by.tolkach.schedulerAccount.dto.Essence;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,15 +11,8 @@ import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonIgnoreProperties({"uuid", "dt_update", "dt_create"})
-public class Operation {
+public class Operation extends Essence {
 
-    private UUID uuid;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
-    private LocalDateTime dtUpdate;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
-    private LocalDateTime dtCreate;
     private UUID category;
     private UUID account;
     private String description;
@@ -32,39 +22,14 @@ public class Operation {
     public Operation() {
     }
 
-    public Operation(UUID uuid, LocalDateTime dtUpdate, LocalDateTime dtCreate, UUID category, UUID account, String description, BigDecimal value, UUID currency) {
-        this.uuid = uuid;
-        this.dtUpdate = dtUpdate;
-        this.dtCreate = dtCreate;
+    public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, UUID category, UUID account,
+                     String description, BigDecimal value, UUID currency) {
+        super(uuid, dtCreate, dtUpdate);
         this.category = category;
         this.account = account;
         this.description = description;
         this.value = value;
         this.currency = currency;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
-    public LocalDateTime getDtUpdate() {
-        return dtUpdate;
-    }
-
-    public void setDtUpdate(LocalDateTime dtUpdate) {
-        this.dtUpdate = dtUpdate;
-    }
-
-    public LocalDateTime getDtCreate() {
-        return dtCreate;
-    }
-
-    public void setDtCreate(LocalDateTime dtCreate) {
-        this.dtCreate = dtCreate;
     }
 
     public UUID getCategory() {
@@ -110,8 +75,8 @@ public class Operation {
     public static class Builder {
 
         private UUID uuid;
-        private LocalDateTime dtUpdate;
         private LocalDateTime dtCreate;
+        private LocalDateTime dtUpdate;
         private UUID category;
         private UUID account;
         private String description;
@@ -130,13 +95,14 @@ public class Operation {
             return this;
         }
 
-        public Builder setDtUpdate(LocalDateTime dtUpdate) {
-            this.dtUpdate = dtUpdate;
-            return this;
-        }
 
         public Builder setDtCreate(LocalDateTime dtCreate) {
             this.dtCreate = dtCreate;
+            return this;
+        }
+
+        public Builder setDtUpdate(LocalDateTime dtUpdate) {
+            this.dtUpdate = dtUpdate;
             return this;
         }
 
@@ -166,7 +132,7 @@ public class Operation {
         }
 
         public Operation build() {
-            return new Operation(uuid, dtUpdate, dtCreate, category, account, description, value, currency);
+            return new Operation(uuid, dtCreate, dtUpdate, category, account, description, value, currency);
         }
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,6 +67,16 @@ public class OperationService implements IOperationService {
             throw new NotFoundError("Указанного счета не существует.");
         }
         return this.operationEntityConverter.toDto(operationEntity);
+    }
+
+    @Override
+    public List<Operation> read(UUID accountId) {
+        List<OperationEntity> operationEntities = this.operationStorage.findAllByAccount_Uuid(accountId);
+        List<Operation> operations = new ArrayList<>();
+        for (OperationEntity operationEntity: operationEntities) {
+            operations.add(this.operationEntityConverter.toDto(operationEntity));
+        }
+        return operations;
     }
 
     @Override

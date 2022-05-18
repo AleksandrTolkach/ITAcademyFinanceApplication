@@ -13,7 +13,7 @@ public class Pagination<T,Z> {
     } 
 
     public Page<T> properties(List<Z> items, SimplePageable pageable,
-                                       int totalElements, IEntityConverter<T,Z> converter) {
+                              int totalElements, IEntityConverter<T,Z> converter) {
         Page<T> page = new Page<>();
         for (Z item: items) {
             page.add(converter.toDto(item));

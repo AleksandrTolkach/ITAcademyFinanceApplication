@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-
 public class AccountsEntity implements Serializable {
 
     private List<UUID> accounts;

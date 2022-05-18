@@ -4,7 +4,9 @@ import by.tolkach.report.dao.api.entity.AccountsEntity;
 import by.tolkach.report.dao.api.entity.CategoriesEntity;
 import by.tolkach.report.dao.api.entity.reportParam.ExtendedParamEntity;
 import by.tolkach.report.dto.reportParam.ExtendedParam;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ReportParamEntityConverter implements IEntityConverter<ExtendedParam, ExtendedParamEntity> {
     @Override
     public ExtendedParamEntity toEntity(ExtendedParam paramBalance) {

@@ -1,11 +1,11 @@
 package by.tolkach.report.dao.api.entity;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
+@MappedSuperclass
 public abstract class EssenceEntity {
 
     @Id

@@ -101,6 +101,18 @@ public class Page<T> {
         this.content.add(content);
     }
 
+    public Page<T> createPageProperty(Integer number, Integer size, Integer totalElements, Integer totalPages,
+                                      boolean first, Integer numberOfElements, boolean last) {
+        this.setNumber(number);
+        this.setSize(size);
+        this.setTotalElements((totalElements));
+        this.setTotalPages(totalElements / size);
+        this.setFirst(number == 0);
+        this.setNumberOfElements(numberOfElements);
+        this.setLast(number == totalPages);
+        return this;
+    }
+
     public static class Builder<T> {
 
         private Integer number;
