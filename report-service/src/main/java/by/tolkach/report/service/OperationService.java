@@ -4,9 +4,12 @@ import by.tolkach.report.dao.api.IOperationStorage;
 import by.tolkach.report.dao.api.entity.OperationEntity;
 import by.tolkach.report.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.report.dto.Operation;
+import by.tolkach.report.dto.reportParam.ExtendedParam;
 import by.tolkach.report.service.api.IOperationService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -18,6 +21,18 @@ public class OperationService implements IOperationService {
     public OperationService(IOperationStorage operationStorage, IEntityConverter<Operation, OperationEntity> operationEntityConverter) {
         this.operationStorage = operationStorage;
         this.operationEntityConverter = operationEntityConverter;
+    }
+
+    @Override
+    public List<Operation> readByBalance(ExtendedParam extendedParam) {
+        List<Operation> operations = new ArrayList<>();
+        for (UUID account: extendedParam.getAccounts()) {
+            List<OperationEntity> operationEntities = this.operationStorage.findAllByAccount(account);
+            for (OperationEntity operationEntity: operationEntities) {
+                operations.add(this.operationEntityConverter.toDto(operationEntity));
+            }
+        }
+        return operations;
     }
 
     @Override

@@ -2,7 +2,6 @@ package by.tolkach.report.service;
 
 import by.tolkach.report.dto.Page;
 import by.tolkach.report.dto.Report;
-import by.tolkach.report.dto.ReportType;
 import by.tolkach.report.dto.SimplePageable;
 import by.tolkach.report.dto.reportParam.ExtendedParam;
 import by.tolkach.report.service.api.IReportService;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DateReportService implements IReportService {
     @Override
-    public void create(ExtendedParam param, ReportType type) {
+    public void create(ExtendedParam param) {
 
     }
 

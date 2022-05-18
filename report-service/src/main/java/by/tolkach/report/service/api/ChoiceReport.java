@@ -13,7 +13,9 @@ public class ChoiceReport {
     private final DateReportService dateReportService;
     private final CategoryReportService categoryReportService;
 
-    public ChoiceReport(BalanceReportService balanceReportService, DateReportService dateReportService, CategoryReportService categoryReportService) {
+    public ChoiceReport(BalanceReportService balanceReportService,
+                        DateReportService dateReportService,
+                        CategoryReportService categoryReportService) {
         this.balanceReportService = balanceReportService;
         this.dateReportService = dateReportService;
         this.categoryReportService = categoryReportService;

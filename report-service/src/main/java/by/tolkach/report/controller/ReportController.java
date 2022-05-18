@@ -31,7 +31,7 @@ public class ReportController {
     public ResponseEntity<?> create(@PathVariable(name = "type") ReportType type,
                                     @RequestBody ExtendedParam extendedParam) {
         this.reportService = choiceReport.getReportService(type);
-        this.reportService.create(extendedParam, type);
+        this.reportService.create(extendedParam);
         return ResponseEntity.ok("Отчет запущен");
     }
 }

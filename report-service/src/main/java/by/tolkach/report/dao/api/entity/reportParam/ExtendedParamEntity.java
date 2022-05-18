@@ -4,9 +4,11 @@ import by.tolkach.report.dao.api.entity.AccountsEntity;
 import by.tolkach.report.dao.api.entity.CategoriesEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(schema = "application", name = "ExtendedParam")
 public class ExtendedParamEntity extends ReportParamByBalanceEntity {
 
     private LocalDateTime from;

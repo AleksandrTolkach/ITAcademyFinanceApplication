@@ -16,7 +16,6 @@ public class Test {
         createBody(sheet, format, cellStyle);
         createHeader(sheet);
 
-
         try {
             workbook.write(new FileOutputStream("/home/hoho/dev/test.xlsx"));
             workbook.close();
