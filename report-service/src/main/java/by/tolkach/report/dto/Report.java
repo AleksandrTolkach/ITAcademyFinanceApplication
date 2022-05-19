@@ -1,6 +1,6 @@
 package by.tolkach.report.dto;
 
-import by.tolkach.report.dto.reportParam.ExtendedParam;
+import by.tolkach.report.dto.reportParam.Param;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,13 +10,13 @@ public class Report extends Essence {
     private ReportStatus status;
     private ReportType type;
     private String description;
-    private ExtendedParam params;
+    private Param params;
 
     public Report() {
     }
 
     public Report(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, ReportStatus status, ReportType type,
-                  String description, ExtendedParam params) {
+                  String description, Param params) {
         super(uuid, dtCreate, dtUpdate);
         this.status = status;
         this.type = type;
@@ -48,11 +48,11 @@ public class Report extends Essence {
         this.description = description;
     }
 
-    public ExtendedParam getParams() {
+    public Param getParams() {
         return params;
     }
 
-    public void setParams(ExtendedParam params) {
+    public void setParams(Param params) {
         this.params = params;
     }
 
@@ -64,7 +64,7 @@ public class Report extends Essence {
         private ReportStatus status;
         private ReportType type;
         private String description;
-        private ExtendedParam params;
+        private Param params;
 
         private Builder() {
         }
@@ -103,7 +103,7 @@ public class Report extends Essence {
             return this;
         }
 
-        public Builder setParams(ExtendedParam params) {
+        public Builder setParams(Param params) {
             this.params = params;
             return this;
         }

@@ -1,24 +1,30 @@
 package by.tolkach.report.dao.api.entity;
 
-import by.tolkach.report.dao.api.entity.reportParam.ExtendedParamEntity;
+import by.tolkach.report.dao.api.entity.reportParam.ParamEntity;
 import by.tolkach.report.dto.ReportStatus;
 import by.tolkach.report.dto.ReportType;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
+@Table(schema = "application", name = "reports")
 public class ReportEntity extends EssenceEntity {
 
+    @Enumerated(EnumType.STRING)
     private ReportStatus status;
+    @Enumerated(EnumType.STRING)
     private ReportType type;
     private String description;
-    private ExtendedParamEntity params;
+    @OneToOne
+    private ParamEntity params;
 
     public ReportEntity() {
     }
 
     public ReportEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, ReportStatus status,
-                        ReportType type, String description, ExtendedParamEntity params) {
+                        ReportType type, String description, ParamEntity params) {
         super(uuid, dtCreate, dtUpdate);
         this.status = status;
         this.type = type;
@@ -50,11 +56,11 @@ public class ReportEntity extends EssenceEntity {
         this.description = description;
     }
 
-    public ExtendedParamEntity getParams() {
+    public ParamEntity getParams() {
         return params;
     }
 
-    public void setParams(ExtendedParamEntity params) {
+    public void setParams(ParamEntity params) {
         this.params = params;
     }
 
@@ -66,7 +72,7 @@ public class ReportEntity extends EssenceEntity {
         private ReportStatus status;
         private ReportType type;
         private String description;
-        private ExtendedParamEntity params;
+        private ParamEntity params;
 
         private Builder() {
         }
@@ -105,7 +111,7 @@ public class ReportEntity extends EssenceEntity {
             return this;
         }
 
-        public Builder setParams(ExtendedParamEntity params) {
+        public Builder setParams(ParamEntity params) {
             this.params = params;
             return this;
         }

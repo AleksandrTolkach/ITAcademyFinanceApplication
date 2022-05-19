@@ -2,7 +2,7 @@ package by.tolkach.report.controller;
 
 import by.tolkach.report.dto.ReportType;
 import by.tolkach.report.dto.SimplePageable;
-import by.tolkach.report.dto.reportParam.ExtendedParam;
+import by.tolkach.report.dto.reportParam.Param;
 import by.tolkach.report.service.api.ChoiceReport;
 import by.tolkach.report.service.api.IReportService;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +29,9 @@ public class ReportController {
     @RequestMapping(value = "/{type}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> create(@PathVariable(name = "type") ReportType type,
-                                    @RequestBody ExtendedParam extendedParam) {
+                                    @RequestBody Param param) {
         this.reportService = choiceReport.getReportService(type);
-        this.reportService.create(extendedParam);
+        this.reportService.create(param);
         return ResponseEntity.ok("Отчет запущен");
     }
 }

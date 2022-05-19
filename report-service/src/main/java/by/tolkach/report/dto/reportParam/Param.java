@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ExtendedParam extends ReportParamByBalance {
+public class Param {
 
+    private UUID uuid;
+    private List<UUID> accounts = new ArrayList<>();
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime from;
@@ -23,14 +25,31 @@ public class ExtendedParam extends ReportParamByBalance {
     private LocalDateTime to;
     private List<UUID> categories = new ArrayList<>();
 
-    public ExtendedParam() {
+    public Param() {
     }
 
-    public ExtendedParam(List<UUID> accounts, LocalDateTime from, LocalDateTime to, List<UUID> categories) {
-        super(accounts);
+    public Param(UUID uuid, List<UUID> accounts, LocalDateTime from, LocalDateTime to, List<UUID> categories) {
+        this.uuid = uuid;
+        this.accounts = accounts;
         this.from = from;
         this.to = to;
         this.categories = categories;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public List<UUID> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<UUID> accounts) {
+        this.accounts = accounts;
     }
 
     public LocalDateTime getFrom() {
@@ -57,12 +76,9 @@ public class ExtendedParam extends ReportParamByBalance {
         this.categories = categories;
     }
 
-    public void addCategory(UUID categoryId) {
-        this.categories.add(categoryId);
-    }
-
     public static class Builder {
 
+        private UUID uuid;
         private List<UUID> accounts = new ArrayList<>();
         private LocalDateTime from;
         private LocalDateTime to;
@@ -73,6 +89,11 @@ public class ExtendedParam extends ReportParamByBalance {
 
         public static Builder createBuilder() {
             return new Builder();
+        }
+
+        public Builder setUuid(UUID uuid) {
+            this.uuid = uuid;
+            return this;
         }
 
         public Builder setAccounts(List<UUID> accounts) {
@@ -95,8 +116,8 @@ public class ExtendedParam extends ReportParamByBalance {
             return this;
         }
 
-        public ExtendedParam build() {
-            return new ExtendedParam(accounts, from, to, categories);
+        public Param build() {
+            return new Param(uuid, accounts, from, to, categories);
         }
     }
 }

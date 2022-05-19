@@ -1,6 +1,6 @@
 package by.tolkach.report.service.api;
 
-import by.tolkach.report.dto.reportParam.ExtendedParam;
+import by.tolkach.report.dto.reportParam.Param;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 public class ReportBook {
 
-    public void createBook(ExtendedParam param, String reportName) {
+    public void createBook(Param param, String reportName) {
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet(reportName);
         DataFormat format = workbook.createDataFormat();

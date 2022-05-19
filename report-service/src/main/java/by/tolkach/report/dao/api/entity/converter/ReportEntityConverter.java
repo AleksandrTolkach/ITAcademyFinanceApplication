@@ -1,10 +1,20 @@
 package by.tolkach.report.dao.api.entity.converter;
 
 import by.tolkach.report.dao.api.entity.ReportEntity;
-import by.tolkach.report.dao.api.entity.reportParam.ExtendedParamEntity;
+import by.tolkach.report.dao.api.entity.reportParam.ParamEntity;
 import by.tolkach.report.dto.Report;
+import by.tolkach.report.dto.reportParam.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ReportEntityConverter implements IEntityConverter<Report, ReportEntity> {
+
+    private final IEntityConverter<Param, ParamEntity> paramEntityConverter;
+
+    public ReportEntityConverter(IEntityConverter<Param, ParamEntity> paramEntityConverter) {
+        this.paramEntityConverter = paramEntityConverter;
+    }
+
     @Override
     public ReportEntity toEntity(Report report) {
         return ReportEntity.Builder.createBuilder()
@@ -14,12 +24,20 @@ public class ReportEntityConverter implements IEntityConverter<Report, ReportEnt
                 .setStatus(report.getStatus())
                 .setType(report.getType())
                 .setDescription(report.getDescription())
-                .setParams(new ExtendedParamEntity())
+                .setParams(this.paramEntityConverter.toEntity(report.getParams()))
                 .build();
     }
 
     @Override
     public Report toDto(ReportEntity entity) {
-        return null;
+        return Report.Builder.createBuilder()
+                .setUuid(entity.getUuid())
+                .setDtCreate(entity.getDtCreate())
+                .setDtUpdate(entity.getDtUpdate())
+                .setStatus(entity.getStatus())
+                .setType(entity.getType())
+                .setDescription(entity.getDescription())
+                .setParams(this.paramEntityConverter.toDto(entity.getParams()))
+                .build();
     }
 }

@@ -2,28 +2,54 @@ package by.tolkach.report.dao.api.entity.reportParam;
 
 import by.tolkach.report.dao.api.entity.AccountsEntity;
 import by.tolkach.report.dao.api.entity.CategoriesEntity;
+import by.tolkach.report.dao.api.entity.attributesConverter.AccountsAttributeConverter;
+import by.tolkach.report.dao.api.entity.attributesConverter.CategoriesAttributeConverter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
-@Table(schema = "application", name = "ExtendedParam")
-public class ExtendedParamEntity extends ReportParamByBalanceEntity {
+@Table(schema = "application", name = "parameters")
+public class ParamEntity {
 
+    @Id
+    private UUID uuid;
+    @Convert(converter = AccountsAttributeConverter.class)
+    private AccountsEntity accounts;
+    @Column(name = "\"from\"")
     private LocalDateTime from;
+    @Column(name = "\"to\"")
     private LocalDateTime to;
+    @Convert(converter = CategoriesAttributeConverter.class)
     private CategoriesEntity categories;
 
-    public ExtendedParamEntity() {
+    public ParamEntity() {
     }
 
-    public ExtendedParamEntity(AccountsEntity accounts, LocalDateTime from, LocalDateTime to,
-                               CategoriesEntity categories) {
-        super(accounts);
+    public ParamEntity(UUID uuid, AccountsEntity accounts, LocalDateTime from, LocalDateTime to,
+                       CategoriesEntity categories) {
+        this.uuid = uuid;
+        this.accounts = accounts;
         this.from = from;
         this.to = to;
         this.categories = categories;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public AccountsEntity getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(AccountsEntity accounts) {
+        this.accounts = accounts;
     }
 
     public LocalDateTime getFrom() {
@@ -52,6 +78,7 @@ public class ExtendedParamEntity extends ReportParamByBalanceEntity {
 
     public static class Builder {
 
+        private UUID uuid;
         private AccountsEntity accounts;
         private LocalDateTime from;
         private LocalDateTime to;
@@ -62,6 +89,11 @@ public class ExtendedParamEntity extends ReportParamByBalanceEntity {
 
         public static Builder createBuilder() {
             return new Builder();
+        }
+
+        public Builder setUuid(UUID uuid) {
+            this.uuid = uuid;
+            return this;
         }
 
         public Builder setAccounts(AccountsEntity accounts) {
@@ -84,8 +116,8 @@ public class ExtendedParamEntity extends ReportParamByBalanceEntity {
             return this;
         }
 
-        public ExtendedParamEntity build() {
-            return new ExtendedParamEntity(accounts, from, to, categories);
+        public ParamEntity build() {
+            return new ParamEntity(uuid, accounts, from, to, categories);
         }
     }
 }
