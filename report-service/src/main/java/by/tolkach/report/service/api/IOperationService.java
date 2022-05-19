@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface IOperationService {
-    List<Operation> readByBalance(Param extendedParam);
+    List<Operation> read(Param extendedParam);
     void save(Operation operation);
     void update(Operation operation);
     void delete(UUID operationId, UUID accountId);

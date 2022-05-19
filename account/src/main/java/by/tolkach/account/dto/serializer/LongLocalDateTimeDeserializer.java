@@ -18,6 +18,6 @@ public class LongLocalDateTimeDeserializer extends StdDeserializer<LocalDateTime
 
     @Override
     public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(p.getValueAsLong()), ZoneOffset.UTC);
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(p.getValueAsLong()), ZoneOffset.of("+03:00"));
     }
 }

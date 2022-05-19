@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface IBalanceReportStorage extends PagingAndSortingRepository<ReportEntity, UUID> {
+public interface IReportStorage extends PagingAndSortingRepository<ReportEntity, UUID> {
 }

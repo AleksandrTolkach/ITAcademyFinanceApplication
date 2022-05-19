@@ -1,13 +1,12 @@
 package by.tolkach.report.service;
 
-import by.tolkach.report.dao.api.IBalanceReportStorage;
+import by.tolkach.report.dao.api.IReportStorage;
 import by.tolkach.report.dao.api.IParamsStorage;
 import by.tolkach.report.dao.api.entity.ReportEntity;
 import by.tolkach.report.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.report.dao.api.entity.reportParam.ParamEntity;
 import by.tolkach.report.dto.*;
 import by.tolkach.report.dto.reportParam.Param;
-import by.tolkach.report.service.api.IBookService;
 import by.tolkach.report.service.api.IOperationService;
 import by.tolkach.report.service.api.IReportService;
 import org.springframework.stereotype.Service;
@@ -19,17 +18,17 @@ import java.util.UUID;
 @Service
 public class BalanceReportService implements IReportService {
 
-    private final IBalanceReportStorage balanceReportStorage;
+    private final IReportStorage balanceReportStorage;
     private final IParamsStorage paramsStorage;
     private final IEntityConverter<Param, ParamEntity> entityConverter;
     private final IOperationService operationService;
-    private final IBookService bookService;
+    private final BookByBalanceService bookService;
 
-    public BalanceReportService(IBalanceReportStorage balanceReportStorage,
+    public BalanceReportService(IReportStorage balanceReportStorage,
                                 IParamsStorage paramsStorage,
                                 IEntityConverter<Param, ParamEntity> entityConverter,
                                 IOperationService operationService,
-                                IBookService bookService) {
+                                BookByBalanceService bookService) {
         this.balanceReportStorage = balanceReportStorage;
         this.paramsStorage = paramsStorage;
         this.entityConverter = entityConverter;
@@ -39,11 +38,11 @@ public class BalanceReportService implements IReportService {
 
     @Override
     public void create(Param param) {
-        List<Operation> operations = this.operationService.readByBalance(param);
+        List<Operation> operations = this.operationService.read(param);
         this.bookService.createBook(operations);
-        ParamEntity extendedParamEntity = this.entityConverter.toEntity(param);
-        extendedParamEntity.setUuid(UUID.randomUUID());
-        extendedParamEntity = this.paramsStorage.save(extendedParamEntity);
+        ParamEntity paramEntity = this.entityConverter.toEntity(param);
+        paramEntity.setUuid(UUID.randomUUID());
+        paramEntity = this.paramsStorage.save(paramEntity);
         LocalDateTime dtCreate = LocalDateTime.now();
         ReportEntity reportEntity = ReportEntity.Builder.createBuilder()
                 .setUuid(UUID.randomUUID())
@@ -51,7 +50,7 @@ public class BalanceReportService implements IReportService {
                 .setDtUpdate(dtCreate)
                 .setDescription("Отчет")
                 .setStatus(ReportStatus.LOADED)
-                .setParams(extendedParamEntity)
+                .setParams(paramEntity)
                 .setType(ReportType.BALANCE)
                 .build();
         this.balanceReportStorage.save(reportEntity);

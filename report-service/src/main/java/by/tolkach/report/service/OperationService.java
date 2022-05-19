@@ -24,9 +24,9 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public List<Operation> readByBalance(Param extendedParam) {
+    public List<Operation> read(Param param) {
         List<Operation> operations = new ArrayList<>();
-        for (UUID account: extendedParam.getAccounts()) {
+        for (UUID account: param.getAccounts()) {
             List<OperationEntity> operationEntities = this.operationStorage.findAllByAccount(account);
             for (OperationEntity operationEntity: operationEntities) {
                 operations.add(this.operationEntityConverter.toDto(operationEntity));
