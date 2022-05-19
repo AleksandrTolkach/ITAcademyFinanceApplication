@@ -1,11 +1,11 @@
 package by.tolkach.report.dto;
 
 import by.tolkach.report.dto.serializer.LongLocalDateSerializer;
+import by.tolkach.report.dto.serializer.LongLocalDateTimeDeserializer;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,8 +15,8 @@ import java.util.UUID;
 public class Operation extends Essence {
 
     @JsonSerialize(using = LongLocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate date;
+    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
+    private LocalDateTime date;
     private String description;
     private UUID category;
     private long value;
@@ -27,7 +27,7 @@ public class Operation extends Essence {
     public Operation() {
     }
 
-    public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDate date, String description,
+    public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDateTime date, String description,
                      UUID category, long value, OperationType type, UUID currency, UUID account) {
         super(uuid, dtCreate, dtUpdate);
         this.date = date;
@@ -39,11 +39,11 @@ public class Operation extends Essence {
         this.account = account;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -100,7 +100,7 @@ public class Operation extends Essence {
         private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
-        private LocalDate date;
+        private LocalDateTime date;
         private String description;
         private UUID category;
         private long value;
@@ -115,7 +115,7 @@ public class Operation extends Essence {
             return new Builder();
         }
 
-        public Builder setDate(LocalDate date) {
+        public Builder setDate(LocalDateTime date) {
             this.date = date;
             return this;
         }

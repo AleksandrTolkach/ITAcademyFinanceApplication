@@ -22,13 +22,13 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(HttpMessageConversionException.class)
-    public ResponseEntity<NotFoundError> httpMessageReadableHandler(HttpMessageConversionException e) {
-        return new ResponseEntity<>(new NotFoundError("Переданые невереные значения в тело."), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<NotFoundError> methodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException e) {
-        return new ResponseEntity<>(new NotFoundError("Переданы неверные параметры"), HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(HttpMessageConversionException.class)
+//    public ResponseEntity<NotFoundError> httpMessageReadableHandler(HttpMessageConversionException e) {
+//        return new ResponseEntity<>(new NotFoundError("Переданые невереные значения в тело."), HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+//    public ResponseEntity<NotFoundError> methodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException e) {
+//        return new ResponseEntity<>(new NotFoundError("Переданы неверные параметры"), HttpStatus.BAD_REQUEST);
+//    }
 }

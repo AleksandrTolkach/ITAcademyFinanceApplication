@@ -9,7 +9,7 @@ import by.tolkach.account.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class OperationValidationService implements IValidationService<Operation> {
@@ -27,7 +27,7 @@ public class OperationValidationService implements IValidationService<Operation>
             throw new NotFoundError("Необходимо передать объект операции");
         }
         if (operation.getDate() == null) {
-            operation.setDate(LocalDate.now());
+            operation.setDate(LocalDateTime.now());
         }
 
         if (nullOrEmpty(operation.getDescription())) {

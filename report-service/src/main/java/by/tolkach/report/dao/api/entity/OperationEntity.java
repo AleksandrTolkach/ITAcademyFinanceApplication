@@ -11,7 +11,7 @@ import java.util.UUID;
 @Table(schema = "application", name = "operations")
 public class OperationEntity extends EssenceEntity {
 
-    private LocalDate date;
+    private LocalDateTime date;
     private String description;
     private UUID category;
     private long value;
@@ -23,7 +23,7 @@ public class OperationEntity extends EssenceEntity {
     public OperationEntity() {
     }
 
-    public OperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDate date,
+    public OperationEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDateTime date,
                            String description, UUID category, long value, OperationType type, UUID currency,
                            UUID account) {
         super(uuid, dtCreate, dtUpdate);
@@ -36,11 +36,11 @@ public class OperationEntity extends EssenceEntity {
         this.account = account;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -97,7 +97,7 @@ public class OperationEntity extends EssenceEntity {
         private UUID uuid;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
-        private LocalDate date;
+        private LocalDateTime date;
         private String description;
         private UUID category;
         private long value;
@@ -127,7 +127,7 @@ public class OperationEntity extends EssenceEntity {
             return this;
         }
 
-        public Builder setDate(LocalDate date) {
+        public Builder setDate(LocalDateTime date) {
             this.date = date;
             return this;
         }
