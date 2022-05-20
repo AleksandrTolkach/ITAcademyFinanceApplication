@@ -1,5 +1,6 @@
-package by.tolkach.report.dto;
+package by.tolkach.report.dto.operation;
 
+import by.tolkach.report.dto.Essence;
 import by.tolkach.report.dto.serializer.LongLocalDateSerializer;
 import by.tolkach.report.dto.serializer.LongLocalDateTimeDeserializer;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -7,7 +8,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

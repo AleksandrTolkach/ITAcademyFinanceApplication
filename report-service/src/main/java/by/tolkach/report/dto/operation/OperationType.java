@@ -1,4 +1,4 @@
-package by.tolkach.report.dto;
+package by.tolkach.report.dto.operation;
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 

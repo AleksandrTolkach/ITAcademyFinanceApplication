@@ -1,5 +1,6 @@
-package by.tolkach.report.dto;
+package by.tolkach.report.dto.operation;
 
+import by.tolkach.report.dto.Essence;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 

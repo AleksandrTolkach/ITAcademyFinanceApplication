@@ -1,6 +1,6 @@
 package by.tolkach.report.service.api;
 
-import by.tolkach.report.dto.Operation;
+import by.tolkach.report.dto.operation.Operation;
 import by.tolkach.report.dto.reportParam.Param;
 
 import java.util.List;

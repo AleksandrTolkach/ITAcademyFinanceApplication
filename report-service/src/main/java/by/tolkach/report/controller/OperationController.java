@@ -1,6 +1,6 @@
 package by.tolkach.report.controller;
 
-import by.tolkach.report.dto.Operation;
+import by.tolkach.report.dto.operation.Operation;
 import by.tolkach.report.service.api.IOperationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

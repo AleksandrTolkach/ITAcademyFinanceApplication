@@ -1,13 +1,14 @@
 package by.tolkach.report.service;
 
-import by.tolkach.report.dao.api.IDateReportStorage;
 import by.tolkach.report.dao.api.IParamsStorage;
 import by.tolkach.report.dao.api.IReportStorage;
 import by.tolkach.report.dao.api.entity.ReportEntity;
 import by.tolkach.report.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.report.dao.api.entity.reportParam.ParamEntity;
 import by.tolkach.report.dto.*;
+import by.tolkach.report.dto.operation.Operation;
 import by.tolkach.report.dto.reportParam.Param;
+import by.tolkach.report.service.api.IBookService;
 import by.tolkach.report.service.api.IOperationService;
 import by.tolkach.report.service.api.IReportService;
 import by.tolkach.report.service.api.OperationComparator;
@@ -22,20 +23,20 @@ import java.util.UUID;
 public class DateReportService implements IReportService {
 
     private final IOperationService operationService;
-    private final BookByDateService bookByDateService;
+    private final IBookService bookService;
     private final IReportStorage reportStorage;
     private final IParamsStorage paramsStorage;
     private final IEntityConverter<Report, ReportEntity> reportEntityConverter;
     private final IEntityConverter<Param, ParamEntity> paramEntityConverter;
 
     public DateReportService(IOperationService operationService,
-                             BookByDateService bookByDateService,
+                             IBookService bookService,
                              IReportStorage reportStorage,
                              IParamsStorage paramsStorage,
                              IEntityConverter<Report, ReportEntity> reportEntityConverter,
                              IEntityConverter<Param, ParamEntity> paramEntityConverter) {
         this.operationService = operationService;
-        this.bookByDateService = bookByDateService;
+        this.bookService = bookService;
         this.reportStorage = reportStorage;
         this.paramsStorage = paramsStorage;
         this.reportEntityConverter = reportEntityConverter;
@@ -52,7 +53,7 @@ public class DateReportService implements IReportService {
             }
         }
         filteredOperations.sort(new OperationComparator());
-        this.bookByDateService.createBook(filteredOperations);
+        this.bookService.createBook(filteredOperations, ReportType.BY_DATE);
         ParamEntity paramEntity = this.paramEntityConverter.toEntity(param);
         paramEntity.setUuid(UUID.randomUUID());
         paramEntity = this.paramsStorage.save(paramEntity);

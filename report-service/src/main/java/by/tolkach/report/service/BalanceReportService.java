@@ -6,7 +6,9 @@ import by.tolkach.report.dao.api.entity.ReportEntity;
 import by.tolkach.report.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.report.dao.api.entity.reportParam.ParamEntity;
 import by.tolkach.report.dto.*;
+import by.tolkach.report.dto.operation.Operation;
 import by.tolkach.report.dto.reportParam.Param;
+import by.tolkach.report.service.api.IBookService;
 import by.tolkach.report.service.api.IOperationService;
 import by.tolkach.report.service.api.IReportService;
 import org.springframework.stereotype.Service;
@@ -22,13 +24,13 @@ public class BalanceReportService implements IReportService {
     private final IParamsStorage paramsStorage;
     private final IEntityConverter<Param, ParamEntity> entityConverter;
     private final IOperationService operationService;
-    private final BookByBalanceService bookService;
+    private final IBookService bookService;
 
     public BalanceReportService(IReportStorage balanceReportStorage,
                                 IParamsStorage paramsStorage,
                                 IEntityConverter<Param, ParamEntity> entityConverter,
                                 IOperationService operationService,
-                                BookByBalanceService bookService) {
+                                IBookService bookService) {
         this.balanceReportStorage = balanceReportStorage;
         this.paramsStorage = paramsStorage;
         this.entityConverter = entityConverter;
@@ -39,7 +41,7 @@ public class BalanceReportService implements IReportService {
     @Override
     public void create(Param param) {
         List<Operation> operations = this.operationService.read(param);
-        this.bookService.createBook(operations);
+        this.bookService.createBook(operations, ReportType.BALANCE);
         ParamEntity paramEntity = this.entityConverter.toEntity(param);
         paramEntity.setUuid(UUID.randomUUID());
         paramEntity = this.paramsStorage.save(paramEntity);

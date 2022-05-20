@@ -1,7 +1,7 @@
 package by.tolkach.report.dao.api.entity.converter;
 
 import by.tolkach.report.dao.api.entity.OperationEntity;
-import by.tolkach.report.dto.Operation;
+import by.tolkach.report.dto.operation.Operation;
 import org.springframework.stereotype.Component;
 
 @Component

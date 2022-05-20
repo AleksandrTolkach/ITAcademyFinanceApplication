@@ -1,9 +1,8 @@
 package by.tolkach.report.dao.api.entity;
 
-import by.tolkach.report.dto.OperationType;
+import by.tolkach.report.dto.operation.OperationType;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
