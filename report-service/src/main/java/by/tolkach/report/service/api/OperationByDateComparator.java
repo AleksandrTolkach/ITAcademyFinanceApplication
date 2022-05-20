@@ -4,7 +4,7 @@ import by.tolkach.report.dto.operation.Operation;
 
 import java.util.Comparator;
 
-public class OperationComparator implements Comparator<Operation> {
+public class OperationByDateComparator implements Comparator<Operation> {
     @Override
     public int compare(Operation o1, Operation o2) {
         switch (o1.getDate().compareTo(o2.getDate())) {

@@ -1,7 +1,6 @@
 package by.tolkach.report.dao.api.entity.reportParam;
 
 import by.tolkach.report.dao.api.entity.AccountsEntity;
-import by.tolkach.report.dao.api.entity.CategoriesEntity;
 import by.tolkach.report.dao.api.entity.attributesConverter.AccountsAttributeConverter;
 import by.tolkach.report.dao.api.entity.attributesConverter.CategoriesAttributeConverter;
 

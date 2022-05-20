@@ -1,7 +1,7 @@
 package by.tolkach.report.dao.api.entity.attributesConverter;
 
 
-import by.tolkach.report.dao.api.entity.CategoriesEntity;
+import by.tolkach.report.dao.api.entity.reportParam.CategoriesEntity;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

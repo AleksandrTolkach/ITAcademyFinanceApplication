@@ -11,7 +11,7 @@ import by.tolkach.report.dto.reportParam.Param;
 import by.tolkach.report.service.api.IBookService;
 import by.tolkach.report.service.api.IOperationService;
 import by.tolkach.report.service.api.IReportService;
-import by.tolkach.report.service.api.OperationComparator;
+import by.tolkach.report.service.api.OperationByDateComparator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -52,7 +52,7 @@ public class DateReportService implements IReportService {
                 filteredOperations.add(operation);
             }
         }
-        filteredOperations.sort(new OperationComparator());
+        filteredOperations.sort(new OperationByDateComparator());
         this.bookService.createBook(filteredOperations, ReportType.BY_DATE);
         ParamEntity paramEntity = this.paramEntityConverter.toEntity(param);
         paramEntity.setUuid(UUID.randomUUID());

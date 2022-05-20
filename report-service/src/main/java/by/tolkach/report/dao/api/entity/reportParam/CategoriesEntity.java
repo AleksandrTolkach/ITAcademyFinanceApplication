@@ -1,4 +1,4 @@
-package by.tolkach.report.dao.api.entity;
+package by.tolkach.report.dao.api.entity.reportParam;
 
 import java.io.Serializable;
 import java.util.List;
