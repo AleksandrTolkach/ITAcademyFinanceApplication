@@ -1,7 +1,7 @@
 package by.tolkach.report.service.api;
 
 import by.tolkach.report.dto.operation.Operation;
-import by.tolkach.report.dto.reportParam.Param;
+import by.tolkach.report.dto.report.param.Param;
 
 import java.util.List;
 import java.util.UUID;

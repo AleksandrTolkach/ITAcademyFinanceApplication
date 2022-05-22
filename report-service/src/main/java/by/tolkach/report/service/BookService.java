@@ -1,21 +1,21 @@
 package by.tolkach.report.service;
 
 import by.tolkach.report.dto.operation.Operation;
-import by.tolkach.report.dto.ReportType;
+import by.tolkach.report.dto.report.ReportType;
 import by.tolkach.report.service.api.IBookService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Service;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class BookService implements IBookService {
 
-    public void createBook(List<Operation> operations, ReportType reportType) {
+    @Override
+    public ByteArrayOutputStream createBook(List<Operation> operations, ReportType reportType) {
 
         int[] cells = new int[]{0, 1, 5};
 
@@ -36,13 +36,14 @@ public class BookService implements IBookService {
             createBody(sheet, format, cellStyle, operations.indexOf(operation) + 1, operation, cells);
         }
 
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
-            workbook.write(new FileOutputStream("/home/hoho/dev/report_"+ reportType.name().toLowerCase()
-                    + "_" + LocalDateTime.now() + ".xlsx"));
+            workbook.write(bos);
             workbook.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return bos;
     }
 
     public static void createHeader(Sheet sheet, int[] cells) {

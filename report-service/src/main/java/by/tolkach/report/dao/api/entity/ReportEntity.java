@@ -1,8 +1,8 @@
 package by.tolkach.report.dao.api.entity;
 
-import by.tolkach.report.dao.api.entity.reportParam.ParamEntity;
-import by.tolkach.report.dto.ReportStatus;
-import by.tolkach.report.dto.ReportType;
+import by.tolkach.report.dao.api.entity.param.ParamEntity;
+import by.tolkach.report.dto.report.ReportStatus;
+import by.tolkach.report.dto.report.ReportType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

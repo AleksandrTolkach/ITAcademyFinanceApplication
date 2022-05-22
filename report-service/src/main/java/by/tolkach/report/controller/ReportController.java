@@ -1,37 +1,45 @@
 package by.tolkach.report.controller;
 
-import by.tolkach.report.dto.ReportType;
-import by.tolkach.report.dto.SimplePageable;
-import by.tolkach.report.dto.reportParam.Param;
-import by.tolkach.report.service.api.ChoiceReport;
-import by.tolkach.report.service.api.IReportService;
+import by.tolkach.report.dto.report.ReportType;
+import by.tolkach.report.dto.report.param.Param;
+import by.tolkach.report.service.report.api.IReportService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/report")
 public class ReportController {
 
-    private IReportService reportService;
-    private final ChoiceReport choiceReport;
+    private final IReportService reportService;
 
-    public ReportController(ChoiceReport choiceReport) {
-        this.choiceReport = choiceReport;
+    public ReportController(IReportService reportService) {
+        this.reportService = reportService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> index(@RequestParam(name = "page") Integer page,
                                    @RequestParam(name = "size") Integer size) {
-        return ResponseEntity.ok(this.reportService.read(new SimplePageable(page, size)));
+        return ResponseEntity.ok().build();
+    }
+    @RequestMapping(value = "/{uuid}/export", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> export(@PathVariable(name = "uuid") UUID reportId) {
+        MediaType mediaType = MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=aaa.xlsx")
+                .contentType(mediaType)
+                .body(this.reportService.read(reportId).toByteArray());
     }
 
     @RequestMapping(value = "/{type}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> create(@PathVariable(name = "type") ReportType type,
                                     @RequestBody Param param) {
-        this.reportService = choiceReport.getReportService(type);
-        this.reportService.create(param);
+        this.reportService.create(param, type);
         return ResponseEntity.ok("Отчет запущен");
     }
 }

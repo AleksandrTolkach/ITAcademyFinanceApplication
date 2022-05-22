@@ -1,9 +1,9 @@
 package by.tolkach.report.dao.api.entity.converter;
 
 import by.tolkach.report.dao.api.entity.ReportEntity;
-import by.tolkach.report.dao.api.entity.reportParam.ParamEntity;
-import by.tolkach.report.dto.Report;
-import by.tolkach.report.dto.reportParam.Param;
+import by.tolkach.report.dao.api.entity.param.ParamEntity;
+import by.tolkach.report.dto.report.Report;
+import by.tolkach.report.dto.report.param.Param;
 import org.springframework.stereotype.Component;
 
 @Component
