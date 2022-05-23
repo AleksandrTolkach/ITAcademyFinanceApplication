@@ -2,7 +2,7 @@ package by.tolkach.classifier.controller.web.rest;
 
 import by.tolkach.classifier.controller.web.PageChecker;
 import by.tolkach.classifier.dto.OperationCategory;
-import by.tolkach.classifier.service.api.IOperationCategoryService;
+import by.tolkach.classifier.service.classifier.api.IOperationCategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

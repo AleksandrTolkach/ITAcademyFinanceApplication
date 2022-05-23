@@ -1,7 +1,9 @@
 package by.tolkach.report.service.report.handler;
 
 import by.tolkach.report.dto.operation.Operation;
+import by.tolkach.report.dto.operation.OperationCategory;
 import by.tolkach.report.dto.report.param.Param;
+import by.tolkach.report.service.api.IOperationCategoryService;
 import by.tolkach.report.service.api.IOperationService;
 import by.tolkach.report.service.report.handler.api.IReportHandler;
 import by.tolkach.report.service.report.api.OperationByCategoryComparator;
@@ -18,9 +20,11 @@ import java.util.UUID;
 public class ByCategoryReportHandler implements IReportHandler {
 
     private final IOperationService operationService;
+    private final IOperationCategoryService operationCategoryService;
 
-    public ByCategoryReportHandler(IOperationService operationService) {
+    public ByCategoryReportHandler(IOperationService operationService, IOperationCategoryService operationCategoryService) {
         this.operationService = operationService;
+        this.operationCategoryService = operationCategoryService;
     }
 
     @Override
@@ -29,7 +33,8 @@ public class ByCategoryReportHandler implements IReportHandler {
         List<Operation> filteredOperations = new ArrayList<>();
         for (Operation operation: operations) {
             for (UUID category: param.getCategories()) {
-                if (operation.getCategory().compareTo(category) == 0) {
+                OperationCategory operationCategoryFromDb = this.operationCategoryService.read(category);
+                if (operation.getCategory().compareTo(operationCategoryFromDb.getTitle()) == 0) {
                     filteredOperations.add(operation);
                 }
             }

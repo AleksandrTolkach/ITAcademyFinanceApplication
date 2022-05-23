@@ -14,10 +14,8 @@ public class OperationRestConverter implements IRestObjectConverter<Operation, O
                 .setDtUpdate(operation.getDtUpdate())
                 .setDate(operation.getDate())
                 .setDescription(operation.getDescription())
-                .setCategory(operation.getCategory())
                 .setValue(operation.getValue())
                 .setType(operation.getType())
-                .setCurrency(operation.getCurrency())
                 .build();
     }
 
@@ -29,10 +27,8 @@ public class OperationRestConverter implements IRestObjectConverter<Operation, O
                 .setDtUpdate(restObject.getDtUpdate())
                 .setDate(restObject.getDate())
                 .setDescription(restObject.getDescription())
-                .setCategory(restObject.getCategory())
                 .setValue(restObject.getValue())
                 .setType(restObject.getType())
-                .setCurrency(restObject.getCurrency())
                 .build();
     }
 }

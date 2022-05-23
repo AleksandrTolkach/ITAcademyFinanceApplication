@@ -18,17 +18,17 @@ public class Operation extends Essence {
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime date;
     private String description;
-    private UUID category;
+    private String category;
     private long value;
     private OperationType type;
-    private UUID currency;
+    private String currency;
     private UUID account;
 
     public Operation() {
     }
 
     public Operation(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDateTime date, String description,
-                     UUID category, long value, OperationType type, UUID currency, UUID account) {
+                     String category, long value, OperationType type, String currency, UUID account) {
         super(uuid, dtCreate, dtUpdate);
         this.date = date;
         this.description = description;
@@ -55,11 +55,11 @@ public class Operation extends Essence {
         this.description = description;
     }
 
-    public UUID getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(UUID category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -79,11 +79,11 @@ public class Operation extends Essence {
         this.type = type;
     }
 
-    public UUID getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(UUID currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 
@@ -102,10 +102,10 @@ public class Operation extends Essence {
         private LocalDateTime dtUpdate;
         private LocalDateTime date;
         private String description;
-        private UUID category;
+        private String category;
         private long value;
         private OperationType type;
-        private UUID currency;
+        private String currency;
         private UUID account;
 
         private Builder() {
@@ -140,7 +140,7 @@ public class Operation extends Essence {
             return this;
         }
 
-        public Builder setCategory(UUID category) {
+        public Builder setCategory(String category) {
             this.category = category;
             return this;
         }
@@ -155,7 +155,7 @@ public class Operation extends Essence {
             return this;
         }
 
-        public Builder setCurrency(UUID currency) {
+        public Builder setCurrency(String currency) {
             this.currency = currency;
             return this;
         }

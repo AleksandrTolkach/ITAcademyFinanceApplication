@@ -18,7 +18,8 @@ public class OperationService implements IOperationService {
     private final IOperationStorage operationStorage;
     private final IEntityConverter<Operation, OperationEntity> operationEntityConverter;
 
-    public OperationService(IOperationStorage operationStorage, IEntityConverter<Operation, OperationEntity> operationEntityConverter) {
+    public OperationService(IOperationStorage operationStorage,
+                            IEntityConverter<Operation, OperationEntity> operationEntityConverter) {
         this.operationStorage = operationStorage;
         this.operationEntityConverter = operationEntityConverter;
     }
@@ -53,12 +54,12 @@ public class OperationService implements IOperationService {
         this.operationStorage.delete(operationEntity);
     }
 
-    public OperationEntity updateOperationParameters(Operation operation, OperationEntity operationEntity) {
+    private OperationEntity updateOperationParameters(Operation operation, OperationEntity operationEntity) {
         operationEntity.setDtUpdate(operation.getDtUpdate());
         operationEntity.setDate(operation.getDate());
-        operationEntity.setCategory(operation.getCategory());
-        operationEntity.setCurrency(operation.getCurrency());
         operationEntity.setDescription(operation.getDescription());
+        operationEntity.setCurrency(operation.getCurrency());
+        operationEntity.setCategory(operation.getCategory());
         operationEntity.setType(operation.getType());
         operationEntity.setValue(operation.getValue());
         operationEntity.setAccount(operation.getAccount());

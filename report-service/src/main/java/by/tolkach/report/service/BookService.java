@@ -46,7 +46,7 @@ public class BookService implements IBookService {
         return bos;
     }
 
-    public static void createHeader(Sheet sheet, int[] cells) {
+    private static void createHeader(Sheet sheet, int[] cells) {
         Row row = sheet.createRow(0);
 
         Cell accountId = row.createCell(cells[0]);
@@ -68,7 +68,7 @@ public class BookService implements IBookService {
         category.setCellValue("category");
     }
 
-    public static void createBody(Sheet sheet, DataFormat format, CellStyle cellStyle, int rowNum, Operation operation,
+    private static void createBody(Sheet sheet, DataFormat format, CellStyle cellStyle, int rowNum, Operation operation,
                                   int[] cells) {
         cellStyle.setDataFormat(format.getFormat("yyyy-mm-dd"));
         Row row = sheet.createRow(rowNum);

@@ -15,18 +15,18 @@ public class OperationRestObject extends EssenceRestObject {
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime date;
     private String description;
-    private UUID category;
+    private String category;
     private long value;
     private OperationType type;
-    private UUID currency;
+    private String currency;
     private UUID account;
 
     public OperationRestObject() {
     }
 
     public OperationRestObject(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDateTime date,
-                               String description, UUID category, long value, OperationType type,
-                               UUID currency, UUID account) {
+                               String description, String category, long value, OperationType type,
+                               String currency, UUID account) {
         super(uuid, dtCreate, dtUpdate);
         this.date = date;
         this.description = description;
@@ -53,11 +53,11 @@ public class OperationRestObject extends EssenceRestObject {
         this.description = description;
     }
 
-    public UUID getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(UUID category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -77,11 +77,11 @@ public class OperationRestObject extends EssenceRestObject {
         this.type = type;
     }
 
-    public UUID getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(UUID currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 
@@ -100,10 +100,10 @@ public class OperationRestObject extends EssenceRestObject {
         private LocalDateTime dtUpdate;
         private LocalDateTime date;
         private String description;
-        private UUID category;
+        private String category;
         private long value;
         private OperationType type;
-        private UUID currency;
+        private String currency;
         private UUID account;
 
         private Builder() {
@@ -138,7 +138,7 @@ public class OperationRestObject extends EssenceRestObject {
             return this;
         }
 
-        public Builder setCategory(UUID category) {
+        public Builder setCategory(String category) {
             this.category = category;
             return this;
         }
@@ -153,7 +153,7 @@ public class OperationRestObject extends EssenceRestObject {
             return this;
         }
 
-        public Builder setCurrency(UUID currency) {
+        public Builder setCurrency(String currency) {
             this.currency = currency;
             return this;
         }

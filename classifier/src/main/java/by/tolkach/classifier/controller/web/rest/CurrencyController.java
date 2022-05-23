@@ -2,7 +2,7 @@ package by.tolkach.classifier.controller.web.rest;
 
 import by.tolkach.classifier.controller.web.PageChecker;
 import by.tolkach.classifier.dto.Currency;
-import by.tolkach.classifier.service.api.ICurrencyService;
+import by.tolkach.classifier.service.classifier.api.ICurrencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

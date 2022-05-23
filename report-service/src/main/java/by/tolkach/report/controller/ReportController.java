@@ -30,7 +30,8 @@ public class ReportController {
     @ResponseBody
     public ResponseEntity<?> export(@PathVariable(name = "uuid") UUID reportId) {
         MediaType mediaType = MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=aaa.xlsx")
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="
+                        + reportId + ".xlsx")
                 .contentType(mediaType)
                 .body(this.reportService.read(reportId).toByteArray());
     }

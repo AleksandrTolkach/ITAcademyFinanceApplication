@@ -5,6 +5,7 @@ import by.tolkach.account.dto.SimplePageable;
 import by.tolkach.account.service.account.api.IAccountService;
 import by.tolkach.account.service.account.api.IBalanceService;
 import by.tolkach.account.service.api.IValidationService;
+import by.tolkach.account.service.rest.api.IReportRestClientService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,16 @@ public class AccountDecoratorService implements IAccountService {
     private final AccountService accountService;
     private final IValidationService<Account> accountValidationService;
     private final IBalanceService balanceService;
+    private final IReportRestClientService reportRestClientService;
 
     public AccountDecoratorService(AccountService accountService,
                                    IValidationService<Account> accountValidationService,
-                                   IBalanceService balanceService) {
+                                   IBalanceService balanceService,
+                                   IReportRestClientService reportRestClientService) {
         this.accountService = accountService;
         this.accountValidationService = accountValidationService;
         this.balanceService = balanceService;
+        this.reportRestClientService = reportRestClientService;
     }
 
     @Override
@@ -36,6 +40,7 @@ public class AccountDecoratorService implements IAccountService {
         account.setDtUpdate(account.getDtCreate());
         Account createdAccount = this.accountService.create(account);
         this.balanceService.create(createdAccount);
+        this.reportRestClientService.sendAccount(createdAccount);
         return createdAccount;
     }
 
@@ -59,6 +64,8 @@ public class AccountDecoratorService implements IAccountService {
     @Override
     public Account update(UUID id, LocalDateTime dtUpdate, Account account) {
         this.accountValidationService.validate(account);
-        return this.accountService.update(id, dtUpdate, account);
+        Account updatedAccount = this.accountService.update(id, dtUpdate, account);
+        this.reportRestClientService.updateAccount(updatedAccount);
+        return updatedAccount;
     }
 }

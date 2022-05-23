@@ -1,7 +1,7 @@
 package by.tolkach.classifier.controller.advice;
 
-import by.tolkach.classifier.service.api.exception.MultipleErrorsException;
-import by.tolkach.classifier.service.api.exception.NotFoundError;
+import by.tolkach.classifier.service.classifier.api.exception.MultipleErrorsException;
+import by.tolkach.classifier.service.classifier.api.exception.NotFoundError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
