@@ -1,7 +1,7 @@
 package by.tolkach.report.dao.api;
 
-import by.tolkach.report.dao.api.entity.ReportEntity;
-import by.tolkach.report.dao.api.entity.ReportFileEntity;
+import by.tolkach.report.dao.api.entity.report.ReportEntity;
+import by.tolkach.report.dao.api.entity.report.ReportFileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

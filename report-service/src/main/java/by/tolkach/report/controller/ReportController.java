@@ -1,9 +1,11 @@
 package by.tolkach.report.controller;
 
+import by.tolkach.report.dto.SimplePageable;
 import by.tolkach.report.dto.report.ReportType;
-import by.tolkach.report.dto.report.param.Param;
-import by.tolkach.report.service.report.api.IReportService;
+import by.tolkach.report.dto.report.Param;
+import by.tolkach.report.service.api.IReportService;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,9 @@ public class ReportController {
     @ResponseBody
     public ResponseEntity<?> index(@RequestParam(name = "page") Integer page,
                                    @RequestParam(name = "size") Integer size) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(this.reportService.read(new SimplePageable(page, size)));
     }
+
     @RequestMapping(value = "/{uuid}/export", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> export(@PathVariable(name = "uuid") UUID reportId) {
@@ -34,6 +37,12 @@ public class ReportController {
                         + reportId + ".xlsx")
                 .contentType(mediaType)
                 .body(this.reportService.read(reportId).toByteArray());
+    }
+
+    @RequestMapping(value = "/{uuid}/export", method = RequestMethod.HEAD)
+    public ResponseEntity<?> head(@PathVariable(name = "uuid") UUID reportId) {
+        this.reportService.read(reportId);
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/{type}", method = RequestMethod.POST)

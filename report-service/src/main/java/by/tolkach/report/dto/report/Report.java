@@ -1,7 +1,6 @@
 package by.tolkach.report.dto.report;
 
 import by.tolkach.report.dto.Essence;
-import by.tolkach.report.dto.report.param.Param;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

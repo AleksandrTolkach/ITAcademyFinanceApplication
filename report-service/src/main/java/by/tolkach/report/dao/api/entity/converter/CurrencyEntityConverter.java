@@ -1,6 +1,6 @@
 package by.tolkach.report.dao.api.entity.converter;
 
-import by.tolkach.report.dao.api.entity.CurrencyEntity;
+import by.tolkach.report.dao.api.entity.operation.CurrencyEntity;
 import by.tolkach.report.dto.operation.Currency;
 import org.springframework.stereotype.Component;
 

@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class LongLocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
 
@@ -16,6 +17,7 @@ public class LongLocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
 
     @Override
     public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        gen.writeNumber(value.toEpochSecond(ZoneOffset.UTC));
+        ZonedDateTime zonedDateTime = value.atZone(ZoneId.systemDefault());
+        gen.writeNumber(zonedDateTime.toInstant().toEpochMilli());
     }
 }
