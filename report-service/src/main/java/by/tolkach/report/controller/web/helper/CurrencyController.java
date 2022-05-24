@@ -1,4 +1,4 @@
-package by.tolkach.report.controller.helper;
+package by.tolkach.report.controller.web.helper;
 
 import by.tolkach.report.dto.operation.Currency;
 import by.tolkach.report.service.helper.api.ICurrencyService;

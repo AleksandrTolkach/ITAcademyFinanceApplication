@@ -109,7 +109,7 @@ public class Page<T> {
         this.setTotalPages(totalElements / size);
         this.setFirst(number == 0);
         this.setNumberOfElements(numberOfElements);
-        this.setLast(number == totalPages);
+        this.setLast(number >= totalPages);
         return this;
     }
 

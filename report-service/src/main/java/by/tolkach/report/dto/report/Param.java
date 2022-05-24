@@ -16,7 +16,7 @@ import java.util.UUID;
 public class Param {
 
     private UUID uuid;
-    private List<UUID> accounts = new ArrayList<>();
+    private List<UUID> accounts;
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime from;
@@ -79,7 +79,7 @@ public class Param {
     public static class Builder {
 
         private UUID uuid;
-        private List<UUID> accounts = new ArrayList<>();
+        private List<UUID> accounts;
         private LocalDateTime from;
         private LocalDateTime to;
         private List<UUID> categories;

@@ -1,7 +1,7 @@
-package by.tolkach.account.controller.advice;
+package by.tolkach.report.controller.advice;
 
-import by.tolkach.account.service.api.exception.MultipleErrorsException;
-import by.tolkach.account.service.api.exception.NotFoundError;
+import by.tolkach.report.service.api.exception.MultipleErrorsException;
+import by.tolkach.report.service.api.exception.NotFoundError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -24,7 +24,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(HttpMessageConversionException.class)
     public ResponseEntity<NotFoundError> httpMessageReadableHandler(HttpMessageConversionException e) {
-        return new ResponseEntity<>(new NotFoundError("Переданые невереные значения в тело."), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new NotFoundError("Переданы невереные значения в тело."), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
