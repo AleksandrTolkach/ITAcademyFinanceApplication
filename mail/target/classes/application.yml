@@ -14,7 +14,7 @@ spring:
     host: smtp.mail.ru
     port: 465
     username: a.tolkach777@mail.ru
-    password: bzL4vAzrTqyrRkg9g12p
+    password: ${smtppasswort}
     protocol: smtp
     properties:
       "mail.from": a.tolkach777@mail.ru

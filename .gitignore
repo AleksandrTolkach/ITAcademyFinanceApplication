@@ -1,3 +1,4 @@
 target/
 *.class
 .idea/
+mail/src/main/resources/application.properties
