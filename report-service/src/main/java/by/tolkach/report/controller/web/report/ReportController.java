@@ -1,4 +1,4 @@
-package by.tolkach.report.controller.web.rest;
+package by.tolkach.report.controller.web.report;
 
 import by.tolkach.report.controller.web.PageChecker;
 import by.tolkach.report.dto.report.ReportType;
@@ -51,5 +51,12 @@ public class ReportController {
                                     @RequestBody(required = false) Param param) {
         this.reportService.create(param, type);
         return ResponseEntity.ok("Отчет запущен");
+    }
+
+    @RequestMapping(value = {"/{type}/mail"}, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> createMail(@PathVariable(name = "type", required = false) ReportType type,
+                                    @RequestBody(required = false) Param param) {
+        return ResponseEntity.ok(this.reportService.create(param, type).toByteArray());
     }
 }

@@ -1,11 +1,11 @@
-package by.tolkach.classifier;
+package by.tolkach.mail;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ClassifierApplication {
+public class MailApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ClassifierApplication.class, args);
+        SpringApplication.run(MailApplication.class, args);
     }
 }

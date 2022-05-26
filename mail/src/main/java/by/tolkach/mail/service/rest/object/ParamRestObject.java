@@ -1,7 +1,7 @@
-package by.tolkach.report.dto.report;
+package by.tolkach.mail.service.rest.object;
 
-import by.tolkach.report.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.report.dto.serializer.LongLocalDateTimeSerializer;
+import by.tolkach.mail.dto.serializer.LongLocalDateTimeDeserializer;
+import by.tolkach.mail.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Param {
+public class ParamRestObject {
 
     private UUID uuid;
     private List<UUID> accounts;
@@ -24,10 +24,10 @@ public class Param {
     private LocalDateTime to;
     private List<UUID> categories;
 
-    public Param() {
+    public ParamRestObject() {
     }
 
-    public Param(UUID uuid, List<UUID> accounts, LocalDateTime from, LocalDateTime to, List<UUID> categories) {
+    public ParamRestObject(UUID uuid, List<UUID> accounts, LocalDateTime from, LocalDateTime to, List<UUID> categories) {
         this.uuid = uuid;
         this.accounts = accounts;
         this.from = from;
@@ -115,8 +115,8 @@ public class Param {
             return this;
         }
 
-        public Param build() {
-            return new Param(uuid, accounts, from, to, categories);
+        public ParamRestObject build() {
+            return new ParamRestObject(uuid, accounts, from, to, categories);
         }
     }
 }

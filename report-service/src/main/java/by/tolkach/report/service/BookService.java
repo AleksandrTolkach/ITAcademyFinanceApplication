@@ -84,12 +84,12 @@ public class BookService implements IBookService {
         value.setCellValue(operation.getValue());
 
         Cell currency = row.createCell(3);
-        currency.setCellValue(operation.getCurrency().toString());
+        currency.setCellValue(operation.getCurrency());
 
         Cell description = row.createCell(4);
         description.setCellValue(operation.getDescription());
 
         Cell category = row.createCell(cells[2]);
-        category.setCellValue(operation.getCategory().toString());
+        category.setCellValue(operation.getCategory());
     }
 }

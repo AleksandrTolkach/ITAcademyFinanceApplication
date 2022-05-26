@@ -1,7 +1,7 @@
-package by.tolkach.report.dto.report;
+package by.tolkach.mail.dto;
 
-import by.tolkach.report.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.report.dto.serializer.LongLocalDateTimeSerializer;
+import by.tolkach.mail.dto.serializer.LongLocalDateTimeDeserializer;
+import by.tolkach.mail.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
