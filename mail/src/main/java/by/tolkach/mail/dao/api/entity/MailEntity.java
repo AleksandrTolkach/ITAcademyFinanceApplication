@@ -12,15 +12,17 @@ public class MailEntity extends EssenceEntity {
     private String address;
     private String subject;
     private String text;
+    private LocalDateTime date;
 
     public MailEntity() {
     }
 
-    public MailEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String address, String subject, String text) {
-        super(uuid, dtCreate, dtUpdate);
+    public MailEntity(UUID uuid, String address, String subject, String text, LocalDateTime date) {
+        super(uuid);
         this.address = address;
         this.subject = subject;
         this.text = text;
+        this.date = date;
     }
 
     public String getAddress() {
@@ -47,14 +49,21 @@ public class MailEntity extends EssenceEntity {
         this.text = text;
     }
 
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
     public static class Builder {
 
         private UUID uuid;
-        private LocalDateTime dtCreate;
-        private LocalDateTime dtUpdate;
         private String address;
         private String subject;
         private String text;
+        private LocalDateTime date;
 
         private Builder() {
         }
@@ -65,16 +74,6 @@ public class MailEntity extends EssenceEntity {
 
         public Builder setUuid(UUID uuid) {
             this.uuid = uuid;
-            return this;
-        }
-
-        public Builder setDtCreate(LocalDateTime dtCreate) {
-            this.dtCreate = dtCreate;
-            return this;
-        }
-
-        public Builder setDtUpdate(LocalDateTime dtUpdate) {
-            this.dtUpdate = dtUpdate;
             return this;
         }
 
@@ -93,8 +92,13 @@ public class MailEntity extends EssenceEntity {
             return this;
         }
 
+        public Builder setDate(LocalDateTime date) {
+            this.date = date;
+            return this;
+        }
+
         public MailEntity build() {
-            return new MailEntity(uuid, dtCreate, dtUpdate, address, subject, text);
+            return new MailEntity(uuid, address, subject, text, date);
         }
     }
 }

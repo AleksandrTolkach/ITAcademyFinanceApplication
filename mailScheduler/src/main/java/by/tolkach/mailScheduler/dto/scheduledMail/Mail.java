@@ -1,12 +1,7 @@
-package by.tolkach.mail.dto;
+package by.tolkach.mailScheduler.dto.scheduledMail;
 
-import by.tolkach.mail.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.mail.dto.serializer.LongLocalDateTimeSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,19 +12,15 @@ public class Mail extends Essence {
     private String address;
     private String subject;
     private String text;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
-    private LocalDateTime date;
 
     public Mail() {
     }
 
-    public Mail(UUID uuid, String address, String subject, String text, LocalDateTime date) {
-        super(uuid);
+    public Mail(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, String address, String subject, String text) {
+        super(uuid, dtCreate, dtUpdate);
         this.address = address;
         this.subject = subject;
         this.text = text;
-        this.date = date;
     }
 
     public String getAddress() {
@@ -56,21 +47,14 @@ public class Mail extends Essence {
         this.text = text;
     }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
     public static class Builder {
 
         private UUID uuid;
+        private LocalDateTime dtCreate;
+        private LocalDateTime dtUpdate;
         private String address;
         private String subject;
         private String text;
-        private LocalDateTime date;
 
         private Builder() {
         }
@@ -81,6 +65,16 @@ public class Mail extends Essence {
 
         public Builder setUuid(UUID uuid) {
             this.uuid = uuid;
+            return this;
+        }
+
+        public Builder setDtCreate(LocalDateTime dtCreate) {
+            this.dtCreate = dtCreate;
+            return this;
+        }
+
+        public Builder setDtUpdate(LocalDateTime dtUpdate) {
+            this.dtUpdate = dtUpdate;
             return this;
         }
 
@@ -99,13 +93,8 @@ public class Mail extends Essence {
             return this;
         }
 
-        public Builder setDate(LocalDateTime date) {
-            this.date = date;
-            return this;
-        }
-
         public Mail build() {
-            return new Mail(uuid, address, subject, text, date);
+            return new Mail(uuid, dtCreate, dtUpdate, address, subject, text);
         }
     }
 }

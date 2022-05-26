@@ -10,11 +10,10 @@ public class MailEntityConverter implements IEntityConverter<Mail, MailEntity> {
     public MailEntity toEntity(Mail mail) {
         return MailEntity.Builder.createBuilder()
                 .setUuid(mail.getUuid())
-                .setDtCreate(mail.getDtCreate())
-                .setDtUpdate(mail.getDtUpdate())
                 .setAddress(mail.getAddress())
                 .setSubject(mail.getSubject())
                 .setText(mail.getText())
+                .setDate(mail.getDate())
                 .build();
     }
 
@@ -22,11 +21,10 @@ public class MailEntityConverter implements IEntityConverter<Mail, MailEntity> {
     public Mail toDto(MailEntity entity) {
         return Mail.Builder.createBuilder()
                 .setUuid(entity.getUuid())
-                .setDtCreate(entity.getDtCreate())
-                .setDtUpdate(entity.getDtUpdate())
                 .setAddress(entity.getAddress())
                 .setSubject(entity.getSubject())
                 .setText(entity.getText())
+                .setDate(entity.getDate())
                 .build();
     }
 }
