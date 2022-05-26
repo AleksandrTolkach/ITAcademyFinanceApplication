@@ -1,4 +1,4 @@
 target/
 *.class
 .idea/
-*mail/src/main/resources/application.properties
+/mail/src/main/resources/application.properties
