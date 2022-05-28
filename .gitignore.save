@@ -1,0 +1,4 @@
+target/
+*.class
+.idea/
+/mail/application.properties

@@ -6,6 +6,8 @@ import by.tolkach.mail.service.mail.api.IMailService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/mail")
 public class MailController {
@@ -30,4 +32,10 @@ public class MailController {
         this.mailService.create(mailParamWrapper.getMail(), mailParamWrapper.getParam(), reportType);
         return ResponseEntity.ok("Письмо с отчетом отправлено.");
     }
+
+//    @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
+//    @ResponseBody
+//    public ResponseEntity<?> sendById(@PathVariable(name = "uuid") UUID uuid) {
+//        return ResponseEntity.ok()
+//    }
 }

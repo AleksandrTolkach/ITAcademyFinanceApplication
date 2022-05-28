@@ -1,4 +1,4 @@
-package by.tolkach.mailScheduler.dto.scheduledMail;
+package by.tolkach.mailScheduler.service.rest.object;
 
 import by.tolkach.mailScheduler.dto.serializer.LongLocalDateTimeDeserializer;
 import by.tolkach.mailScheduler.dto.serializer.LongLocalDateTimeSerializer;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Mail extends Essence {
+public class MailRestObject extends EssenceRestObject {
 
     private String address;
     private String subject;
@@ -20,10 +20,10 @@ public class Mail extends Essence {
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime date;
 
-    public Mail() {
+    public MailRestObject() {
     }
 
-    public Mail(UUID uuid, String address, String subject, String text, LocalDateTime date) {
+    public MailRestObject(UUID uuid, String address, String subject, String text, LocalDateTime date) {
         super(uuid);
         this.address = address;
         this.subject = subject;
@@ -103,8 +103,8 @@ public class Mail extends Essence {
             return this;
         }
 
-        public Mail build() {
-            return new Mail(uuid, address, subject, text, date);
+        public MailRestObject build() {
+            return new MailRestObject(uuid, address, subject, text, date);
         }
     }
 }

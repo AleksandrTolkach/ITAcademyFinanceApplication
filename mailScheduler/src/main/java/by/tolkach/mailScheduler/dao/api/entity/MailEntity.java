@@ -1,29 +1,23 @@
-package by.tolkach.mailScheduler.dto.scheduledMail;
+package by.tolkach.mailScheduler.dao.api.entity;
 
-import by.tolkach.mailScheduler.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.mailScheduler.dto.serializer.LongLocalDateTimeSerializer;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Mail extends Essence {
+@Entity
+@Table(schema = "application", name = "mails")
+public class MailEntity extends EssenceEntity {
 
     private String address;
     private String subject;
     private String text;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime date;
 
-    public Mail() {
+    public MailEntity() {
     }
 
-    public Mail(UUID uuid, String address, String subject, String text, LocalDateTime date) {
+    public MailEntity(UUID uuid, String address, String subject, String text, LocalDateTime date) {
         super(uuid);
         this.address = address;
         this.subject = subject;
@@ -103,8 +97,8 @@ public class Mail extends Essence {
             return this;
         }
 
-        public Mail build() {
-            return new Mail(uuid, address, subject, text, date);
+        public MailEntity build() {
+            return new MailEntity(uuid, address, subject, text, date);
         }
     }
 }

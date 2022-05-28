@@ -1,6 +1,7 @@
 package by.tolkach.mailScheduler.service.scheduler;
 
 import by.tolkach.mailScheduler.dto.Schedule;
+import by.tolkach.mailScheduler.dto.scheduledMail.ReportType;
 import by.tolkach.mailScheduler.service.scheduler.api.ISchedulerService;
 import org.quartz.*;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,16 @@ public class SchedulerService implements ISchedulerService {
         this.scheduler = scheduler;
     }
 
-    public void create(UUID operationId, Schedule schedule) {
+    public void create(UUID mailId, UUID paramId, ReportType reportType, Schedule schedule) {
         JobDetail job = JobBuilder.newJob(CreateOperationJob.class)
-                .withIdentity(operationId.toString(), "operations")
-                .usingJobData("operation", operationId.toString())
+                .withIdentity(mailId.toString(), "mails")
+                .usingJobData("mail", mailId.toString())
+                .usingJobData("param", paramId.toString())
+                .usingJobData("reportType", reportType.name())
                 .build();
 
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(operationId.toString(), "operations")
+                .withIdentity(mailId.toString(), "mails")
                 .startAt(Date.from(schedule.getStartTime().toInstant(ZoneOffset.of("+03:00"))))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInSeconds((int) schedule.getTimeUnit().toSeconds(schedule.getInterval()))
@@ -41,10 +44,10 @@ public class SchedulerService implements ISchedulerService {
     }
 
     @Override
-    public void update(UUID operationId, Schedule schedule) {
+    public void update(UUID mailId, Schedule schedule) {
 
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(operationId.toString(), "operations")
+                .withIdentity(mailId.toString(), "mails")
                 .startAt(Date.from(schedule.getStartTime().toInstant(ZoneOffset.of("+03:00"))))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInSeconds((int) schedule.getTimeUnit().toSeconds(schedule.getInterval()))
@@ -52,9 +55,9 @@ public class SchedulerService implements ISchedulerService {
                 .endAt(Date.from(schedule.getStopTime().toInstant(ZoneOffset.of("+03:00"))))
                 .build();
 
-        TriggerKey operations = TriggerKey.triggerKey(operationId.toString(), "operations");
+        TriggerKey mail = TriggerKey.triggerKey(mailId.toString(), "mails");
         try {
-            this.scheduler.rescheduleJob(operations, trigger);
+            this.scheduler.rescheduleJob(mail, trigger);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
