@@ -7,7 +7,6 @@ import by.tolkach.mailScheduler.dto.scheduledMail.Mail;
 import by.tolkach.mailScheduler.service.scheduledMail.api.IMailService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -25,7 +24,6 @@ public class MailService implements IMailService {
     public Mail create(Mail mail) {
         MailEntity mailEntity = this.mailEntityConverter.toEntity(mail);
         mailEntity.setUuid(UUID.randomUUID());
-        mailEntity.setDate(LocalDateTime.now());
         mailEntity = this.mailStorage.save(mailEntity);
         return this.mailEntityConverter.toDto(mailEntity);
     }
@@ -48,6 +46,7 @@ public class MailService implements IMailService {
         mailEntity.setAddress(mail.getAddress());
         mailEntity.setSubject(mail.getSubject());
         mailEntity.setText(mail.getText());
+        mailEntity.setDate(mail.getDate());
         return mailEntity;
     }
 }
