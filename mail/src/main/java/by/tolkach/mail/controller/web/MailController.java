@@ -2,7 +2,6 @@ package by.tolkach.mail.controller.web;
 
 import by.tolkach.mail.dto.MailParamWrapper;
 import by.tolkach.mail.dto.ReportType;
-import by.tolkach.mail.service.mail.api.IMailService;
 import by.tolkach.mail.service.mail.api.IPostmanService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +20,14 @@ public class MailController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> index(@RequestParam(name = "page") Integer page,
-                                   @RequestParam(name = "size") Integer size) {
+    public ResponseEntity<?> index(@RequestParam(name = "page", required = false) Integer page,
+                                   @RequestParam(name = "size", required = false) Integer size) {
         return ResponseEntity.ok(this.postmanService.read(PageChecker.checkParameters(page, size)));
     }
 
     @RequestMapping(value = "/{type}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> send(@PathVariable(name = "type") ReportType reportType,
+    public ResponseEntity<?> send(@PathVariable(name = "type", required = false) ReportType reportType,
                                   @RequestBody MailParamWrapper mailParamWrapper) {
         this.postmanService.send(mailParamWrapper.getMail(), mailParamWrapper.getParam(), reportType);
         return ResponseEntity.ok("Письмо с отчетом отправлено.");

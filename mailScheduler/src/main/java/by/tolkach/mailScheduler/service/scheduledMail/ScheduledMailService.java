@@ -10,7 +10,10 @@ import by.tolkach.mailScheduler.dto.scheduledMail.Mail;
 import by.tolkach.mailScheduler.dto.scheduledMail.Param;
 import by.tolkach.mailScheduler.dto.scheduledMail.ReportType;
 import by.tolkach.mailScheduler.dto.scheduledMail.ScheduledMail;
+import by.tolkach.mailScheduler.service.api.IParamValidationService;
+import by.tolkach.mailScheduler.service.api.IValidationService;
 import by.tolkach.mailScheduler.service.api.Pagination;
+import by.tolkach.mailScheduler.service.api.exception.NotFoundError;
 import by.tolkach.mailScheduler.service.scheduledMail.api.IMailService;
 import by.tolkach.mailScheduler.service.scheduledMail.api.IParamService;
 import by.tolkach.mailScheduler.service.scheduledMail.api.IScheduleService;
@@ -32,23 +35,35 @@ public class ScheduledMailService implements IScheduledMailService {
     private final IParamService paramService;
     private final IScheduleService scheduleService;
     private final ISchedulerService schedulerService;
+    private final IValidationService<Mail> mailValidationService;
+    private final IParamValidationService paramValidationService;
+    private final IValidationService<Schedule> scheduleValidationService;
 
     public ScheduledMailService(IScheduledMailStorage scheduledMailStorage,
                                 IEntityConverter<ScheduledMail, ScheduledMailEntity> scheduledMailEntityConverter,
                                 IMailService mailService,
                                 IParamService paramService,
                                 IScheduleService scheduleService,
-                                ISchedulerService schedulerService) {
+                                ISchedulerService schedulerService,
+                                IValidationService<Mail> mailValidationService,
+                                IParamValidationService paramValidationService,
+                                IValidationService<Schedule> scheduleValidationService) {
         this.scheduledMailStorage = scheduledMailStorage;
         this.scheduledMailEntityConverter = scheduledMailEntityConverter;
         this.mailService = mailService;
         this.paramService = paramService;
         this.scheduleService = scheduleService;
         this.schedulerService = schedulerService;
+        this.mailValidationService = mailValidationService;
+        this.paramValidationService = paramValidationService;
+        this.scheduleValidationService = scheduleValidationService;
     }
 
     @Override
     public ScheduledMail create(Mail mail, Param param, ReportType reportType, Schedule schedule) {
+        this.mailValidationService.validate(mail);
+        this.paramValidationService.validate(param, reportType);
+        this.scheduleValidationService.validate(schedule);
         mail = this.mailService.create(mail);
         param.setFrom(schedule.getStartTime().minusSeconds(schedule.getTimeUnit().toSeconds(schedule.getInterval())));
         param.setTo(schedule.getStartTime());
@@ -73,6 +88,12 @@ public class ScheduledMailService implements IScheduledMailService {
     @Override
     public ScheduledMail update(UUID scheduledMailId, Mail mail, Param param, ReportType reportType, Schedule schedule) {
         ScheduledMailEntity scheduledMailEntity = this.scheduledMailStorage.findById(scheduledMailId).orElse(null);
+        if (scheduledMailEntity == null) {
+            throw new NotFoundError("Запланированной операции с таким Id не существует.");
+        }
+        this.mailValidationService.validate(mail);
+        this.paramValidationService.validate(param, reportType);
+        this.scheduleValidationService.validate(schedule);
         ScheduledMail scheduledMail = this.scheduledMailEntityConverter.toDto(scheduledMailEntity);
         mail = this.mailService.update(scheduledMailEntity.getMail().getUuid(), mail);
         param.setFrom(schedule.getStartTime().minusSeconds(schedule.getTimeUnit().toSeconds(schedule.getInterval())));

@@ -12,7 +12,7 @@ import java.util.UUID;
 @RequestMapping("/scheduler/mail")
 public class ScheduledMailController {
 
-    private IScheduledMailService scheduledMailService;
+    private final IScheduledMailService scheduledMailService;
 
     public ScheduledMailController(IScheduledMailService scheduledMailService) {
         this.scheduledMailService = scheduledMailService;
@@ -27,7 +27,7 @@ public class ScheduledMailController {
 
     @RequestMapping(value = "/{type}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> create(@PathVariable(name = "type") ReportType reportType,
+    public ResponseEntity<?> create(@PathVariable(name = "type", required = false) ReportType reportType,
                                     @RequestBody MailParamWrapper mailParamWrapper) {
         this.scheduledMailService.create(mailParamWrapper.getMail(), mailParamWrapper.getParam(),
                 reportType, mailParamWrapper.getSchedule());
@@ -36,8 +36,8 @@ public class ScheduledMailController {
 
     @RequestMapping(value = "/{uuid}/{type}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> update(@PathVariable(name = "uuid") UUID scheduledMailId,
-                                    @PathVariable(name = "type") ReportType reportType,
+    public ResponseEntity<?> update(@PathVariable(name = "uuid", required = false) UUID scheduledMailId,
+                                    @PathVariable(name = "type", required = false) ReportType reportType,
                                     @RequestBody MailParamWrapper mailParamWrapper) {
         this.scheduledMailService.update(scheduledMailId, mailParamWrapper.getMail(), mailParamWrapper.getParam(),
                 reportType, mailParamWrapper.getSchedule());

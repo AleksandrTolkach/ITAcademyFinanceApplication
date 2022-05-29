@@ -1,6 +1,8 @@
 package by.tolkach.mail.service.mail;
 
 import by.tolkach.mail.dto.*;
+import by.tolkach.mail.service.api.IParamValidationService;
+import by.tolkach.mail.service.api.IValidationService;
 import by.tolkach.mail.service.mail.api.IMailService;
 import by.tolkach.mail.service.mail.api.IPostmanService;
 import by.tolkach.mail.service.rest.api.IReportRestClientService;
@@ -20,16 +22,25 @@ public class PostmanService implements IPostmanService {
     private final JavaMailSender mailSender;
     private final IMailService mailService;
     private final IReportRestClientService reportRestClientService;
+    private final IParamValidationService paramValidationService;
+    private final IValidationService<Mail> mailValidationService;
 
-    public PostmanService(JavaMailSender mailSender, IMailService mailService,
-                          IReportRestClientService reportRestClientService) {
+    public PostmanService(JavaMailSender mailSender,
+                          IMailService mailService,
+                          IReportRestClientService reportRestClientService,
+                          IParamValidationService paramValidationService,
+                          IValidationService<Mail> mailValidationService) {
         this.mailSender = mailSender;
         this.mailService = mailService;
         this.reportRestClientService = reportRestClientService;
+        this.paramValidationService = paramValidationService;
+        this.mailValidationService = mailValidationService;
     }
 
     @Override
     public Mail send(Mail mail, Param param, ReportType reportType) {
+        this.paramValidationService.validate(param, reportType);
+        this.mailValidationService.validate(mail);
         byte[] attachment = this.reportRestClientService.create(param, reportType);
         Mail createdMail = this.mailService.create(mail);
         this.sendMessage(createdMail, attachment);

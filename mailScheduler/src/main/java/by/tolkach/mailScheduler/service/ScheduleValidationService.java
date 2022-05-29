@@ -1,9 +1,9 @@
-package by.tolkach.schedulerAccount.service.scheduledOperation;
+package by.tolkach.mailScheduler.service;
 
-import by.tolkach.schedulerAccount.dto.scheduledOperation.Schedule;
-import by.tolkach.schedulerAccount.service.api.IValidationService;
-import by.tolkach.schedulerAccount.dto.exception.MultipleErrorsException;
-import by.tolkach.schedulerAccount.dto.exception.SingleError;
+import by.tolkach.mailScheduler.service.api.exception.MultipleErrorsException;
+import by.tolkach.mailScheduler.service.api.exception.SingleError;
+import by.tolkach.mailScheduler.dto.Schedule;
+import by.tolkach.mailScheduler.service.api.IValidationService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

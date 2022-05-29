@@ -1,27 +1,19 @@
 package by.tolkach.mailScheduler.dto.scheduledMail;
 
-import by.tolkach.mailScheduler.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.mailScheduler.dto.serializer.LongLocalDateTimeSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@JsonIgnoreProperties({"from", "to"})
 public class Param extends Essence {
 
     private List<UUID> accounts;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime from;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime to;
     private List<UUID> categories;
 

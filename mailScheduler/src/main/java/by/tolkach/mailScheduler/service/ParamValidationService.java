@@ -1,11 +1,11 @@
-package by.tolkach.report.service;
+package by.tolkach.mailScheduler.service;
 
-import by.tolkach.report.dto.report.Param;
-import by.tolkach.report.dto.report.ReportType;
-import by.tolkach.report.service.api.IParamValidationService;
-import by.tolkach.report.service.api.exception.MultipleErrorsException;
-import by.tolkach.report.service.api.exception.NotFoundError;
-import by.tolkach.report.service.api.exception.SingleError;
+import by.tolkach.mailScheduler.dto.scheduledMail.Param;
+import by.tolkach.mailScheduler.dto.scheduledMail.ReportType;
+import by.tolkach.mailScheduler.service.api.IParamValidationService;
+import by.tolkach.mailScheduler.service.api.exception.MultipleErrorsException;
+import by.tolkach.mailScheduler.service.api.exception.NotFoundError;
+import by.tolkach.mailScheduler.service.api.exception.SingleError;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,12 +20,6 @@ public class ParamValidationService implements IParamValidationService {
             throw new NotFoundError("Укажите тип отчета");
         }
         if (!reportType.equals(ReportType.BALANCE)) {
-            if (param.getFrom() == null) {
-                this.validationException.add(new SingleError("from", "Укажите дату начала."));
-            }
-            if (param.getTo() == null) {
-                this.validationException.add(new SingleError("to", "Укажите дату окончания."));
-            }
             if (param.getCategories() == null || param.getCategories().size() == 0) {
                 this.validationException.add(
                         new SingleError("categories", "Укажите минимум одну категорию."));

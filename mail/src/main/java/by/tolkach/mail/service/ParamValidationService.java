@@ -1,11 +1,11 @@
-package by.tolkach.report.service;
+package by.tolkach.mail.service;
 
-import by.tolkach.report.dto.report.Param;
-import by.tolkach.report.dto.report.ReportType;
-import by.tolkach.report.service.api.IParamValidationService;
-import by.tolkach.report.service.api.exception.MultipleErrorsException;
-import by.tolkach.report.service.api.exception.NotFoundError;
-import by.tolkach.report.service.api.exception.SingleError;
+import by.tolkach.mail.dto.Param;
+import by.tolkach.mail.dto.ReportType;
+import by.tolkach.mail.service.api.IParamValidationService;
+import by.tolkach.mail.service.api.exception.MultipleErrorsException;
+import by.tolkach.mail.service.api.exception.NotFoundError;
+import by.tolkach.mail.service.api.exception.SingleError;
 import org.springframework.stereotype.Service;
 
 @Service
