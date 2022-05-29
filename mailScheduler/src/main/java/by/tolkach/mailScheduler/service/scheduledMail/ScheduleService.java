@@ -45,6 +45,7 @@ public class ScheduleService implements IScheduleService {
     private ScheduleEntity updateScheduleParameters(Schedule schedule, ScheduleEntity scheduleEntity) {
         scheduleEntity.setStartTime(schedule.getStartTime());
         scheduleEntity.setStopTime(schedule.getStopTime());
+        scheduleEntity.setInterval(schedule.getInterval());
         scheduleEntity.setTimeUnit(schedule.getTimeUnit());
         return scheduleEntity;
     }

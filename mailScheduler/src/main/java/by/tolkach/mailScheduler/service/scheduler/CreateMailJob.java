@@ -14,17 +14,17 @@ import org.quartz.JobExecutionException;
 
 import java.util.UUID;
 
-public class CreateOperationJob implements Job {
+public class CreateMailJob implements Job {
 
     private final IMailRestClientService mailRestClientService;
     private final IMailService mailService;
     private final IParamService paramService;
     private final IScheduleService scheduleService;
 
-    public CreateOperationJob(IMailRestClientService mailRestClientService,
-                              IMailService mailService,
-                              IParamService paramService,
-                              IScheduleService scheduleService) {
+    public CreateMailJob(IMailRestClientService mailRestClientService,
+                         IMailService mailService,
+                         IParamService paramService,
+                         IScheduleService scheduleService) {
         this.mailRestClientService = mailRestClientService;
         this.mailService = mailService;
         this.paramService = paramService;
@@ -41,12 +41,14 @@ public class CreateOperationJob implements Job {
         Mail mail = this.mailService.read(mailId);
         Param param = this.paramService.read(paramId);
         Schedule schedule = this.scheduleService.read(scheduleId);
+        this.mailRestClientService.create(mail, param, reportType);
+
         if (!reportType.name().equals(ReportType.BALANCE.name())) {
             long interval = schedule.getTimeUnit().toSeconds(schedule.getInterval());
             param.setFrom(param.getFrom().plusSeconds(interval));
             param.setTo(param.getTo().plusSeconds(interval));
         }
-        param = this.paramService.update(paramId, param);
-        this.mailRestClientService.create(mail, param, reportType);
+
+        this.paramService.update(paramId, param);
     }
 }

@@ -20,7 +20,7 @@ public class SchedulerService implements ISchedulerService {
     }
 
     public void create(UUID mailId, UUID paramId, ReportType reportType, Schedule schedule) {
-        JobDetail job = JobBuilder.newJob(CreateOperationJob.class)
+        JobDetail job = JobBuilder.newJob(CreateMailJob.class)
                 .withIdentity(mailId.toString(), "mails")
                 .usingJobData("mail", mailId.toString())
                 .usingJobData("param", paramId.toString())

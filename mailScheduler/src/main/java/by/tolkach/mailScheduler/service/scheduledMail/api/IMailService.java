@@ -7,4 +7,5 @@ import java.util.UUID;
 public interface IMailService {
     Mail create(Mail mail);
     Mail read(UUID mailId);
+    Mail update(UUID mailId, Mail mail);
 }

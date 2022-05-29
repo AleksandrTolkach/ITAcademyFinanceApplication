@@ -30,7 +30,6 @@ public class PostmanService implements IPostmanService {
 
     @Override
     public Mail send(Mail mail, Param param, ReportType reportType) {
-        param.setUuid(UUID.randomUUID());
         byte[] attachment = this.reportRestClientService.create(param, reportType);
         Mail createdMail = this.mailService.create(mail);
         this.sendMessage(createdMail, attachment);

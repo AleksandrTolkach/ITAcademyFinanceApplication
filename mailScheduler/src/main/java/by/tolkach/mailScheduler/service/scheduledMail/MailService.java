@@ -35,4 +35,19 @@ public class MailService implements IMailService {
         MailEntity mailEntity = this.mailStorage.findById(mailId).orElse(null);
         return this.mailEntityConverter.toDto(mailEntity);
     }
+
+    @Override
+    public Mail update(UUID mailId, Mail mail) {
+        MailEntity mailEntity = this.mailStorage.findById(mailId).orElse(null);
+        updateMailEntityParameters(mail, mailEntity);
+        mailEntity = this.mailStorage.save(mailEntity);
+        return this.mailEntityConverter.toDto(mailEntity);
+    }
+
+    private MailEntity updateMailEntityParameters(Mail mail, MailEntity mailEntity) {
+        mailEntity.setAddress(mail.getAddress());
+        mailEntity.setSubject(mail.getSubject());
+        mailEntity.setText(mail.getText());
+        return mailEntity;
+    }
 }

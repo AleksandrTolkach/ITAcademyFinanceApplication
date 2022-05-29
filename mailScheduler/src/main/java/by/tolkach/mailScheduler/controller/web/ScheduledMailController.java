@@ -6,6 +6,8 @@ import by.tolkach.mailScheduler.service.scheduledMail.api.IScheduledMailService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/scheduler/mail")
 public class ScheduledMailController {
@@ -25,10 +27,20 @@ public class ScheduledMailController {
 
     @RequestMapping(value = "/{type}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> create(@PathVariable(name = "type")ReportType reportType,
+    public ResponseEntity<?> create(@PathVariable(name = "type") ReportType reportType,
                                     @RequestBody MailParamWrapper mailParamWrapper) {
         this.scheduledMailService.create(mailParamWrapper.getMail(), mailParamWrapper.getParam(),
                 reportType, mailParamWrapper.getSchedule());
         return ResponseEntity.ok("Рассылка писем запланирована.");
+    }
+
+    @RequestMapping(value = "/{uuid}/{type}", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> update(@PathVariable(name = "uuid") UUID scheduledMailId,
+                                    @PathVariable(name = "type") ReportType reportType,
+                                    @RequestBody MailParamWrapper mailParamWrapper) {
+        this.scheduledMailService.update(scheduledMailId, mailParamWrapper.getMail(), mailParamWrapper.getParam(),
+                reportType, mailParamWrapper.getSchedule());
+        return ResponseEntity.ok("Запланированная рассылка изменена.");
     }
 }

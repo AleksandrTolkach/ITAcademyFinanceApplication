@@ -49,10 +49,12 @@ public class ScheduledMailService implements IScheduledMailService {
 
     @Override
     public ScheduledMail create(Mail mail, Param param, ReportType reportType, Schedule schedule) {
-        Mail createdMail = this.mailService.create(mail);
-        Param createdParam = this.paramService.create(param, reportType);
-        Schedule createdSchedule = this.scheduleService.create(schedule);
-        ScheduledMail scheduledMail = this.createScheduledMailParameters(createdMail, createdParam, createdSchedule);
+        mail = this.mailService.create(mail);
+        param.setFrom(schedule.getStartTime().minusSeconds(schedule.getTimeUnit().toSeconds(schedule.getInterval())));
+        param.setTo(schedule.getStartTime());
+        param = this.paramService.create(param, reportType);
+        schedule = this.scheduleService.create(schedule);
+        ScheduledMail scheduledMail = this.createScheduledMailParameters(mail, param, schedule);
         ScheduledMailEntity scheduledMailEntity = this.scheduledMailEntityConverter.toEntity(scheduledMail);
         scheduledMailEntity = this.scheduledMailStorage.save(scheduledMailEntity);
         this.schedulerService.create(scheduledMail.getMail().getUuid(), scheduledMail.getParam().getUuid(),
@@ -68,6 +70,21 @@ public class ScheduledMailService implements IScheduledMailService {
                 simplePageable, this.scheduledMailStorage.count(), this.scheduledMailEntityConverter);
     }
 
+    @Override
+    public ScheduledMail update(UUID scheduledMailId, Mail mail, Param param, ReportType reportType, Schedule schedule) {
+        ScheduledMailEntity scheduledMailEntity = this.scheduledMailStorage.findById(scheduledMailId).orElse(null);
+        ScheduledMail scheduledMail = this.scheduledMailEntityConverter.toDto(scheduledMailEntity);
+        mail = this.mailService.update(scheduledMailEntity.getMail().getUuid(), mail);
+        param.setFrom(schedule.getStartTime().minusSeconds(schedule.getTimeUnit().toSeconds(schedule.getInterval())));
+        param.setTo(schedule.getStartTime());
+        param = this.paramService.update(scheduledMailEntity.getParam().getUuid(), param);
+        schedule = this.scheduleService.update(scheduledMailEntity.getSchedule().getUuid(), schedule);
+        this.updateScheduledMailParameters(scheduledMail, mail, param, schedule);
+        this.schedulerService.update(scheduledMailEntity.getMail().getUuid(), schedule);
+        scheduledMailEntity = this.scheduledMailEntityConverter.toEntity(scheduledMail);
+        scheduledMailEntity = this.scheduledMailStorage.save(scheduledMailEntity);
+        return this.scheduledMailEntityConverter.toDto(scheduledMailEntity);
+    }
 
     private ScheduledMail createScheduledMailParameters(Mail mail, Param param, Schedule schedule) {
         LocalDateTime dtCreate = LocalDateTime.now();
@@ -79,5 +96,13 @@ public class ScheduledMailService implements IScheduledMailService {
                 .setParam(param)
                 .setSchedule(schedule)
                 .build();
+    }
+
+    private ScheduledMail updateScheduledMailParameters(ScheduledMail scheduledMail, Mail mail, Param param,
+                                                        Schedule schedule) {
+        scheduledMail.setMail(mail);
+        scheduledMail.setParam(param);
+        scheduledMail.setSchedule(schedule);
+        return scheduledMail;
     }
 }
