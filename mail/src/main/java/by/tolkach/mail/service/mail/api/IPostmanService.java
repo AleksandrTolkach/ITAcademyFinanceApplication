@@ -1,7 +1,11 @@
 package by.tolkach.mail.service.mail.api;
 
-import by.tolkach.mail.dto.Mail;
+import by.tolkach.mail.dto.*;
+
+import java.util.UUID;
 
 public interface IPostmanService {
-    void send(Mail mail, byte[] attachment);
+    Mail send(Mail mail, Param param, ReportType reportType);
+    Mail resend(UUID mailId, UUID reportId);
+    Page<Mail> read(SimplePageable simplePageable);
 }

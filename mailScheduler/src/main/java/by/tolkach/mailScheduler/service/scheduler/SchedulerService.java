@@ -25,6 +25,7 @@ public class SchedulerService implements ISchedulerService {
                 .usingJobData("mail", mailId.toString())
                 .usingJobData("param", paramId.toString())
                 .usingJobData("reportType", reportType.name())
+                .usingJobData("schedule", schedule.getUuid().toString())
                 .build();
 
         Trigger trigger = TriggerBuilder.newTrigger()

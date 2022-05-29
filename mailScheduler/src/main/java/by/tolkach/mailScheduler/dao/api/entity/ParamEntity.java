@@ -9,10 +9,8 @@ import java.util.UUID;
 
 @Entity
 @Table(schema = "application", name = "parameters")
-public class ParamEntity {
+public class ParamEntity extends EssenceEntity {
 
-    @Id
-    private UUID uuid;
     @Convert(converter = AccountsAttributeConverter.class)
     private AccountsEntity accounts;
     @Column(name = "\"from\"")
@@ -25,21 +23,13 @@ public class ParamEntity {
     public ParamEntity() {
     }
 
-    public ParamEntity(UUID uuid, AccountsEntity accounts, LocalDateTime from, LocalDateTime to,
-                       CategoriesEntity categories) {
-        this.uuid = uuid;
+    public ParamEntity(UUID uuid, AccountsEntity accounts, LocalDateTime from,
+                       LocalDateTime to, CategoriesEntity categories) {
+        super(uuid);
         this.accounts = accounts;
         this.from = from;
         this.to = to;
         this.categories = categories;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public AccountsEntity getAccounts() {

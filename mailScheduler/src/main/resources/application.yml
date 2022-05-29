@@ -10,5 +10,13 @@ spring:
       suffix: .jsp
   jpa:
     show-sql: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+      platform: postgres
+    properties:
+      "org.quartz.jobStore.driverDelegateClass": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
+      "org.quartz.jobStore.tablePrefix": "quartz.QRTZ_"
 server:
   port: 8087

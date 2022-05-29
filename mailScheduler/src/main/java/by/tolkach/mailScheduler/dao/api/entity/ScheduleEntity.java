@@ -1,35 +1,29 @@
-package by.tolkach.mailScheduler.dto;
+package by.tolkach.mailScheduler.dao.api.entity;
 
-import by.tolkach.mailScheduler.dto.scheduledMail.Essence;
-import by.tolkach.mailScheduler.dto.serializer.LongLocalDateTimeDeserializer;
-import by.tolkach.mailScheduler.dto.serializer.LongLocalDateTimeSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import by.tolkach.mailScheduler.dto.ScheduleTimeUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@JsonIgnoreProperties({"uuid"})
-public class Schedule extends Essence {
+@Entity
+@Table(schema = "application", name = "schedule")
+public class ScheduleEntity extends EssenceEntity {
 
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime startTime;
-    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime stopTime;
     private int interval;
+    @Enumerated(value = EnumType.STRING)
     private ScheduleTimeUnit timeUnit;
 
-    public Schedule() {
+    public ScheduleEntity() {
     }
 
-    public Schedule(UUID uuid, LocalDateTime startTime, LocalDateTime stopTime,
-                    int interval, ScheduleTimeUnit timeUnit) {
+    public ScheduleEntity(UUID uuid, LocalDateTime startTime,
+                          LocalDateTime stopTime, int interval, ScheduleTimeUnit timeUnit) {
         super(uuid);
         this.startTime = startTime;
         this.stopTime = stopTime;
@@ -109,8 +103,8 @@ public class Schedule extends Essence {
             return this;
         }
 
-        public Schedule build() {
-            return new Schedule(uuid, startTime, stopTime, interval, timeUnit);
+        public ScheduleEntity build() {
+            return new ScheduleEntity(uuid, startTime, stopTime, interval, timeUnit);
         }
     }
 }

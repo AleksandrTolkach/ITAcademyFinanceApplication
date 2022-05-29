@@ -9,6 +9,7 @@ import by.tolkach.mailScheduler.service.rest.object.MailRestObject;
 import by.tolkach.mailScheduler.service.rest.object.ParamRestObject;
 import by.tolkach.mailScheduler.service.rest.object.converter.IRestObjectConverter;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -39,9 +40,10 @@ public class MailRestClientService implements IMailRestClientService {
 
         MailRestObject mailRestObject = this.mailRestObjectConverter.toRestObject(mail);
         ParamRestObject paramRestObject = this.paramRestObjectConverter.toRestObject(param);
+        MailParamWrapperRestObject wrapper = MailParamWrapperRestObject.wrap(mailRestObject, paramRestObject);
+        HttpEntity<MailParamWrapperRestObject> entity = new HttpEntity<>(wrapper, headers);
 
-        return this.restTemplate.postForObject(url, MailParamWrapperRestObject.wrap(mailRestObject, paramRestObject),
-                String.class, reportType);
+        return this.restTemplate.postForObject(url, entity, String.class, reportType);
     }
 
     private org.springframework.http.HttpHeaders createHeader() {

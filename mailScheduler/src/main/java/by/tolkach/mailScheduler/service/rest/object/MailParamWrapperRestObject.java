@@ -1,8 +1,15 @@
 package by.tolkach.mailScheduler.service.rest.object;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MailParamWrapperRestObject {
 
+    @JsonProperty(value = "mail")
     private MailRestObject mailRestObject;
+    @JsonProperty(value = "param")
     private ParamRestObject paramRestObject;
 
     public MailParamWrapperRestObject() {

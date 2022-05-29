@@ -12,9 +12,8 @@ import java.util.List;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Param {
+public class Param extends Essence {
 
-    private UUID uuid;
     private List<UUID> accounts;
     @JsonSerialize(using = LongLocalDateTimeSerializer.class)
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
@@ -28,19 +27,11 @@ public class Param {
     }
 
     public Param(UUID uuid, List<UUID> accounts, LocalDateTime from, LocalDateTime to, List<UUID> categories) {
-        this.uuid = uuid;
+        super(uuid);
         this.accounts = accounts;
         this.from = from;
         this.to = to;
         this.categories = categories;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public List<UUID> getAccounts() {

@@ -29,5 +29,6 @@ public class ScheduledMailController {
                                     @RequestBody MailParamWrapper mailParamWrapper) {
         this.scheduledMailService.create(mailParamWrapper.getMail(), mailParamWrapper.getParam(),
                 reportType, mailParamWrapper.getSchedule());
+        return ResponseEntity.ok("Рассылка писем запланирована.");
     }
 }
