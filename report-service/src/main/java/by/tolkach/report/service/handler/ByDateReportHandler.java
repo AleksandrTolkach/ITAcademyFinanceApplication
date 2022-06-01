@@ -24,15 +24,17 @@ public class ByDateReportHandler implements IReportHandler {
 
     @Override
     public List<Operation> getOperations(Param param) {
-        List<Operation> operations = this.operationService.read(param);
-        List<Operation> filteredOperations = new ArrayList<>();
-        for (Operation operation: operations) {
-            if (isInInterval(param, operation)) {
-                filteredOperations.add(operation);
-            }
-        }
-        filteredOperations.sort(new OperationByDateComparator());
-        return filteredOperations;
+        return this.operationService.readByDate(param);
+
+//        List<Operation> operations = this.operationService.readByBalance(param);
+//        List<Operation> filteredOperations = new ArrayList<>();
+//        for (Operation operation: operations) {
+//            if (isInInterval(param, operation)) {
+//                filteredOperations.add(operation);
+//            }
+//        }
+//        filteredOperations.sort(new OperationByDateComparator());
+//        return filteredOperations;
     }
 
     public boolean isInInterval(Param param, Operation operation) {

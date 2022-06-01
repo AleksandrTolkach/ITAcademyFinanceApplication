@@ -23,6 +23,6 @@ public class BalanceReportHandler implements IReportHandler {
 
     @Override
     public List<Operation> getOperations(Param param) {
-        return this.operationService.read(param);
+        return this.operationService.readByBalance(param);
     }
 }
