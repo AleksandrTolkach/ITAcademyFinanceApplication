@@ -8,6 +8,7 @@ import by.tolkach.mailScheduler.service.rest.object.MailParamWrapperRestObject;
 import by.tolkach.mailScheduler.service.rest.object.MailRestObject;
 import by.tolkach.mailScheduler.service.rest.object.ParamRestObject;
 import by.tolkach.mailScheduler.service.rest.object.converter.IRestObjectConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,7 @@ public class MailRestClientService implements IMailRestClientService {
     private final RestTemplate restTemplate;
     private final IRestObjectConverter<Mail, MailRestObject> mailRestObjectConverter;
     private final IRestObjectConverter<Param, ParamRestObject> paramRestObjectConverter;
+    private @Value("${mail.url}") String mailUrl;
 
     public MailRestClientService(RestTemplateBuilder restTemplateBuilder,
                                  IRestObjectConverter<Mail, MailRestObject> mailRestObjectConverter,
@@ -34,7 +36,7 @@ public class MailRestClientService implements IMailRestClientService {
 
     @Override
     public String create(Mail mail, Param param, ReportType reportType) {
-        String url = "http://localhost:8086/mail/{type}";
+        String uri = mailUrl + "/{type}";
 
         HttpHeaders headers = this.createHeader();
 
@@ -43,7 +45,7 @@ public class MailRestClientService implements IMailRestClientService {
         MailParamWrapperRestObject wrapper = MailParamWrapperRestObject.wrap(mailRestObject, paramRestObject);
         HttpEntity<MailParamWrapperRestObject> entity = new HttpEntity<>(wrapper, headers);
 
-        return this.restTemplate.postForObject(url, entity, String.class, reportType);
+        return this.restTemplate.postForObject(uri, entity, String.class, reportType);
     }
 
     private org.springframework.http.HttpHeaders createHeader() {

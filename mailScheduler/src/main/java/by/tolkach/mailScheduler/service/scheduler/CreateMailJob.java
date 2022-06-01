@@ -43,12 +43,12 @@ public class CreateMailJob implements Job {
         Param param = this.paramService.read(paramId);
         Schedule schedule = this.scheduleService.read(scheduleId);
 
+        this.mailRestClientService.create(mail, param, reportType);
         if (!reportType.name().equals(ReportType.BALANCE.name())) {
             long interval = schedule.getTimeUnit().toSeconds(schedule.getInterval());
-            param.setFrom(param.getFrom().minusSeconds(interval));
-            param.setTo(param.getTo().minusSeconds(interval));
+            param.setFrom(param.getFrom().plusSeconds(interval));
+            param.setTo(param.getTo().plusSeconds(interval));
         }
-        this.mailRestClientService.create(mail, param, reportType);
         mail.setDate(LocalDateTime.now());
         this.mailService.update(mail.getUuid(), mail);
         this.paramService.update(paramId, param);

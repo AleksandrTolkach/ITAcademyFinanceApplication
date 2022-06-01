@@ -23,3 +23,5 @@ spring:
       "mail.smtp.starttls.enable": true
 server:
   port: 8086
+rep:
+  url: http://localhost:8085/report

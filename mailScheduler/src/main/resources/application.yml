@@ -20,3 +20,5 @@ spring:
       "org.quartz.jobStore.tablePrefix": "quartz.QRTZ_"
 server:
   port: 8087
+mail:
+  url: http://localhost:8086/mail

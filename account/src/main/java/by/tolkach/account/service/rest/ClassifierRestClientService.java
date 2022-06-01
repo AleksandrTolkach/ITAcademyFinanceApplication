@@ -20,7 +20,7 @@ public class ClassifierRestClientService implements IClassifierRestClientService
     private final RestTemplate restTemplate;
     private final IRestObjectConverter<Currency, CurrencyRestObject> currencyRestObjectConverter;
     private final IRestObjectConverter<OperationCategory, OperationCategoryRestObject> operationCategoryRestObjectConverter;
-    private @Value("${cl_url}") String url;
+    private @Value("${classifier.url}") String url;
 
     public ClassifierRestClientService(RestTemplateBuilder restTemplateBuilder,
                                        IRestObjectConverter<Currency, CurrencyRestObject> currencyRestObjectConverter,

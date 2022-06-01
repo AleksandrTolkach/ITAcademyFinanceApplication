@@ -1,12 +1,15 @@
 package by.tolkach.schedulerAccount.service.rest.object;
 
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeDeserializer;
+import by.tolkach.schedulerAccount.dto.serializer.LongLocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,7 +17,9 @@ import java.util.UUID;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OperationRestObject extends EssenceRestObject implements Serializable {
 
-    private LocalDate date;
+    @JsonSerialize(using = LongLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
+    private LocalDateTime date;
     private UUID category;
     private UUID account;
     private String description;
@@ -24,7 +29,7 @@ public class OperationRestObject extends EssenceRestObject implements Serializab
     public OperationRestObject() {
     }
 
-    public OperationRestObject(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDate date,
+    public OperationRestObject(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate, LocalDateTime date,
                                UUID category, UUID account, String description, BigDecimal value, UUID currency) {
         super(uuid, dtCreate, dtUpdate);
         this.date = date;
@@ -35,11 +40,11 @@ public class OperationRestObject extends EssenceRestObject implements Serializab
         this.currency = currency;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -86,7 +91,7 @@ public class OperationRestObject extends EssenceRestObject implements Serializab
     public static class Builder {
 
         private UUID uuid;
-        private LocalDate date;
+        private LocalDateTime date;
         private LocalDateTime dtCreate;
         private LocalDateTime dtUpdate;
         private UUID category;
@@ -107,7 +112,7 @@ public class OperationRestObject extends EssenceRestObject implements Serializab
             return this;
         }
 
-        public Builder setDate(LocalDate date) {
+        public Builder setDate(LocalDateTime date) {
             this.date = date;
             return this;
         }

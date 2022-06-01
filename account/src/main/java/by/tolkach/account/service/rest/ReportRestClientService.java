@@ -27,8 +27,8 @@ public class ReportRestClientService implements IReportRestClientService {
     private final IRestObjectConverter<Operation, OperationRestObject> operationRestObjectConverter;
     private final IRestObjectConverter<Account, AccountRestObject> accountRestObjectConverter;
     private final IClassifierRestClientService classifierRestClientService;
-    private @Value("${rep_operation_url}") String operationUrl;
-    private @Value("${rep_account_url}") String accountUrl;
+    private @Value("${rep.operation.url}") String operationUrl;
+    private @Value("${rep.account.url}") String accountUrl;
 
     public ReportRestClientService(RestTemplateBuilder restTemplateBuilder,
                                    IRestObjectConverter<Operation, OperationRestObject> operationRestObjectConverter,

@@ -89,7 +89,7 @@ public class ScheduledMailService implements IScheduledMailService {
     public ScheduledMail update(UUID scheduledMailId, Mail mail, Param param, ReportType reportType, Schedule schedule) {
         ScheduledMailEntity scheduledMailEntity = this.scheduledMailStorage.findById(scheduledMailId).orElse(null);
         if (scheduledMailEntity == null) {
-            throw new NotFoundError("Запланированной операции с таким Id не существует.");
+            throw new NotFoundError("Запланированной отправки с таким Id не существует.");
         }
         this.mailValidationService.validate(mail);
         this.paramValidationService.validate(param, reportType);

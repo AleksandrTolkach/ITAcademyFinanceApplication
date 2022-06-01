@@ -6,6 +6,7 @@ import by.tolkach.classifier.service.rest.api.IReportRestClientService;
 import by.tolkach.classifier.service.rest.object.CurrencyRestObject;
 import by.tolkach.classifier.service.rest.object.OperationCategoryRestObject;
 import by.tolkach.classifier.service.rest.object.converter.IRestObjectConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,8 @@ public class ReportRestClient implements IReportRestClientService {
     private final RestTemplate restTemplate;
     private final IRestObjectConverter<Currency, CurrencyRestObject> currencyRestObjectConverter;
     private final IRestObjectConverter<OperationCategory, OperationCategoryRestObject> operationCategoryRestObjectConverter;
+    private @Value("${rep.currency.url}") String currencyUrl;
+    private @Value("${rep.category.url}") String categoryUrl;
 
     public ReportRestClient(RestTemplateBuilder restTemplateBuilder,
                             IRestObjectConverter<Currency, CurrencyRestObject> currencyRestObjectConverter,
@@ -32,48 +35,40 @@ public class ReportRestClient implements IReportRestClientService {
 
     @Override
     public void sendCurrency(Currency currency) {
-        String url = "http://localhost:8085/report/classifier/currency";
-
         HttpHeaders headers = this.createHeader();
 
         CurrencyRestObject currencyRestObject = this.currencyRestObjectConverter.toRestObject(currency);
         HttpEntity<CurrencyRestObject> entity = new HttpEntity<>(currencyRestObject, headers);
-        this.restTemplate.postForObject(url, entity, String.class);
+        this.restTemplate.postForObject(currencyUrl, entity, String.class);
     }
 
     @Override
     public void updateCurrency(Currency currency) {
-        String url = "http://localhost:8085/report/classifier/currency";
-
         HttpHeaders headers = this.createHeader();
 
         CurrencyRestObject currencyRestObject = this.currencyRestObjectConverter.toRestObject(currency);
         HttpEntity<CurrencyRestObject> entity = new HttpEntity<>(currencyRestObject, headers);
-        this.restTemplate.put(url, entity);
+        this.restTemplate.put(currencyUrl, entity);
     }
 
     @Override
     public void sendOperationCategory(OperationCategory operationCategory) {
-        String url = "http://localhost:8085/report/classifier/operation_category";
-
         HttpHeaders headers = this.createHeader();
 
         OperationCategoryRestObject operationCategoryRestObject =
                 this.operationCategoryRestObjectConverter.toRestObject(operationCategory);
         HttpEntity<OperationCategoryRestObject> entity = new HttpEntity<>(operationCategoryRestObject, headers);
-        this.restTemplate.postForObject(url, entity, String.class);
+        this.restTemplate.postForObject(categoryUrl, entity, String.class);
     }
 
     @Override
     public void updateOperationCategory(OperationCategory operationCategory) {
-        String url = "http://localhost:8085/report/classifier/operation_category";
-
         HttpHeaders headers = this.createHeader();
 
         OperationCategoryRestObject operationCategoryRestObject =
                 this.operationCategoryRestObjectConverter.toRestObject(operationCategory);
         HttpEntity<OperationCategoryRestObject> entity = new HttpEntity<>(operationCategoryRestObject, headers);
-        this.restTemplate.put(url, entity);
+        this.restTemplate.put(categoryUrl, entity);
     }
 
     private HttpHeaders createHeader() {
