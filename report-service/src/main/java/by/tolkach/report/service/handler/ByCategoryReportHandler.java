@@ -2,7 +2,6 @@ package by.tolkach.report.service.handler;
 
 import by.tolkach.report.dto.operation.Operation;
 import by.tolkach.report.dto.report.Param;
-import by.tolkach.report.service.helper.api.IOperationCategoryService;
 import by.tolkach.report.service.helper.api.IOperationService;
 import by.tolkach.report.service.handler.api.IReportHandler;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -17,7 +16,7 @@ public class ByCategoryReportHandler implements IReportHandler {
 
     private final IOperationService operationService;
 
-    public ByCategoryReportHandler(IOperationService operationService, IOperationCategoryService operationCategoryService) {
+    public ByCategoryReportHandler(IOperationService operationService) {
         this.operationService = operationService;
     }
 
