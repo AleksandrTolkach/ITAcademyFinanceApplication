@@ -9,6 +9,7 @@ import by.tolkach.account.service.rest.api.IReportRestClientService;
 import by.tolkach.account.service.rest.object.AccountRestObject;
 import by.tolkach.account.service.rest.object.OperationRestObject;
 import by.tolkach.account.service.rest.object.converter.IRestObjectConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +27,8 @@ public class ReportRestClientService implements IReportRestClientService {
     private final IRestObjectConverter<Operation, OperationRestObject> operationRestObjectConverter;
     private final IRestObjectConverter<Account, AccountRestObject> accountRestObjectConverter;
     private final IClassifierRestClientService classifierRestClientService;
+    private @Value("${rep_operation_url}") String operationUrl;
+    private @Value("${rep_account_url}") String accountUrl;
 
     public ReportRestClientService(RestTemplateBuilder restTemplateBuilder,
                                    IRestObjectConverter<Operation, OperationRestObject> operationRestObjectConverter,
@@ -39,54 +42,44 @@ public class ReportRestClientService implements IReportRestClientService {
 
     @Override
     public void sendOperation(Operation operation, UUID accountId) {
-        String url = "http://localhost:8085/report/operation";
-
         HttpHeaders headers = this.createHeader();
 
         OperationRestObject operationRestObject = this.operationRestObjectConverter.toRestObject(operation);
         this.setOperationRestObjectParameters(operation, operationRestObject, accountId);
         HttpEntity<OperationRestObject> entity = new HttpEntity<>(operationRestObject, headers);
-        this.restTemplate.postForObject(url, entity, String.class);
+        this.restTemplate.postForObject(operationUrl, entity, String.class);
     }
 
     @Override
     public void updateOperation(Operation operation, UUID accountId) {
-        String url = "http://localhost:8085/report/operation";
-
         HttpHeaders headers = this.createHeader();
 
         OperationRestObject operationRestObject = this.operationRestObjectConverter.toRestObject(operation);
         this.setOperationRestObjectParameters(operation, operationRestObject, accountId);
         HttpEntity<OperationRestObject> entity = new HttpEntity<>(operationRestObject, headers);
-        this.restTemplate.put(url, entity);
+        this.restTemplate.put(operationUrl, entity);
     }
 
     @Override
     public void deleteOperation(UUID operationId, UUID accountId) {
-        String url = "http://localhost:8085/report/operation/{operation_uuid}/account/{account_id}";
-        this.restTemplate.delete(url, accountId, operationId);
+        String uri = operationUrl + "/{operation_uuid}/account/{account_id}";
+        this.restTemplate.delete(uri, accountId, operationId);
     }
 
     @Override
     public void sendAccount(Account account) {
-        String url = "http://localhost:8085/report/account";
-
         HttpHeaders headers = this.createHeader();
-
         AccountRestObject accountRestObject = this.accountRestObjectConverter.toRestObject(account);
         HttpEntity<AccountRestObject> entity = new HttpEntity<>(accountRestObject, headers);
-        this.restTemplate.postForObject(url, entity, String.class);
+        this.restTemplate.postForObject(accountUrl, entity, String.class);
     }
 
     @Override
     public void updateAccount(Account account) {
-        String url = "http://localhost:8085/report/account";
-
         HttpHeaders headers = this.createHeader();
-
         AccountRestObject accountRestObject = this.accountRestObjectConverter.toRestObject(account);
         HttpEntity<AccountRestObject> entity = new HttpEntity<>(accountRestObject, headers);
-        this.restTemplate.put(url, entity);
+        this.restTemplate.put(accountUrl, entity);
     }
 
     private HttpHeaders createHeader() {
