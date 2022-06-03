@@ -1,9 +1,9 @@
-package by.tolkach.schedulerAccount.service.rest;
+package by.tolkach.bot.service.rest;
 
-import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
-import by.tolkach.schedulerAccount.service.rest.api.IOperationRestClientService;
-import by.tolkach.schedulerAccount.service.rest.object.OperationRestObject;
-import by.tolkach.schedulerAccount.service.rest.object.converter.IRestObjectConverter;
+import by.tolkach.bot.dto.Operation;
+import by.tolkach.bot.service.rest.api.IOperationRestClientService;
+import by.tolkach.bot.service.rest.object.OperationRestObject;
+import by.tolkach.bot.service.rest.object.converter.IRestObjectConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;

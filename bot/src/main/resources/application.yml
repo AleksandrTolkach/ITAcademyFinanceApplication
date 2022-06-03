@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bot?ApplicationName=IDEA
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+bot:
+  name: finance_client_bot
+  token: ${telegram_token}
+server:
+  port: 8088
+account:
+  url: http://localhost:8082/account

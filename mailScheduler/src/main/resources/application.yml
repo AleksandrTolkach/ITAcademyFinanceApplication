@@ -4,10 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/mail_scheduler?ApplicationName=IDEA
     username: postgres
     password: postgres
-  mvc:
-    view:
-      prefix: /view/users/
-      suffix: .jsp
   jpa:
     show-sql: true
   quartz:
