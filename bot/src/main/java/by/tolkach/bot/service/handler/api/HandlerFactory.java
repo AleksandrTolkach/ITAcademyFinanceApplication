@@ -2,7 +2,7 @@ package by.tolkach.bot.service.handler.api;
 
 import by.tolkach.bot.dto.Chat;
 import by.tolkach.bot.dto.ChatState;
-import by.tolkach.bot.service.handler.*;
+import by.tolkach.bot.service.handler.userText.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 

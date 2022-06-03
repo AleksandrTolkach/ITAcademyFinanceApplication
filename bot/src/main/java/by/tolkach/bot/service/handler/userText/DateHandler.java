@@ -1,4 +1,4 @@
-package by.tolkach.bot.service.handler;
+package by.tolkach.bot.service.handler.userText;
 
 import by.tolkach.bot.dto.Chat;
 import by.tolkach.bot.dto.ChatState;

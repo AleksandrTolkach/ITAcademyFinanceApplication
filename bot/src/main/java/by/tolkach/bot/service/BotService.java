@@ -56,7 +56,20 @@ public class BotService extends TelegramLongPollingBot {
             }
         }
         if (update.getMessage().hasText()) {
-            Chat chat = this.chatService.readById(update.getMessage().getChatId());
+            Chat chat = null;
+            try {
+                chat = this.chatService.readById(update.getMessage().getChatId());
+            } catch (NullPointerException e) {
+                try {
+                    execute(SendMessage.builder()
+                            .chatId(update.getMessage().getChatId().toString())
+                            .text("Вы ввели неверное значение")
+                            .build());
+                    return;
+                } catch (TelegramApiException ex) {
+                    ex.printStackTrace();
+                }
+            }
             IHandler handler = this.handlerFactory.getHandler(chat);
             SendMessage sendMessage = handler.handle(update);
             try {

@@ -1,4 +1,4 @@
-package by.tolkach.bot.service.handler;
+package by.tolkach.bot.service.handler.userText;
 
 import by.tolkach.bot.dto.Chat;
 import by.tolkach.bot.dto.ChatState;
@@ -16,12 +16,12 @@ import java.util.UUID;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class CurrencyHandler implements IHandler {
+public class CategoryHandler implements IHandler {
 
     private final IChatService chatService;
     private final IOperationService operationService;
 
-    public CurrencyHandler(IChatService chatService, IOperationService operationService) {
+    public CategoryHandler(IChatService chatService, IOperationService operationService) {
         this.chatService = chatService;
         this.operationService = operationService;
     }
@@ -31,10 +31,10 @@ public class CurrencyHandler implements IHandler {
         long chatId = update.getMessage().getChatId();
         Chat chat = this.chatService.readById(chatId);
         Operation operation = this.operationService.read(chat.getOperation());
-        operation.setCurrency(UUID.fromString(update.getMessage().getText()));
+        operation.setCategory(UUID.fromString(update.getMessage().getText()));
         this.operationService.save(operation);
-        chat.setState(ChatState.SET_DESCRIPTION);
+        chat.setState(ChatState.SET_VALUE);
         this.chatService.save(chat);
-        return SendMessage.builder().text("Введите описание").chatId(Long.toString(chatId)).build();
+        return SendMessage.builder().text("Введите значение").chatId(Long.toString(chatId)).build();
     }
 }

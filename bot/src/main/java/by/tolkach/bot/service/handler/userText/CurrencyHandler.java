@@ -1,4 +1,4 @@
-package by.tolkach.bot.service.handler;
+package by.tolkach.bot.service.handler.userText;
 
 import by.tolkach.bot.dto.Chat;
 import by.tolkach.bot.dto.ChatState;
@@ -16,12 +16,12 @@ import java.util.UUID;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class CreateHandler implements IHandler {
+public class CurrencyHandler implements IHandler {
 
     private final IChatService chatService;
     private final IOperationService operationService;
 
-    public CreateHandler(IChatService chatService, IOperationService operationService) {
+    public CurrencyHandler(IChatService chatService, IOperationService operationService) {
         this.chatService = chatService;
         this.operationService = operationService;
     }
@@ -29,15 +29,12 @@ public class CreateHandler implements IHandler {
     @Override
     public SendMessage handle(Update update) {
         long chatId = update.getMessage().getChatId();
-        Operation operation = new Operation();
         Chat chat = this.chatService.readById(chatId);
-        operation.setUuid(UUID.randomUUID());
-        UUID accountId = UUID.fromString(update.getMessage().getText());
-        operation.setAccount(accountId);
+        Operation operation = this.operationService.read(chat.getOperation());
+        operation.setCurrency(UUID.fromString(update.getMessage().getText()));
         this.operationService.save(operation);
-        chat.setState(ChatState.SET_DATE);
-        chat.setOperation(operation.getUuid());
+        chat.setState(ChatState.SET_DESCRIPTION);
         this.chatService.save(chat);
-        return SendMessage.builder().text("Введите дату выполнения операции").chatId(Long.toString(chatId)).build();
+        return SendMessage.builder().text("Введите описание").chatId(Long.toString(chatId)).build();
     }
 }

@@ -1,6 +1,9 @@
 package by.tolkach.bot.service.handler.api;
 
-import by.tolkach.bot.service.handler.CreateCommandHandler;
+import by.tolkach.bot.service.handler.botCommands.CreateCommandHandler;
+import by.tolkach.bot.service.handler.botCommands.NotFoundCommandHandler;
+import by.tolkach.bot.service.handler.botCommands.StartCommandHandler;
+import by.tolkach.bot.util.BotCommand;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -21,9 +24,12 @@ public class BotCommandHandlerFactory {
     public IHandler getBotCommandHandler(Update update) {
         String substring = this.cutCommand(update.getMessage());
         switch (substring) {
-            case "/create_operation":
+            case BotCommand.CREATE_OPERATION:
                 return applicationContext.getBean(CreateCommandHandler.class);
-            default: throw new RuntimeException();
+            case BotCommand.START:
+                return applicationContext.getBean(StartCommandHandler.class);
+            default:
+                return applicationContext.getBean(NotFoundCommandHandler.class);
         }
     }
 

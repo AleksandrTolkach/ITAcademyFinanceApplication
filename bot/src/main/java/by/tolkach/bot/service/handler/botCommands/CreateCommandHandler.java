@@ -1,4 +1,4 @@
-package by.tolkach.bot.service.handler;
+package by.tolkach.bot.service.handler.botCommands;
 
 import by.tolkach.bot.dto.Chat;
 import by.tolkach.bot.service.api.IChatService;
@@ -26,9 +26,7 @@ public class CreateCommandHandler implements IHandler {
         this.chatService.save(chat);
         return SendMessage.builder()
                 .text("Введите номер счета")
-                .chatId(update.getMessage()
-                .getChatId()
-                .toString())
+                .chatId(update.getMessage().getChatId().toString())
                 .build();
     }
 }
