@@ -1,14 +1,18 @@
 package by.tolkach.bot.service;
 
 import by.tolkach.bot.dto.Chat;
+import by.tolkach.bot.dto.OperationCategory;
 import by.tolkach.bot.service.api.IChatService;
 import by.tolkach.bot.service.handler.api.BotCommandHandlerFactory;
+import by.tolkach.bot.service.handler.api.CallBackQueryHandlerFactory;
 import by.tolkach.bot.service.handler.api.HandlerFactory;
 import by.tolkach.bot.service.handler.api.IHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -24,13 +28,16 @@ public class BotService extends TelegramLongPollingBot {
     private final IChatService chatService;
     private final HandlerFactory handlerFactory;
     private final BotCommandHandlerFactory botCommandHandlerFactory;
+    private final CallBackQueryHandlerFactory callBackQueryHandlerFactory;
 
     public BotService(IChatService chatService,
                       HandlerFactory handlerFactory,
-                      BotCommandHandlerFactory botCommandHandlerFactory) {
+                      BotCommandHandlerFactory botCommandHandlerFactory,
+                      CallBackQueryHandlerFactory callBackQueryHandlerFactory) {
         this.chatService = chatService;
         this.handlerFactory = handlerFactory;
         this.botCommandHandlerFactory = botCommandHandlerFactory;
+        this.callBackQueryHandlerFactory = callBackQueryHandlerFactory;
     }
 
     @Override
@@ -45,6 +52,17 @@ public class BotService extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        if (update.hasCallbackQuery()) {
+            IHandler callBackHandler = this.callBackQueryHandlerFactory.getCallBackHandler(update);
+            SendMessage sendMessage = callBackHandler.handle(update);
+            try {
+                execute(sendMessage);
+                return;
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (update.getMessage().isCommand()) {
             IHandler botCommandHandler = this.botCommandHandlerFactory.getBotCommandHandler(update);
             SendMessage sendMessage = botCommandHandler.handle(update);

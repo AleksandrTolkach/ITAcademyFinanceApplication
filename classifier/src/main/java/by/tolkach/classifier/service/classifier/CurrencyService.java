@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +60,22 @@ public class CurrencyService implements ICurrencyService {
         if (currencyEntity == null) {
             throw new NotFoundError("Валюты с таким ID не существует.");
         }
+        return this.currencyEntityConverter.toDto(currencyEntity);
+    }
+
+    @Override
+    public List<Currency> read() {
+        List<CurrencyEntity> currencyEntities = this.currencyStorage.findAllBy();
+        List<Currency> currencies = new ArrayList<>();
+        for (CurrencyEntity currencyEntity: currencyEntities) {
+            currencies.add(this.currencyEntityConverter.toDto(currencyEntity));
+        }
+        return currencies;
+    }
+
+    @Override
+    public Currency read(String title) {
+        CurrencyEntity currencyEntity = this.currencyStorage.findByTitle(title);
         return this.currencyEntityConverter.toDto(currencyEntity);
     }
 

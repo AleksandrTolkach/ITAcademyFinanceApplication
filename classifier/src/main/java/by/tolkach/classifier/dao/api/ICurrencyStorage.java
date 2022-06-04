@@ -11,4 +11,6 @@ import java.util.UUID;
 @Repository
 public interface ICurrencyStorage extends PagingAndSortingRepository<CurrencyEntity, UUID> {
     List<CurrencyEntity> findAllBy(Pageable pageable);
+    List<CurrencyEntity> findAllBy();
+    CurrencyEntity findByTitle(String title);
 }

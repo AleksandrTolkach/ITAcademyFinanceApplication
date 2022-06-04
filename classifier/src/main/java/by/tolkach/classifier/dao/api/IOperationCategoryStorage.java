@@ -11,4 +11,6 @@ import java.util.UUID;
 @Repository
 public interface IOperationCategoryStorage extends PagingAndSortingRepository<OperationCategoryEntity, UUID> {
     List<OperationCategoryEntity> findAllBy(Pageable pageable);
+    List<OperationCategoryEntity> findAllBy();
+    OperationCategoryEntity findByTitle(String title);
 }

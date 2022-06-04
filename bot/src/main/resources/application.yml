@@ -13,3 +13,5 @@ server:
   port: 8088
 account:
   url: http://localhost:8082/account
+classifier:
+  url: http://localhost:8084/classifier

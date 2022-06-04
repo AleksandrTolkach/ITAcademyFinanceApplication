@@ -20,10 +20,10 @@ public class HandlerFactory {
         switch (state) {
             case CREAT_OPERATION:
                 return applicationContext.getBean(CreateHandler.class);
-            case SET_CATEGORY:
-                return applicationContext.getBean(CategoryHandler.class);
-            case SET_CURRENCY:
-                return applicationContext.getBean(CurrencyHandler.class);
+//            case SET_CATEGORY:
+//                return applicationContext.getBean(CategoryHandler.class);
+//            case SET_CURRENCY:
+//                return applicationContext.getBean(CurrencyHandler.class);
             case SET_DATE:
                 return applicationContext.getBean(DateHandler.class);
             case SET_VALUE:

@@ -31,6 +31,18 @@ public class CurrencyController {
         return ResponseEntity.ok(this.currencyService.read(currencyId));
     }
 
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> index() {
+        return ResponseEntity.ok(this.currencyService.read());
+    }
+
+    @RequestMapping(value = "/title/{title}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> index(@PathVariable(name = "title") String title) {
+        return ResponseEntity.ok(this.currencyService.read(title));
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> create(@RequestBody(required = false) Currency currency) {

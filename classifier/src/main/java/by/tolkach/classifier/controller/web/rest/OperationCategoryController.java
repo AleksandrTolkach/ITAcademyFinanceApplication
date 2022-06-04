@@ -31,6 +31,18 @@ public class OperationCategoryController {
         return ResponseEntity.ok(this.operationCategoryService.read(operationCategoryId));
     }
 
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> index() {
+        return ResponseEntity.ok(this.operationCategoryService.read());
+    }
+
+    @RequestMapping(value = "/title/{title}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> index(@PathVariable(name = "title") String title) {
+        return ResponseEntity.ok(this.operationCategoryService.read(title));
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> create(@RequestBody(required = false) OperationCategory operationCategory) {

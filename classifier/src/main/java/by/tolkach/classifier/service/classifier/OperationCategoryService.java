@@ -3,6 +3,7 @@ package by.tolkach.classifier.service.classifier;
 import by.tolkach.classifier.dao.api.IOperationCategoryStorage;
 import by.tolkach.classifier.dao.api.entity.OperationCategoryEntity;
 import by.tolkach.classifier.dao.api.entity.converter.IEntityConverter;
+import by.tolkach.classifier.dto.Currency;
 import by.tolkach.classifier.dto.OperationCategory;
 import by.tolkach.classifier.dto.Page;
 import by.tolkach.classifier.dto.SimplePageable;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,6 +64,22 @@ public class OperationCategoryService implements IOperationCategoryService {
         if (operationCategoryEntity == null) {
             throw new NotFoundError("Категории с таким ID не существует.");
         }
+        return this.operationCategoryEntityConverter.toDto(operationCategoryEntity);
+    }
+
+    @Override
+    public List<OperationCategory> read() {
+        List<OperationCategoryEntity> categoryEntities = this.operationCategoryStorage.findAllBy();
+        List<OperationCategory> operationCategories = new ArrayList<>();
+        for (OperationCategoryEntity operationCategoryEntity: categoryEntities) {
+            operationCategories.add(this.operationCategoryEntityConverter.toDto(operationCategoryEntity));
+        }
+        return operationCategories;
+    }
+
+    @Override
+    public OperationCategory read(String title) {
+        OperationCategoryEntity operationCategoryEntity = this.operationCategoryStorage.findByTitle(title);
         return this.operationCategoryEntityConverter.toDto(operationCategoryEntity);
     }
 
