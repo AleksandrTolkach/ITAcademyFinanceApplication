@@ -4,8 +4,9 @@ import by.tolkach.schedulerAccount.dao.api.IScheduleStorage;
 import by.tolkach.schedulerAccount.dao.api.entity.ScheduleEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Schedule;
-import by.tolkach.schedulerAccount.dto.exception.NotFoundError;
+import by.tolkach.schedulerAccount.dto.exception.NotFoundException;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduleService;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.Schedules;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -32,7 +33,7 @@ public class ScheduleService implements IScheduleService {
     public Schedule read(UUID scheduleId) {
         ScheduleEntity scheduleEntity = this.scheduleStorage.findById(scheduleId).orElse(null);
         if (scheduleEntity == null) {
-            throw new NotFoundError("Расписание отсутствует в базе");
+            throw new NotFoundException("Расписание отсутствует в базе");
         }
         return this.scheduleEntityConverter.toDto(scheduleEntity);
     }
@@ -41,17 +42,9 @@ public class ScheduleService implements IScheduleService {
     public Schedule update(UUID scheduleId, Schedule schedule) {
         ScheduleEntity scheduleEntity = this.scheduleStorage.findById(scheduleId).orElse(null);
         if (scheduleEntity == null) {
-            throw new NotFoundError("Расписание отсутствует в базе");
+            throw new NotFoundException("Расписание отсутствует в базе");
         }
-        scheduleEntity = this.updateScheduleProperties(scheduleEntity, schedule);
+        Schedules.updateParameters(schedule, scheduleEntity);
         return this.scheduleEntityConverter.toDto(this.scheduleStorage.save(scheduleEntity));
-    }
-
-    public ScheduleEntity updateScheduleProperties(ScheduleEntity scheduleEntity, Schedule schedule) {
-        scheduleEntity.setStartTime(schedule.getStartTime());
-        scheduleEntity.setStopTime(schedule.getStopTime());
-        scheduleEntity.setInterval(schedule.getInterval());
-        scheduleEntity.setTimeUnit(schedule.getTimeUnit());
-        return scheduleEntity;
     }
 }

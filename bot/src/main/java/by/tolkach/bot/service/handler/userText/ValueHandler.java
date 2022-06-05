@@ -4,6 +4,7 @@ import by.tolkach.bot.dto.Chat;
 import by.tolkach.bot.dto.ChatState;
 import by.tolkach.bot.dto.Currency;
 import by.tolkach.bot.dto.Operation;
+import by.tolkach.bot.dto.exception.TypeMismatchException;
 import by.tolkach.bot.service.api.IChatService;
 import by.tolkach.bot.service.api.IOperationService;
 import by.tolkach.bot.service.handler.api.IHandler;
@@ -38,7 +39,7 @@ public class ValueHandler implements IHandler {
     }
 
     @Override
-    public SendMessage handle(Update update) {
+    public SendMessage handle(Update update) throws TypeMismatchException {
         List<Currency> currencies = this.classifierRestClientService.readCurrency();
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         for (Currency currency: currencies) {
@@ -49,7 +50,15 @@ public class ValueHandler implements IHandler {
         long chatId = update.getMessage().getChatId();
         Chat chat = this.chatService.readById(chatId);
         Operation operation = this.operationService.read(chat.getOperation());
-        operation.setValue(BigDecimal.valueOf(Long.parseLong(update.getMessage().getText())));
+        try {
+            operation.setValue(BigDecimal.valueOf(Long.parseLong(update.getMessage().getText())));
+        } catch (NumberFormatException e) {
+            SendMessage sendMessage = SendMessage.builder()
+                    .text("Введено не число")
+                    .chatId(Long.toString(chatId))
+                    .build();
+            throw new TypeMismatchException("Введено не число", sendMessage);
+        }
         this.operationService.save(operation);
         chat.setState(ChatState.SET_CURRENCY);
         this.chatService.save(chat);

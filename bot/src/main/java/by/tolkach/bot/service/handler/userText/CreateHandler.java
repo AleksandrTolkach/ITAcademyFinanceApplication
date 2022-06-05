@@ -3,6 +3,7 @@ package by.tolkach.bot.service.handler.userText;
 import by.tolkach.bot.dto.Chat;
 import by.tolkach.bot.dto.ChatState;
 import by.tolkach.bot.dto.Operation;
+import by.tolkach.bot.dto.exception.TypeMismatchException;
 import by.tolkach.bot.service.api.IChatService;
 import by.tolkach.bot.service.api.IOperationService;
 import by.tolkach.bot.service.handler.api.IHandler;
@@ -27,12 +28,21 @@ public class CreateHandler implements IHandler {
     }
 
     @Override
-    public SendMessage handle(Update update) {
+    public SendMessage handle(Update update) throws TypeMismatchException {
         long chatId = update.getMessage().getChatId();
         Operation operation = new Operation();
         Chat chat = this.chatService.readById(chatId);
         operation.setUuid(UUID.randomUUID());
-        UUID accountId = UUID.fromString(update.getMessage().getText());
+        UUID accountId = null;
+        try {
+            accountId = UUID.fromString(update.getMessage().getText());
+        } catch (IllegalArgumentException e) {
+            SendMessage sendMessage = SendMessage.builder()
+                    .text("Неверный тип UUID.")
+                    .chatId(Long.toString(chatId))
+                    .build();
+            throw new TypeMismatchException("Неверный тип UUID.", sendMessage);
+        }
         operation.setAccount(accountId);
         this.operationService.save(operation);
         chat.setState(ChatState.SET_DATE);

@@ -4,11 +4,12 @@ import by.tolkach.account.dao.api.IAccountStorage;
 import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.dto.Page;
 import by.tolkach.account.dto.SimplePageable;
+import by.tolkach.account.service.account.api.Accounts;
 import by.tolkach.account.service.account.api.IAccountService;
 import by.tolkach.account.dao.api.entity.AccountEntity;
 import by.tolkach.account.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.account.service.api.Pagination;
-import by.tolkach.account.service.api.exception.NotFoundError;
+import by.tolkach.account.dto.exception.NotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,7 @@ public class AccountService implements IAccountService {
     public Account read(UUID id) {
         Account account = this.accountEntityConverter.toDto(this.accountStorage.findById(id).orElse(null));
         if (account == null) {
-            throw new NotFoundError("Счета с указанным id не существует.");
+            throw new NotFoundException("Счета с указанным id не существует.");
         }
         return account;
     }
@@ -55,21 +56,12 @@ public class AccountService implements IAccountService {
     public Account update(UUID id, LocalDateTime dtUpdate, Account account) {
         AccountEntity accountEntity = this.accountStorage.findById(id).orElse(null);
         if (accountEntity == null) {
-            throw new NotFoundError("Счета с указанным id не существует.");
+            throw new NotFoundException("Счета с указанным id не существует.");
         }
         if (!accountEntity.getDtUpdate().equals(dtUpdate)) {
-            throw new NotFoundError("Запись устарела. Пожалуйста обновите запрос.");
+            throw new NotFoundException("Запись устарела. Пожалуйста обновите запрос.");
         }
-        AccountEntity updatedAccountEntity = this.accountStorage.save(this.setNewParameters(account, accountEntity));
+        AccountEntity updatedAccountEntity = this.accountStorage.save(Accounts.updateParameters(account, accountEntity));
         return this.accountEntityConverter.toDto(updatedAccountEntity);
-    }
-
-    public AccountEntity setNewParameters(Account account, AccountEntity accountEntity) {
-        accountEntity.setTitle(account.getTitle());
-        accountEntity.setDescription(account.getDescription());
-        accountEntity.setType(account.getType());
-        accountEntity.setCurrency(account.getCurrency());
-        accountEntity.setDtUpdate(LocalDateTime.now().withNano(0));
-        return accountEntity;
     }
 }

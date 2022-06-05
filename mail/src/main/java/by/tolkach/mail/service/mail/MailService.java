@@ -4,6 +4,7 @@ import by.tolkach.mail.dao.api.IMailStorage;
 import by.tolkach.mail.dao.api.entity.MailEntity;
 import by.tolkach.mail.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.mail.dto.*;
+import by.tolkach.mail.dto.exception.NotFoundException;
 import by.tolkach.mail.service.api.Pagination;
 import by.tolkach.mail.service.mail.api.IMailService;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +45,9 @@ public class MailService implements IMailService {
     @Override
     public Mail read(UUID mailId) {
         MailEntity mailEntity = this.mailStorage.findById(mailId).orElse(null);
+        if (mailEntity == null) {
+            throw new NotFoundException("Письма с таким ID не сущестует.");
+        }
         return this.mailEntityConverter.toDto(mailEntity);
     }
 }

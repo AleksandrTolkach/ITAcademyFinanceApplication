@@ -1,6 +1,6 @@
 package by.tolkach.mail.dto.serializer;
 
-import by.tolkach.mail.service.api.exception.NotFoundError;
+import by.tolkach.mail.dto.exception.NotFoundException;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -21,7 +21,7 @@ public class LongLocalDateTimeDeserializer extends StdDeserializer<LocalDateTime
     public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
         long value = p.getValueAsLong();
         if (value == 0) {
-            throw new NotFoundError("Неверный тип данных - " + value);
+            throw new NotFoundException("Неверный тип данных - " + value);
         }
         return Instant.ofEpochMilli(value)
                 .atZone(ZoneId.systemDefault()).toLocalDateTime();

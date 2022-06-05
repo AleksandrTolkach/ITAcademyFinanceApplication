@@ -6,8 +6,9 @@ import by.tolkach.account.dao.api.entity.BalanceEntity;
 import by.tolkach.account.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.dto.account.Balance;
+import by.tolkach.account.service.account.api.Accounts;
 import by.tolkach.account.service.account.api.IBalanceService;
-import by.tolkach.account.service.api.exception.NotFoundError;
+import by.tolkach.account.dto.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class BalanceService implements IBalanceService {
     @Override
     public Balance create(Account account) {
         AccountEntity accountEntity = this.accountEntityConverter.toEntity(account);
-        BalanceEntity createdBalanceEntity = this.balanceStorage.save(this.createBalanceParameters(accountEntity));
+        BalanceEntity createdBalanceEntity = this.balanceStorage.save(Accounts.createBalanceParameters(accountEntity));
         return this.balanceEntityConverter.toDto(createdBalanceEntity);
     }
 
@@ -39,7 +40,7 @@ public class BalanceService implements IBalanceService {
     public Balance read(UUID accountId) {
         BalanceEntity balanceEntity = this.balanceStorage.findByAccount_Uuid(accountId);
         if (balanceEntity == null) {
-            throw new NotFoundError("Указан неверный ID счета.");
+            throw new NotFoundException("Указан неверный ID счета.");
         }
         return this.balanceEntityConverter.toDto(balanceEntity);
     }
@@ -48,23 +49,14 @@ public class BalanceService implements IBalanceService {
     public Balance update(UUID  accountId, LocalDateTime dtUpdate, Long num) {
         BalanceEntity balanceEntity = this.balanceStorage.findByAccount_Uuid(accountId);
         if (balanceEntity == null) {
-            throw new NotFoundError("У счета отсутствует баланс.");
+            throw new NotFoundException("У счета отсутствует баланс.");
         }
         if (!balanceEntity.getDtUpdate().equals(dtUpdate)) {
-            throw new NotFoundError("Запись устарела. Пожалуйста обновите запрос.");
+            throw new NotFoundException("Запись устарела. Пожалуйста обновите запрос.");
         }
         balanceEntity.setSum(balanceEntity.getSum() + num);
         balanceEntity.setDtUpdate(LocalDateTime.now());
         BalanceEntity updatedEntity = this.balanceStorage.save(balanceEntity);
         return this.balanceEntityConverter.toDto(updatedEntity);
-    }
-
-    public BalanceEntity createBalanceParameters(AccountEntity accountEntity) {
-        return BalanceEntity.Builder.createBuilder()
-                .setAccount(accountEntity)
-                .setSum(0L)
-                .setDtCreate(accountEntity.getDtCreate())
-                .setDtUpdate(accountEntity.getDtCreate())
-                .build();
     }
 }

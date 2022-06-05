@@ -11,19 +11,20 @@ import by.tolkach.report.dto.report.ReportStatus;
 import by.tolkach.report.dto.report.ReportType;
 import by.tolkach.report.dto.report.Param;
 import by.tolkach.report.service.api.*;
-import by.tolkach.report.service.api.exception.NotFoundError;
+import by.tolkach.report.dto.exception.NotFoundException;
 import by.tolkach.report.service.handler.api.IReportHandler;
 import by.tolkach.report.service.handler.api.ReportHandlerFactory;
 import by.tolkach.report.service.helper.api.IOperationCategoryService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class ReportService implements IReportService {
 
     private final ReportHandlerFactory reportHandlerFactory;
@@ -57,7 +58,7 @@ public class ReportService implements IReportService {
     public ByteArrayOutputStream create(Param param, ReportType reportType) {
         this.paramValidationService.validate(param, reportType);
         param = this.paramService.create(param, reportType);
-        Report report = this.createReportProperties(param, reportType);
+        Report report = Reports.createProperties(param, reportType, this.operationCategoryService);
         ReportEntity reportEntity = this.reportEntityConverter.toEntity(report);
         reportEntity = this.reportStorage.save(reportEntity);
         IReportHandler reportHandler = this.reportHandlerFactory.getReportService(reportType);
@@ -76,14 +77,14 @@ public class ReportService implements IReportService {
     @Override
     public ByteArrayOutputStream read(UUID reportId) {
         if (reportId == null) {
-            throw new NotFoundError("Укажите ID отчета.");
+            throw new NotFoundException("Укажите ID отчета.");
         }
         ReportEntity reportEntity = this.reportStorage.findById(reportId).orElse(null);
         if (reportEntity == null) {
-            throw new NotFoundError("Отчета с таким ID не существует.");
+            throw new NotFoundException("Отчета с таким ID не существует.");
         }
         if (!reportEntity.getStatus().equals(ReportStatus.DONE)) {
-            throw new NotFoundError("Отчет ещё не сформирован.");
+            throw new NotFoundException("Отчет ещё не сформирован.");
         }
         return this.reportFileService.read(this.reportEntityConverter.toDto(reportEntity));
     }
@@ -94,37 +95,5 @@ public class ReportService implements IReportService {
                 this.reportStorage.findAllBy(PageRequest.of(simplePageable.getPage(), simplePageable.getSize()));
         return Pagination.pageOf(Report.class, ReportEntity.class).properties(reportEntities, simplePageable,
                 this.reportStorage.count(), this.reportEntityConverter);
-    }
-
-    public Report createReportProperties(Param param, ReportType reportType) {
-        LocalDateTime dtCreate = LocalDateTime.now();
-        StringBuilder sb = new StringBuilder();
-        switch (reportType) {
-            case BALANCE:
-                sb.append("Отчет по счетам:").append(" ");
-                for (UUID accountId: param.getAccounts()) {
-                    sb.append(accountId).append("; ");
-                }
-                break;
-            case BY_DATE:
-                sb.append("Отчет за период ").append(param.getFrom()).append(" - ").append(param.getTo());
-                break;
-            case BY_CATEGORY:
-                sb.append("Отчет по категориям: ");
-                for (UUID categoryId: param.getCategories()) {
-                    sb.append(this.operationCategoryService.read(categoryId).getTitle()).append("; ");
-                }
-                break;
-        }
-
-        return Report.Builder.createBuilder()
-                .setUuid(UUID.randomUUID())
-                .setDtCreate(dtCreate)
-                .setDtUpdate(dtCreate)
-                .setDescription(sb.toString())
-                .setStatus(ReportStatus.LOADED)
-                .setParams(param)
-                .setType(reportType)
-                .build();
     }
 }

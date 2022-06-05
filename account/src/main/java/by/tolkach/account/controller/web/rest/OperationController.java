@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
@@ -57,7 +57,7 @@ public class OperationController {
                                     @PathVariable(name = "dt_update") Long dtUpdate,
                                     @RequestBody(required = false) Operation operation) {
         this.operationService.update(accountId, operationId,
-                LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneOffset.of("+03:00")), operation);
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneId.systemDefault()), operation);
         return ResponseEntity.ok("Операция изменена");
     }
 
@@ -67,7 +67,7 @@ public class OperationController {
                                     @PathVariable(name = "uuid_operation") UUID operationId,
                                     @PathVariable(name = "dt_update") Long dtUpdate) {
         this.operationService.delete(accountID, operationId,
-                LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneOffset.of("+03:00")));
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneId.systemDefault()));
         return ResponseEntity.ok("Операция удалена");
     }
 }

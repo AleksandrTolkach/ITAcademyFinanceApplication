@@ -5,6 +5,7 @@ import by.tolkach.mailScheduler.dao.api.entity.ScheduleEntity;
 import by.tolkach.mailScheduler.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.mailScheduler.dto.Schedule;
 import by.tolkach.mailScheduler.service.scheduledMail.api.IScheduleService;
+import by.tolkach.mailScheduler.service.scheduledMail.api.Schedules;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -37,16 +38,8 @@ public class ScheduleService implements IScheduleService {
     @Override
     public Schedule update(UUID scheduleId, Schedule schedule) {
         ScheduleEntity scheduleEntity = this.scheduleStorage.findById(scheduleId).orElse(null);
-        this.updateScheduleParameters(schedule, scheduleEntity);
+        Schedules.updateParameters(schedule, scheduleEntity);
         scheduleEntity = this.scheduleStorage.save(scheduleEntity);
         return this.scheduleEntityConverter.toDto(scheduleEntity);
-    }
-
-    private ScheduleEntity updateScheduleParameters(Schedule schedule, ScheduleEntity scheduleEntity) {
-        scheduleEntity.setStartTime(schedule.getStartTime());
-        scheduleEntity.setStopTime(schedule.getStopTime());
-        scheduleEntity.setInterval(schedule.getInterval());
-        scheduleEntity.setTimeUnit(schedule.getTimeUnit());
-        return scheduleEntity;
     }
 }

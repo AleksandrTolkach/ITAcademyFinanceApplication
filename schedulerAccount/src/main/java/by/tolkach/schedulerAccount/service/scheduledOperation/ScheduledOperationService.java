@@ -8,20 +8,23 @@ import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Schedule;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.ScheduledOperation;
 import by.tolkach.schedulerAccount.service.api.IValidationService;
-import by.tolkach.schedulerAccount.dto.exception.NotFoundError;
+import by.tolkach.schedulerAccount.dto.exception.NotFoundException;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IOperationService;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduleService;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IScheduledOperationService;
 import by.tolkach.schedulerAccount.service.api.Pagination;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.ScheduledOperations;
 import by.tolkach.schedulerAccount.service.scheduler.api.ISchedulerService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class ScheduledOperationService implements IScheduledOperationService {
 
     private final IOperationService operationService;
@@ -52,13 +55,13 @@ public class ScheduledOperationService implements IScheduledOperationService {
     public ScheduledOperation create(Schedule schedule, Operation operation) {
         this.scheduleValidationService.validate(schedule);
         this.operationValidationService.validate(operation);
-        Operation createdOperation = this.operationService.create(operation);
-        Schedule createdSchedule = this.scheduleService.create(schedule);
-        ScheduledOperation scheduledOperation = this.createScheduledOperationProperties(schedule, operation);
-        ScheduledOperationEntity createdScheduledOperation =
+        operation = this.operationService.create(operation);
+        schedule = this.scheduleService.create(schedule);
+        ScheduledOperation scheduledOperation = ScheduledOperations.createParameters(schedule, operation);
+        ScheduledOperationEntity createdScheduledOperationEntity =
                 this.scheduledOperationStorage.save(this.scheduledOperationEntityConverter.toEntity(scheduledOperation));
-        this.schedulerService.create(createdOperation.getUuid(), createdSchedule);
-        return this.scheduledOperationEntityConverter.toDto(createdScheduledOperation);
+        this.schedulerService.create(operation.getUuid(), schedule);
+        return this.scheduledOperationEntityConverter.toDto(createdScheduledOperationEntity);
     }
 
     @Override
@@ -78,10 +81,10 @@ public class ScheduledOperationService implements IScheduledOperationService {
         ScheduledOperationEntity scheduledOperationEntity =
                 this.scheduledOperationStorage.findById(scheduledOperationId).orElse(null);
         if (scheduledOperationEntity == null) {
-            throw new NotFoundError("Указан неверный id операции.");
+            throw new NotFoundException("Указан неверный id операции.");
         }
         if (!scheduledOperationEntity.getDtUpdate().equals(dtUpdate)) {
-            throw new NotFoundError("Запись устарела. Пожалуйста обновите запрос.");
+            throw new NotFoundException("Запись устарела. Пожалуйста обновите запрос.");
         }
         this.scheduleService.update(scheduledOperationEntity.getSchedule().getUuid(), schedule);
         this.operationService.update(scheduledOperationEntity.getOperation().getUuid(), operation);
@@ -89,15 +92,5 @@ public class ScheduledOperationService implements IScheduledOperationService {
         this.schedulerService.update(scheduledOperationEntity.getOperation().getUuid(), schedule);
         return this.scheduledOperationEntityConverter
                 .toDto(this.scheduledOperationStorage.save(scheduledOperationEntity));
-    }
-
-    public ScheduledOperation createScheduledOperationProperties(Schedule schedule, Operation operation) {
-        LocalDateTime dtCreate = LocalDateTime.now();
-        return ScheduledOperation.Builder.createBuilder()
-                .setDtCreate(dtCreate)
-                .setDtUpdate(dtCreate)
-                .setSchedule(schedule)
-                .setOperation(operation)
-                .build();
     }
 }

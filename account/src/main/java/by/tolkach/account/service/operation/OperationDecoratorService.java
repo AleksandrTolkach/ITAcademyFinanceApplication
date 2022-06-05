@@ -12,6 +12,7 @@ import by.tolkach.account.service.api.IValidationService;
 import by.tolkach.account.service.rest.api.IReportRestClientService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @Service
 @Primary
+@Transactional
 public class OperationDecoratorService implements IOperationService {
 
     private final IValidationService<Operation> operationValidationService;

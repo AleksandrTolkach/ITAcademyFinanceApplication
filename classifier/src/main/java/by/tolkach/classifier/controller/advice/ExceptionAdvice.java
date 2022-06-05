@@ -1,7 +1,6 @@
 package by.tolkach.classifier.controller.advice;
 
-import by.tolkach.classifier.service.classifier.api.exception.MultipleErrorsException;
-import by.tolkach.classifier.service.classifier.api.exception.NotFoundError;
+import by.tolkach.classifier.dto.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -17,18 +16,19 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NotFoundError.class)
-    public ResponseEntity<NotFoundError> notFoundErrorHandler(NotFoundError e) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(HttpMessageConversionException.class)
-    public ResponseEntity<NotFoundError> httpMessageReadableHandler(HttpMessageConversionException e) {
-        return new ResponseEntity<>(new NotFoundError("Переданые невереные значения в тело."), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ConversionException> httpMessageReadableHandler(HttpMessageConversionException e) {
+        return new ResponseEntity<>(new ConversionException("Переданые невереные значения в тело."), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<NotFoundError> methodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException e) {
-        return new ResponseEntity<>(new NotFoundError("Переданы неверные параметры"), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<TypeMismatchException> methodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException e) {
+        return new ResponseEntity<>(new TypeMismatchException("Передан неверный тип данных в параметр " + e.getName() + "."),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EssenceException.class)
+    public ResponseEntity<EssenceException> notFoundErrorHandler(EssenceException e) {
+        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 }

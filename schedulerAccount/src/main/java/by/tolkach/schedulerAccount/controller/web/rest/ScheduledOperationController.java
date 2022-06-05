@@ -37,7 +37,7 @@ public class ScheduledOperationController {
     public ResponseEntity<?> create(@RequestBody(required = false) ScheduleAndOperationWrapper wrapper) {
         this.wrapperValidation.validate(wrapper);
         this.scheduledOperationService.create(wrapper.getSchedule(), wrapper.getOperation());
-        return ResponseEntity.ok("Операция добавлена к счету");
+        return ResponseEntity.ok("Операция запланирована");
     }
 
     @RequestMapping(value = "/{uuid}/dt_update/{dt_update}",method = RequestMethod.PUT)

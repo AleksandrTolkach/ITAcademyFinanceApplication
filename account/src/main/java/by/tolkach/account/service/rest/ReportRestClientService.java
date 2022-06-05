@@ -63,7 +63,7 @@ public class ReportRestClientService implements IReportRestClientService {
     @Override
     public void deleteOperation(UUID operationId, UUID accountId) {
         String uri = operationUrl + "/{operation_uuid}/account/{account_id}";
-        this.restTemplate.delete(uri, accountId, operationId);
+        this.restTemplate.delete(uri, operationId, accountId);
     }
 
     @Override

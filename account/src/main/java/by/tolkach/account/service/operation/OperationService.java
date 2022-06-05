@@ -4,15 +4,15 @@ import by.tolkach.account.dao.api.IOperationStorage;
 import by.tolkach.account.dto.*;
 import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.dto.operation.Operation;
-import by.tolkach.account.dto.operation.OperationType;
 import by.tolkach.account.service.account.api.IAccountService;
-import by.tolkach.account.service.api.exception.NotFoundError;
+import by.tolkach.account.dto.exception.NotFoundException;
 import by.tolkach.account.service.operation.api.IOperationService;
 import by.tolkach.account.service.api.IValidationService;
 import by.tolkach.account.dao.api.entity.AccountEntity;
 import by.tolkach.account.dao.api.entity.OperationEntity;
 import by.tolkach.account.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.account.service.api.Pagination;
+import by.tolkach.account.service.operation.api.Operations;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,8 @@ public class OperationService implements IOperationService {
     public Operation create(Operation operation, UUID accountId) {
         operation = this.operationValidationService.validate(operation);
         OperationEntity operationEntity = this.operationEntityConverter.toEntity(operation);
-        this.createOperationParameters(operationEntity, accountId);
+        AccountEntity accountEntity = this.accountEntityConverter.toEntity(this.accountService.read(accountId));
+        Operations.createParameters(operationEntity, accountEntity);
         OperationEntity createdOperationEntity = this.operationStorage.save(operationEntity);
         return this.operationEntityConverter.toDto(createdOperationEntity);
     }
@@ -64,7 +65,7 @@ public class OperationService implements IOperationService {
     public Operation read(UUID operationId, UUID accountId) {
         OperationEntity operationEntity = this.operationStorage.findByUuidAndAccount_Uuid(operationId, accountId);
         if (operationEntity == null) {
-            throw new NotFoundError("Указанного счета не существует.");
+            throw new NotFoundException("Указанного счета не существует.");
         }
         return this.operationEntityConverter.toDto(operationEntity);
     }
@@ -83,12 +84,12 @@ public class OperationService implements IOperationService {
     public Operation update(UUID accountId, UUID operationId, LocalDateTime dtUpdate, Operation operation) {
         OperationEntity operationEntity = this.operationStorage.findByUuidAndAccount_Uuid(operationId, accountId);
         if (operation == null) {
-            throw new NotFoundError("Указанного счета не существует.");
+            throw new NotFoundException("Указанного счета не существует.");
         }
         if (!operationEntity.getDtUpdate().equals(dtUpdate)) {
-            throw new NotFoundError("Запись устарела. Пожалуйста обновите запрос.");
+            throw new NotFoundException("Запись устарела. Пожалуйста обновите запрос.");
         }
-        this.updateOperationParameters(operation, operationEntity);
+        Operations.updateParameters(operation, operationEntity);
         OperationEntity updatedEntity = this.operationStorage.save(operationEntity);
         return this.operationEntityConverter.toDto(updatedEntity);
     }
@@ -98,29 +99,11 @@ public class OperationService implements IOperationService {
         OperationEntity operationEntity =
                 this.operationStorage.findByUuidAndAccount_Uuid(operationId, accountId);
         if (operationEntity == null) {
-            throw new NotFoundError("Указаны неверные id операции или счета");
+            throw new NotFoundException("Указаны неверные id операции или счета");
         }
         if (!operationEntity.getDtUpdate().equals(dtUpdate)) {
-            throw new NotFoundError("Запись устарела. Пожалуйста обновите запрос.");
+            throw new NotFoundException("Запись устарела. Пожалуйста обновите запрос.");
         }
         this.operationStorage.delete(operationEntity);
-    }
-
-    public OperationEntity createOperationParameters(OperationEntity operationEntity, UUID accountId) {
-        AccountEntity accountEntity = this.accountEntityConverter.toEntity(this.accountService.read(accountId));
-        operationEntity.setUuid(UUID.randomUUID());
-        operationEntity.setDtCreate(LocalDateTime.now());
-        operationEntity.setDtUpdate(operationEntity.getDtCreate());
-        operationEntity.setAccount(accountEntity);
-        operationEntity.setType(operationEntity.getValue() >= 0 ? OperationType.RECEIVE : OperationType.SPEND);
-        return operationEntity;
-    }
-
-    public OperationEntity updateOperationParameters(Operation operation, OperationEntity operationEntity) {
-        operationEntity.setDescription(operation.getDescription());
-        operationEntity.setValue(operation.getValue());
-        operationEntity.setCurrency(operation.getCurrency());
-        operationEntity.setDtUpdate(LocalDateTime.now());
-        return operationEntity;
     }
 }

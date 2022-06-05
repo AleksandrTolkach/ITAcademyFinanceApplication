@@ -13,20 +13,19 @@ import by.tolkach.mailScheduler.dto.scheduledMail.ScheduledMail;
 import by.tolkach.mailScheduler.service.api.IParamValidationService;
 import by.tolkach.mailScheduler.service.api.IValidationService;
 import by.tolkach.mailScheduler.service.api.Pagination;
-import by.tolkach.mailScheduler.service.api.exception.NotFoundError;
-import by.tolkach.mailScheduler.service.scheduledMail.api.IMailService;
-import by.tolkach.mailScheduler.service.scheduledMail.api.IParamService;
-import by.tolkach.mailScheduler.service.scheduledMail.api.IScheduleService;
-import by.tolkach.mailScheduler.service.scheduledMail.api.IScheduledMailService;
+import by.tolkach.mailScheduler.dto.exception.NotFoundException;
+import by.tolkach.mailScheduler.service.scheduledMail.api.*;
 import by.tolkach.mailScheduler.service.scheduler.api.ISchedulerService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class ScheduledMailService implements IScheduledMailService {
 
     private final IScheduledMailStorage scheduledMailStorage;
@@ -69,7 +68,7 @@ public class ScheduledMailService implements IScheduledMailService {
         param.setTo(schedule.getStartTime());
         param = this.paramService.create(param, reportType);
         schedule = this.scheduleService.create(schedule);
-        ScheduledMail scheduledMail = this.createScheduledMailParameters(mail, param, schedule);
+        ScheduledMail scheduledMail = ScheduledMails.createParameters(mail, param, schedule);
         ScheduledMailEntity scheduledMailEntity = this.scheduledMailEntityConverter.toEntity(scheduledMail);
         scheduledMailEntity = this.scheduledMailStorage.save(scheduledMailEntity);
         this.schedulerService.create(scheduledMail.getMail().getUuid(), scheduledMail.getParam().getUuid(),
@@ -86,10 +85,16 @@ public class ScheduledMailService implements IScheduledMailService {
     }
 
     @Override
-    public ScheduledMail update(UUID scheduledMailId, Mail mail, Param param, ReportType reportType, Schedule schedule) {
+    public ScheduledMail update(UUID scheduledMailId, Mail mail, Param param, ReportType reportType, Schedule schedule,
+                                LocalDateTime dtUpdate) {
         ScheduledMailEntity scheduledMailEntity = this.scheduledMailStorage.findById(scheduledMailId).orElse(null);
         if (scheduledMailEntity == null) {
-            throw new NotFoundError("Запланированной отправки с таким Id не существует.");
+            throw new NotFoundException("Запланированной рассылки с таким Id не существует.");
+        }
+
+        LocalDateTime dtUpdate1 = scheduledMailEntity.getDtUpdate();
+        if (!dtUpdate1.equals(dtUpdate)) {
+            throw new NotFoundException("Запись устарела. Пожалуйста, обновите запрос.");
         }
         this.mailValidationService.validate(mail);
         this.paramValidationService.validate(param, reportType);
@@ -100,30 +105,10 @@ public class ScheduledMailService implements IScheduledMailService {
         param.setTo(schedule.getStartTime());
         param = this.paramService.update(scheduledMailEntity.getParam().getUuid(), param);
         schedule = this.scheduleService.update(scheduledMailEntity.getSchedule().getUuid(), schedule);
-        this.updateScheduledMailParameters(scheduledMail, mail, param, schedule);
+        ScheduledMails.updateParameters(scheduledMail, mail, param, schedule);
         this.schedulerService.update(scheduledMailEntity.getMail().getUuid(), schedule);
         scheduledMailEntity = this.scheduledMailEntityConverter.toEntity(scheduledMail);
         scheduledMailEntity = this.scheduledMailStorage.save(scheduledMailEntity);
         return this.scheduledMailEntityConverter.toDto(scheduledMailEntity);
-    }
-
-    private ScheduledMail createScheduledMailParameters(Mail mail, Param param, Schedule schedule) {
-        LocalDateTime dtCreate = LocalDateTime.now();
-        return ScheduledMail.Builder.createBuilder()
-                .setUuid(UUID.randomUUID())
-                .setDtCreate(dtCreate)
-                .setDtUpdate(dtCreate)
-                .setMail(mail)
-                .setParam(param)
-                .setSchedule(schedule)
-                .build();
-    }
-
-    private ScheduledMail updateScheduledMailParameters(ScheduledMail scheduledMail, Mail mail, Param param,
-                                                        Schedule schedule) {
-        scheduledMail.setMail(mail);
-        scheduledMail.setParam(param);
-        scheduledMail.setSchedule(schedule);
-        return scheduledMail;
     }
 }

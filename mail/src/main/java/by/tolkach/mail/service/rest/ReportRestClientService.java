@@ -47,7 +47,7 @@ public class ReportRestClientService implements IReportRestClientService {
         return this.restTemplate.getForObject(uri, byte[].class, reportId);
     }
 
-    private org.springframework.http.HttpHeaders createHeader() {
+    private HttpHeaders createHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));

@@ -3,24 +3,26 @@ package by.tolkach.classifier.service.classifier;
 import by.tolkach.classifier.dao.api.IOperationCategoryStorage;
 import by.tolkach.classifier.dao.api.entity.OperationCategoryEntity;
 import by.tolkach.classifier.dao.api.entity.converter.IEntityConverter;
-import by.tolkach.classifier.dto.Currency;
 import by.tolkach.classifier.dto.OperationCategory;
 import by.tolkach.classifier.dto.Page;
 import by.tolkach.classifier.dto.SimplePageable;
+import by.tolkach.classifier.dto.exception.DuplicateException;
 import by.tolkach.classifier.service.classifier.api.IOperationCategoryService;
 import by.tolkach.classifier.service.classifier.api.IValidationService;
+import by.tolkach.classifier.service.classifier.api.OperationCategories;
 import by.tolkach.classifier.service.classifier.api.Pagination;
-import by.tolkach.classifier.service.classifier.api.exception.NotFoundError;
+import by.tolkach.classifier.dto.exception.NotFoundException;
 import by.tolkach.classifier.service.rest.api.IReportRestClientService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class OperationCategoryService implements IOperationCategoryService {
 
     private final IOperationCategoryStorage operationCategoryStorage;
@@ -41,8 +43,12 @@ public class OperationCategoryService implements IOperationCategoryService {
     @Override
     public OperationCategory create(OperationCategory operationCategory) {
         this.operationCategoryValidationService.validate(operationCategory);
-        this.createOperationCategoryParameters(operationCategory);
+        OperationCategories.createParameters(operationCategory);
         OperationCategoryEntity operationCategoryEntity = this.operationCategoryEntityConverter.toEntity(operationCategory);
+        OperationCategoryEntity check = this.operationCategoryStorage.findByTitle(operationCategoryEntity.getTitle());
+        if (check != null) {
+            throw new DuplicateException("Категория с таким названием уже существует.");
+        }
         operationCategory = this.operationCategoryEntityConverter
                 .toDto(this.operationCategoryStorage.save(operationCategoryEntity));
         this.reportRestClientService.sendOperationCategory(operationCategory);
@@ -62,7 +68,7 @@ public class OperationCategoryService implements IOperationCategoryService {
         OperationCategoryEntity operationCategoryEntity =
                 this.operationCategoryStorage.findById(operationCategoryId).orElse(null);
         if (operationCategoryEntity == null) {
-            throw new NotFoundError("Категории с таким ID не существует.");
+            throw new NotFoundException("Категории с таким ID не существует.");
         }
         return this.operationCategoryEntityConverter.toDto(operationCategoryEntity);
     }
@@ -80,13 +86,9 @@ public class OperationCategoryService implements IOperationCategoryService {
     @Override
     public OperationCategory read(String title) {
         OperationCategoryEntity operationCategoryEntity = this.operationCategoryStorage.findByTitle(title);
+        if (operationCategoryEntity == null) {
+            throw new NotFoundException("Категории с таким названием не существует.");
+        }
         return this.operationCategoryEntityConverter.toDto(operationCategoryEntity);
-    }
-
-    public OperationCategory createOperationCategoryParameters(OperationCategory operationCategory) {
-        LocalDateTime createdTime = LocalDateTime.now();
-        operationCategory.setDtCreate(createdTime);
-        operationCategory.setDtUpdate(createdTime);
-        return operationCategory;
     }
 }

@@ -6,20 +6,23 @@ import by.tolkach.classifier.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.classifier.dto.Currency;
 import by.tolkach.classifier.dto.Page;
 import by.tolkach.classifier.dto.SimplePageable;
+import by.tolkach.classifier.dto.exception.DuplicateException;
+import by.tolkach.classifier.service.classifier.api.Currencies;
 import by.tolkach.classifier.service.classifier.api.ICurrencyService;
 import by.tolkach.classifier.service.classifier.api.IValidationService;
 import by.tolkach.classifier.service.classifier.api.Pagination;
-import by.tolkach.classifier.service.classifier.api.exception.NotFoundError;
+import by.tolkach.classifier.dto.exception.NotFoundException;
 import by.tolkach.classifier.service.rest.api.IReportRestClientService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CurrencyService implements ICurrencyService {
 
     private final ICurrencyStorage currencyStorage;
@@ -40,8 +43,12 @@ public class CurrencyService implements ICurrencyService {
     @Override
     public Currency create(Currency currency) {
         this.currencyValidationService.validate(currency);
-        this.createCurrencyParameters(currency);
+        Currencies.createParameters(currency);
         CurrencyEntity currencyEntity = this.currencyEntityConverter.toEntity(currency);
+        CurrencyEntity check = this.currencyStorage.findByTitle(currencyEntity.getTitle());
+        if (check != null) {
+            throw new DuplicateException("Валюта с такой аббревиатурой уже существует.");
+        }
         currency = this.currencyEntityConverter.toDto(this.currencyStorage.save(currencyEntity));
         this.reportRestClientService.sendCurrency(currency);
         return this.currencyEntityConverter.toDto(this.currencyStorage.save(currencyEntity));
@@ -58,7 +65,7 @@ public class CurrencyService implements ICurrencyService {
     public Currency read(UUID currencyId) {
         CurrencyEntity currencyEntity = this.currencyStorage.findById(currencyId).orElse(null);
         if (currencyEntity == null) {
-            throw new NotFoundError("Валюты с таким ID не существует.");
+            throw new NotFoundException("Валюты с таким ID не существует.");
         }
         return this.currencyEntityConverter.toDto(currencyEntity);
     }
@@ -76,13 +83,9 @@ public class CurrencyService implements ICurrencyService {
     @Override
     public Currency read(String title) {
         CurrencyEntity currencyEntity = this.currencyStorage.findByTitle(title);
+        if (currencyEntity == null) {
+            throw new NotFoundException("Валюты с такой аббревиатурой не существует.");
+        }
         return this.currencyEntityConverter.toDto(currencyEntity);
-    }
-
-    public Currency createCurrencyParameters(Currency currency) {
-        LocalDateTime createdTime = LocalDateTime.now();
-        currency.setDtCreate(createdTime);
-        currency.setDtUpdate(createdTime);
-        return currency;
     }
 }

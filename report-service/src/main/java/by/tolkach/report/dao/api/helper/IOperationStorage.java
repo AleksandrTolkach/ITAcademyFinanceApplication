@@ -1,6 +1,6 @@
 package by.tolkach.report.dao.api.helper;
 
-import by.tolkach.report.dao.api.entity.operation.OperationEntity;
+import by.tolkach.report.dao.api.helper.entity.OperationEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

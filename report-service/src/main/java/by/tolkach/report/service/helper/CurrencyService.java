@@ -1,7 +1,7 @@
 package by.tolkach.report.service.helper;
 
 import by.tolkach.report.dao.api.helper.ICurrencyStorage;
-import by.tolkach.report.dao.api.entity.operation.CurrencyEntity;
+import by.tolkach.report.dao.api.helper.entity.CurrencyEntity;
 import by.tolkach.report.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.report.dto.operation.Currency;
 import by.tolkach.report.service.helper.api.ICurrencyService;

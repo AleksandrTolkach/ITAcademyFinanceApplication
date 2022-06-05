@@ -9,7 +9,6 @@ import by.tolkach.account.service.rest.object.converter.IRestObjectConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
@@ -39,7 +38,7 @@ public class ClassifierRestClientService implements IClassifierRestClientService
     }
 
     @Override
-    public OperationCategory readOperationCategory(UUID operationCategoryId) throws HttpServerErrorException {
+    public OperationCategory readOperationCategory(UUID operationCategoryId) {
         String uri = url + "/operation/category/{operationCategoryId}";
         OperationCategoryRestObject operationCategoryRestobject =
                 this.restTemplate.getForObject(uri, OperationCategoryRestObject.class, operationCategoryId);

@@ -4,8 +4,9 @@ import by.tolkach.schedulerAccount.dao.api.IOperationStorage;
 import by.tolkach.schedulerAccount.dao.api.entity.OperationEntity;
 import by.tolkach.schedulerAccount.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
-import by.tolkach.schedulerAccount.dto.exception.NotFoundError;
+import by.tolkach.schedulerAccount.dto.exception.NotFoundException;
 import by.tolkach.schedulerAccount.service.scheduledOperation.api.IOperationService;
+import by.tolkach.schedulerAccount.service.scheduledOperation.api.Operations;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -25,16 +26,16 @@ public class OperationService implements IOperationService {
     @Override
     public Operation create(Operation operation) {
         operation.setUuid(UUID.randomUUID());
-        OperationEntity savedOperationEntity =
+        OperationEntity operationEntity =
                 this.operationStorage.save(this.operationEntityConverter.toEntity(operation));
-        return this.operationEntityConverter.toDto(savedOperationEntity);
+        return this.operationEntityConverter.toDto(operationEntity);
     }
 
     @Override
     public Operation read(UUID operationId) {
         OperationEntity operationEntity = this.operationStorage.findById(operationId).orElse(null);
         if (operationEntity == null) {
-            throw new NotFoundError("Операция отсутствует в базе");
+            throw new NotFoundException("Операция отсутствует в базе");
         }
         return this.operationEntityConverter.toDto(operationEntity);
     }
@@ -43,17 +44,9 @@ public class OperationService implements IOperationService {
     public Operation update(UUID operationId, Operation operation) {
         OperationEntity operationEntity = this.operationStorage.findById(operationId).orElse(null);
         if (operationEntity == null) {
-            throw new NotFoundError("Операция отсутствует в базе");
+            throw new NotFoundException("Операция отсутствует в базе");
         }
-        operationEntity = this.updateOperationParameters(operationEntity, operation);
+        Operations.updateParameters(operationEntity, operation);
         return this.operationEntityConverter.toDto(this.operationStorage.save(operationEntity));
-    }
-
-    public OperationEntity updateOperationParameters(OperationEntity operationEntity, Operation operation) {
-        operationEntity.setAccount(operation.getAccount());
-        operationEntity.setDescription(operation.getDescription());
-        operationEntity.setValue(operation.getValue());
-        operationEntity.setCurrency(operation.getCurrency());
-        return operationEntity;
     }
 }

@@ -1,7 +1,7 @@
 package by.tolkach.bot.service;
 
 import by.tolkach.bot.dto.Chat;
-import by.tolkach.bot.dto.OperationCategory;
+import by.tolkach.bot.dto.exception.TypeMismatchException;
 import by.tolkach.bot.service.api.IChatService;
 import by.tolkach.bot.service.handler.api.BotCommandHandlerFactory;
 import by.tolkach.bot.service.handler.api.CallBackQueryHandlerFactory;
@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -54,7 +52,16 @@ public class BotService extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.hasCallbackQuery()) {
             IHandler callBackHandler = this.callBackQueryHandlerFactory.getCallBackHandler(update);
-            SendMessage sendMessage = callBackHandler.handle(update);
+            SendMessage sendMessage = null;
+            try {
+                sendMessage = callBackHandler.handle(update);
+            } catch (TypeMismatchException e) {
+                try {
+                    execute(e.getSendMessage());
+                } catch (TelegramApiException ex) {
+                    ex.printStackTrace();
+                }
+            }
             try {
                 execute(sendMessage);
                 return;
@@ -62,7 +69,6 @@ public class BotService extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-
         if (update.getMessage().isCommand()) {
             IHandler botCommandHandler = this.botCommandHandlerFactory.getBotCommandHandler(update);
             SendMessage sendMessage = botCommandHandler.handle(update);
@@ -89,7 +95,17 @@ public class BotService extends TelegramLongPollingBot {
                 }
             }
             IHandler handler = this.handlerFactory.getHandler(chat);
-            SendMessage sendMessage = handler.handle(update);
+            SendMessage sendMessage = null;
+            try {
+                sendMessage = handler.handle(update);
+            } catch (TypeMismatchException e) {
+                try {
+                    execute(e.getSendMessage());
+                    return;
+                } catch (TelegramApiException ex) {
+                    ex.printStackTrace();
+                }
+            }
             try {
                 execute(sendMessage);
             } catch (TelegramApiException e) {

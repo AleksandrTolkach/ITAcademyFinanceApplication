@@ -3,9 +3,9 @@ package by.tolkach.mail.service;
 import by.tolkach.mail.dto.Param;
 import by.tolkach.mail.dto.ReportType;
 import by.tolkach.mail.service.api.IParamValidationService;
-import by.tolkach.mail.service.api.exception.MultipleErrorsException;
-import by.tolkach.mail.service.api.exception.NotFoundError;
-import by.tolkach.mail.service.api.exception.SingleError;
+import by.tolkach.mail.dto.exception.MultipleErrorsException;
+import by.tolkach.mail.dto.exception.NotFoundException;
+import by.tolkach.mail.dto.exception.SingleError;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +17,7 @@ public class ParamValidationService implements IParamValidationService {
     public Param validate(Param param, ReportType reportType) {
         param = this.validate(param);
         if (reportType == null) {
-            throw new NotFoundError("Укажите тип отчета");
+            throw new NotFoundException("Укажите тип отчета");
         }
         if (!reportType.equals(ReportType.BALANCE)) {
             if (param.getFrom() == null) {
@@ -43,7 +43,7 @@ public class ParamValidationService implements IParamValidationService {
     public Param validate(Param param) {
         this.validationException = new MultipleErrorsException();
         if (param == null) {
-            throw new NotFoundError("Необходимо передать объект параметров.");
+            throw new NotFoundException("Необходимо передать объект параметров.");
         }
         if (param.getAccounts() == null || param.getAccounts().size() == 0) {
             validationException.add(

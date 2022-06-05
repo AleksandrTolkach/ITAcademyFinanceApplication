@@ -4,6 +4,7 @@ import by.tolkach.bot.dto.Chat;
 import by.tolkach.bot.dto.ChatState;
 import by.tolkach.bot.dto.Operation;
 import by.tolkach.bot.dto.OperationCategory;
+import by.tolkach.bot.dto.exception.TypeMismatchException;
 import by.tolkach.bot.service.api.IChatService;
 import by.tolkach.bot.service.api.IOperationService;
 import by.tolkach.bot.service.handler.api.IHandler;
@@ -17,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +40,7 @@ public class DateHandler implements IHandler {
     }
 
     @Override
-    public SendMessage handle(Update update) {
+    public SendMessage handle(Update update) throws TypeMismatchException {
         List<OperationCategory> operationCategories = this.classifierRestClientService.readCategory();
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         for (OperationCategory category: operationCategories) {
@@ -49,7 +51,16 @@ public class DateHandler implements IHandler {
         long chatId = update.getMessage().getChatId();
         Chat chat = this.chatService.readById(chatId);
         Operation operation = this.operationService.read(chat.getOperation());
-        operation.setDate(LocalDateTime.parse(update.getMessage().getText()));
+        try {
+            operation.setDate(LocalDateTime.parse(update.getMessage().getText()));
+        } catch (DateTimeParseException e) {
+            SendMessage sendMessage = SendMessage.builder()
+                    .text("Неверный формат даты")
+                    .chatId(Long.toString(chatId))
+                    .build();
+            throw new TypeMismatchException("Неверный формат даты",sendMessage);
+        }
+
         this.operationService.save(operation);
         chat.setState(ChatState.SET_CATEGORY);
         this.chatService.save(chat);

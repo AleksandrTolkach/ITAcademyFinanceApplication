@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
@@ -46,7 +46,8 @@ public class AccountController {
     public ResponseEntity<?> update(@PathVariable UUID id,
                                     @PathVariable(name = "dt_update") Long dtUpdate,
                                     @RequestBody(required = false) Account account) {
-        this.accountService.update(id, LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneOffset.of("+03:00")), account);
+        this.accountService.update(id, LocalDateTime.ofInstant(Instant.ofEpochMilli(dtUpdate), ZoneId.systemDefault()),
+                account);
         return ResponseEntity.ok("Счёт обновлен");
     }
 }

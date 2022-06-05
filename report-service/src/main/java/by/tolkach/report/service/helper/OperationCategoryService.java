@@ -1,7 +1,7 @@
 package by.tolkach.report.service.helper;
 
 import by.tolkach.report.dao.api.helper.IOperationCategoryStorage;
-import by.tolkach.report.dao.api.entity.operation.OperationCategoryEntity;
+import by.tolkach.report.dao.api.helper.entity.OperationCategoryEntity;
 import by.tolkach.report.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.report.dto.operation.OperationCategory;
 import by.tolkach.report.service.helper.api.IOperationCategoryService;

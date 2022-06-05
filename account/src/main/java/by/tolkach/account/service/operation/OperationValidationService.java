@@ -2,9 +2,9 @@ package by.tolkach.account.service.operation;
 
 import by.tolkach.account.dto.operation.Operation;
 import by.tolkach.account.service.api.IValidationService;
-import by.tolkach.account.service.api.exception.NotFoundError;
-import by.tolkach.account.service.api.exception.SingleError;
-import by.tolkach.account.service.api.exception.MultipleErrorsException;
+import by.tolkach.account.dto.exception.NotFoundException;
+import by.tolkach.account.dto.exception.SingleError;
+import by.tolkach.account.dto.exception.MultipleErrorsException;
 import by.tolkach.account.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -24,10 +24,7 @@ public class OperationValidationService implements IValidationService<Operation>
     public Operation validate(Operation operation) {
         MultipleErrorsException validationException = new MultipleErrorsException();
         if (operation == null) {
-            throw new NotFoundError("Необходимо передать объект операции");
-        }
-        if (operation.getDate() == null) {
-            operation.setDate(LocalDateTime.now());
+            throw new NotFoundException("Необходимо передать объект операции");
         }
 
         if (nullOrEmpty(operation.getDescription())) {

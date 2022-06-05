@@ -1,7 +1,9 @@
 package by.tolkach.mail.controller.advice;
 
-import by.tolkach.mail.service.api.exception.MultipleErrorsException;
-import by.tolkach.mail.service.api.exception.NotFoundError;
+import by.tolkach.mail.dto.exception.ConversionException;
+import by.tolkach.mail.dto.exception.MultipleErrorsException;
+import by.tolkach.mail.dto.exception.NotFoundException;
+import by.tolkach.mail.dto.exception.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -17,18 +19,19 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NotFoundError.class)
-    public ResponseEntity<NotFoundError> notFoundErrorHandler(NotFoundError e) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<NotFoundException> notFoundErrorHandler(NotFoundException e) {
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMessageConversionException.class)
-    public ResponseEntity<NotFoundError> httpMessageReadableHandler(HttpMessageConversionException e) {
-        return new ResponseEntity<>(new NotFoundError("Переданы невереные значения в тело."), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ConversionException> httpMessageReadableHandler(HttpMessageConversionException e) {
+        return new ResponseEntity<>(new ConversionException("Переданые невереные значения в тело."), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<NotFoundError> methodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException e) {
-        return new ResponseEntity<>(new NotFoundError("Переданы неверные параметры"), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<TypeMismatchException> methodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException e) {
+        return new ResponseEntity<>(new TypeMismatchException("Передан неверный тип данных в параметр " + e.getName() + "."),
+                HttpStatus.BAD_REQUEST);
     }
 }

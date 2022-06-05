@@ -2,9 +2,9 @@ package by.tolkach.account.service.account;
 
 import by.tolkach.account.dto.account.Account;
 import by.tolkach.account.service.api.IValidationService;
-import by.tolkach.account.service.api.exception.NotFoundError;
-import by.tolkach.account.service.api.exception.SingleError;
-import by.tolkach.account.service.api.exception.MultipleErrorsException;
+import by.tolkach.account.dto.exception.NotFoundException;
+import by.tolkach.account.dto.exception.SingleError;
+import by.tolkach.account.dto.exception.MultipleErrorsException;
 import by.tolkach.account.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -21,7 +21,7 @@ public class AccountValidationService implements IValidationService<Account> {
     @Override
     public Account validate(Account account) {
         if (account == null) {
-            throw new NotFoundError("Необходимо передать объект счета");
+            throw new NotFoundException("Необходимо передать объект счета");
         }
         MultipleErrorsException validationException = new MultipleErrorsException();
         if (nullOrEmpty(account.getTitle())) {

@@ -2,9 +2,9 @@ package by.tolkach.classifier.service.classifier;
 
 import by.tolkach.classifier.dto.Currency;
 import by.tolkach.classifier.service.classifier.api.IValidationService;
-import by.tolkach.classifier.service.classifier.api.exception.MultipleErrorsException;
-import by.tolkach.classifier.service.classifier.api.exception.NotFoundError;
-import by.tolkach.classifier.service.classifier.api.exception.SingleError;
+import by.tolkach.classifier.dto.exception.MultipleErrorsException;
+import by.tolkach.classifier.dto.exception.NotFoundException;
+import by.tolkach.classifier.dto.exception.SingleError;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +13,7 @@ public class CurrencyValidationService implements IValidationService<Currency> {
     public Currency validate(Currency currency) {
         MultipleErrorsException validationException = new MultipleErrorsException();
         if (currency == null) {
-            throw new NotFoundError("Необходимо передать объект валюты.");
+            throw new NotFoundException("Необходимо передать объект валюты.");
         }
         if (this.nullOrEmpty(currency.getTitle())) {
             validationException.add(new SingleError("title", "Необходимо указать название валюты."));
