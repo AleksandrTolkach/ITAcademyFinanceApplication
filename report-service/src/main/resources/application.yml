@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/report-service?ApplicationName=IDEA
+    username: ${db_user}
+    password: ${db_password}
+  jpa:
+    show-sql: true
+server:
+  port: 8085
