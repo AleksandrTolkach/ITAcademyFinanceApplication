@@ -7,9 +7,9 @@ That is application for accounting and planning of your own income and expenses.
 The application is developed using microservice architecture.
 At this stage, seven microservices have been made:
 
-* *account-service*  - main service which operate with accounts, operations;
+* *account-service*  - main service which operates with accounts, operations;
 * *classifier-service* - service for creating, storing currencies and categories of operations;
-* *account-scheduler-service* - service which provide the ability to automatically create transactions;
+* *account-scheduler-service* - service which provides the ability to automatically create transactions;
 * *report-service* - transaction reporting service;
 * *mail-service* - email reporting service;
 * *mail-scheduler-service* - service for scheduling emails with reports;
