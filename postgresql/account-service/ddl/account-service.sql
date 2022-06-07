@@ -1,8 +1,7 @@
-CREATE USER "account-service_user" WITH PASSWORD 'TiP22r1nJyyu';
-CREATE DATABASE "account-service" WITH OWNER = "account-service_user";
+CREATE DATABASE "account-service" WITH OWNER = "root";
 \c "account-service"
 CREATE SCHEMA IF NOT EXISTS application
-    AUTHORIZATION "account-service_user";
+    AUTHORIZATION "root";
 CREATE TABLE IF NOT EXISTS application.accounts
 (
     uuid uuid NOT NULL,

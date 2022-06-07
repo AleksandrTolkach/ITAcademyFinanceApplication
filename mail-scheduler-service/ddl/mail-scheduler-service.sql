@@ -1,8 +1,7 @@
-CREATE USER "mail-scheduler-service_user" WITH PASSWORD 'kswDW9g1dbfA';
-CREATE DATABASE "mail-scheduler-service" WITH OWNER = "mail-scheduler-service_user";
+CREATE DATABASE "mail-scheduler-service" WITH OWNER = "root";
 \c "mail-scheduler-service"
 CREATE SCHEMA IF NOT EXISTS application
-    AUTHORIZATION "mail-scheduler-service_user";
+    AUTHORIZATION "root";
 CREATE TABLE IF NOT EXISTS application.mails
 (
     uuid uuid NOT NULL,
@@ -56,7 +55,7 @@ CREATE TABLE IF NOT EXISTS application.scheduled_mails
     NOT VALID
     );
 CREATE SCHEMA IF NOT EXISTS quartz
-    AUTHORIZATION "mail-scheduler-service_user";
+    AUTHORIZATION "root";
 SET search_path = quartz;
 DROP TABLE IF EXISTS QRTZ_FIRED_TRIGGERS;
 DROP TABLE IF EXISTS QRTZ_PAUSED_TRIGGER_GRPS;

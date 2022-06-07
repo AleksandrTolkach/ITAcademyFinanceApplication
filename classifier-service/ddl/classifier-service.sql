@@ -1,8 +1,7 @@
-CREATE USER "classifie-service_user" WITH PASSWORD 'kswDW9g1dbfA';
-CREATE DATABASE "classifie-service" WITH OWNER = "classifie-service_user";
+CREATE DATABASE "classifie-service" WITH OWNER = "root";
 \c "classifie-service"
 CREATE SCHEMA IF NOT EXISTS application
-    AUTHORIZATION "classifie-service_user";
+    AUTHORIZATION "root";
 CREATE TABLE IF NOT EXISTS application.currency
 (
     uuid uuid NOT NULL,

@@ -1,8 +1,7 @@
-CREATE USER "account-scheduler-service_user" WITH PASSWORD 'P6OaVGkh4TjU';
-CREATE DATABASE "account-scheduler-service" WITH OWNER = "account-scheduler-service_user";
+CREATE DATABASE "account-scheduler-service" WITH OWNER = "root";
 \c "account-scheduler-service"
 CREATE SCHEMA IF NOT EXISTS application
-    AUTHORIZATION "account-scheduler-service_user";
+    AUTHORIZATION "root";
 CREATE TABLE IF NOT EXISTS application.operations
 (
     uuid uuid NOT NULL,
@@ -42,7 +41,7 @@ CREATE TABLE IF NOT EXISTS application.scheduled_operations
     NOT VALID
     );
 CREATE SCHEMA IF NOT EXISTS quartz
-    AUTHORIZATION "account-scheduler-service_user";
+    AUTHORIZATION "root";
 SET search_path = quartz;
 DROP TABLE IF EXISTS QRTZ_FIRED_TRIGGERS;
 DROP TABLE IF EXISTS QRTZ_PAUSED_TRIGGER_GRPS;

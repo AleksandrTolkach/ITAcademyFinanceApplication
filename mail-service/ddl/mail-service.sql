@@ -1,8 +1,7 @@
-CREATE USER "mail-service_user" WITH PASSWORD 'kswDW9g1dbfA';
-CREATE DATABASE "mail-service" WITH OWNER = "mail-service_user";
+CREATE DATABASE "mail-service" WITH OWNER = "root";
 \c "mail-service"
 CREATE SCHEMA IF NOT EXISTS application
-    AUTHORIZATION "mail-service_user";
+    AUTHORIZATION "root";
 CREATE TABLE IF NOT EXISTS application.mails
 (
     uuid uuid NOT NULL,

@@ -1,8 +1,7 @@
-CREATE USER "report-service_user" WITH PASSWORD 'CLlOg42MYtKt';
-CREATE DATABASE "report-service" WITH OWNER = "report-service_user";
+CREATE DATABASE "report-service" WITH OWNER = "root";
 \c "report-service"
 CREATE SCHEMA IF NOT EXISTS application
-    AUTHORIZATION "report-service_user";
+    AUTHORIZATION "root";
 CREATE TABLE IF NOT EXISTS application.accounts
 (
     uuid uuid NOT NULL,

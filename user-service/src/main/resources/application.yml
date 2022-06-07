@@ -2,5 +2,5 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://db/user-service?currentSchema=security
-    password: root
-    username: root
+    password: ${db_user}
+    username: ${db_password}

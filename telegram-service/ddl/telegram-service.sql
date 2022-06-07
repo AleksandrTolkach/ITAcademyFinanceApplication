@@ -1,8 +1,7 @@
-CREATE USER "telegram-service_user" WITH PASSWORD 'kswDW9g1dbfA';
-CREATE DATABASE "telegram-service" WITH OWNER = "telegram-service_user";
+CREATE DATABASE "telegram-service" WITH OWNER = "root";
 \c "telegram-service"
 CREATE SCHEMA IF NOT EXISTS application
-    AUTHORIZATION "telegram-service_user";
+    AUTHORIZATION "root";
 CREATE TABLE IF NOT EXISTS application.chats
 (
     uuid uuid NOT NULL,
