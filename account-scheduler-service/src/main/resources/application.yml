@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/account-scheduler-service?ApplicationName=IDEA
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+      platform: postgres
+    properties:
+      "org.quartz.jobStore.driverDelegateClass": "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
+      "org.quartz.jobStore.tablePrefix" : "quartz.QRTZ_"
+server:
+  port: 8083
+classifier:
+  currency:
+    url: http://classifier-service:8084/classifier/currency
+  category:
+    url: http://classifier-service:8084/classifier/operation/category
+account:
+  url: http://account-service:8082/account

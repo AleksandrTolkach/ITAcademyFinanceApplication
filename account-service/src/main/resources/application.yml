@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/account-service?ApplicationName=IDEA
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+server:
+  port: 8082
+classifier:
+  url: http://classifier-service:8084/classifier
+rep:
+  operation:
+    url: http://report-service:8085/report/operation
+  account:
+    url: http://report-service:8085/report/account

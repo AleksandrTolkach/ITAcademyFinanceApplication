@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://db:5432/classifie-service?ApplicationName=IDEA
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+server:
+  port: 8084
+rep:
+  currency:
+    url: http://report-service:8085/report/classifier/currency
+  category:
+    url: http://report-service:8085/report/classifier/operation_category
