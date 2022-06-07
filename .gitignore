@@ -4,3 +4,4 @@ target/
 
 *mail/src/main/resources/application.properties
 *bot/src/main/resources/application.properties
+*.env

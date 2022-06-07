@@ -1,6 +1,0 @@
-package by.tolkach.classifier.dao.api.entity.converter;
-
-public interface IEntityConverter<DTO, ENT> {
-    ENT toEntity(DTO dto);
-    DTO toDto(ENT entity);
-}
