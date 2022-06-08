@@ -3,7 +3,7 @@
 http://165.232.159.153:81/[OpenAPI]
 
 == Summary
-That is application for accounting and planning of your own income and expenses.
+This is application for accounting and planning of your own income and expenses.
 The application is developed using microservice architecture.
 At this stage, seven microservices have been made:
 
@@ -18,3 +18,27 @@ At this stage, seven microservices have been made:
 One services are under development:
 
 * *user-service* - user service. Provides security.
+
+== Technologies
+=== Programming language
+* Java 11
+
+=== Frameworks and libraries
+* Spring (Spring Boot)
+* Hibernate
+* Jackson
+* Quartz
+* Apache POI
+* Telegram Bot
+
+=== Protocols
+* HTTP
+* IP
+* SMTP
+
+=== Data base
+* PostgreSQL 14
+
+=== Additional tools
+* Docker
+
