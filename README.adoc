@@ -19,6 +19,8 @@ One services are under development:
 
 * *user-service* - user service. Provides security.
 
+The dependency between services can be seen in the https://miro.com/app/board/uXjVOu8eOOU=/?share_link_id=471729910648[diagram].
+
 == Technologies
 === Programming language
 * Java 11
