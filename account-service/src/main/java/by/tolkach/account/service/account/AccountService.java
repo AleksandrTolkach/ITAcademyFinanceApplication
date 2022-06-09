@@ -45,11 +45,11 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account read(UUID id) {
-        Account account = this.accountEntityConverter.toDto(this.accountStorage.findById(id).orElse(null));
-        if (account == null) {
+        AccountEntity accountEntity = this.accountStorage.findById(id).orElse(null);
+        if (accountEntity == null) {
             throw new NotFoundException("Счета с указанным id не существует.");
         }
-        return account;
+        return this.accountEntityConverter.toDto(accountEntity);
     }
 
     @Override

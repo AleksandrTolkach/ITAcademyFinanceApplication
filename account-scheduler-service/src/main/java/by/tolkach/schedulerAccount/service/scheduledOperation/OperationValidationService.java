@@ -4,6 +4,7 @@ import by.tolkach.schedulerAccount.dto.exception.MultipleErrorsException;
 import by.tolkach.schedulerAccount.dto.exception.SingleError;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
 import by.tolkach.schedulerAccount.service.api.IValidationService;
+import by.tolkach.schedulerAccount.service.rest.api.IAccountRestClientService;
 import by.tolkach.schedulerAccount.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -12,14 +13,18 @@ import org.springframework.web.client.HttpClientErrorException;
 public class OperationValidationService implements IValidationService<Operation> {
 
     private final IClassifierRestClientService classifierRestClientService;
+    private final IAccountRestClientService accountRestClientService;
 
-    public OperationValidationService(IClassifierRestClientService classifierRestClientService) {
+    public OperationValidationService(IClassifierRestClientService classifierRestClientService,
+                                      IAccountRestClientService accountRestClientService) {
         this.classifierRestClientService = classifierRestClientService;
+        this.accountRestClientService = accountRestClientService;
     }
 
     @Override
     public Operation validate(Operation operation) {
         MultipleErrorsException validationException = new MultipleErrorsException();
+        this.accountRestClientService.readAccount(operation.getAccount());
         if (nullOrEmpty(operation.getDescription())) {
             validationException.add(new SingleError("description", "Необходимо указать описание"));
         }

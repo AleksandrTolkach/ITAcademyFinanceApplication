@@ -1,7 +1,7 @@
-package by.tolkach.mail.service.rest;
+package by.tolkach.mailScheduler.service.rest;
 
-import by.tolkach.mail.dto.exception.NotFoundException;
-import by.tolkach.mail.service.rest.api.IAccountRestClientService;
+import by.tolkach.mailScheduler.dto.exception.NotFoundException;
+import by.tolkach.mailScheduler.service.rest.api.IAccountRestClientService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;

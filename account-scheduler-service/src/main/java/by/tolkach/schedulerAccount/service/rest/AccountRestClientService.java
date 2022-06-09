@@ -1,7 +1,8 @@
 package by.tolkach.schedulerAccount.service.rest;
 
+import by.tolkach.schedulerAccount.dto.exception.NotFoundException;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
-import by.tolkach.schedulerAccount.service.rest.api.IOperationRestClientService;
+import by.tolkach.schedulerAccount.service.rest.api.IAccountRestClientService;
 import by.tolkach.schedulerAccount.service.rest.object.OperationRestObject;
 import by.tolkach.schedulerAccount.service.rest.object.converter.IRestObjectConverter;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -17,20 +19,30 @@ import java.util.Collections;
 import java.util.UUID;
 
 @Service
-public class OperationRestClientService implements IOperationRestClientService {
+public class AccountRestClientService implements IAccountRestClientService {
 
     private final RestTemplate restTemplate;
     private final IRestObjectConverter<Operation, OperationRestObject> operationRestObjectConverter;
     @Value("${account.url}")
     private String accountUrl;
 
-    public OperationRestClientService(RestTemplateBuilder restTemplateBuilder,
-                                      IRestObjectConverter<Operation, OperationRestObject> operationRestObjectConverter) {
+    public AccountRestClientService(RestTemplateBuilder restTemplateBuilder,
+                                    IRestObjectConverter<Operation, OperationRestObject> operationRestObjectConverter) {
         this.restTemplate = restTemplateBuilder.build();
         this.operationRestObjectConverter = operationRestObjectConverter;
     }
 
-    public String create(Operation operation) {
+    @Override
+    public void readAccount(UUID accountId) {
+        String uri = accountUrl + "/{accountId}";
+        try {
+            this.restTemplate.getForObject(uri, String.class, accountId);
+        } catch (HttpClientErrorException e) {
+            throw new NotFoundException("Счета с Id " + accountId + " не существует.");
+        }
+    }
+
+    public String createOperation(Operation operation) {
         String uri = accountUrl + "/{accountId}/operation";
 
         HttpHeaders headers = this.createHeader();
@@ -43,7 +55,7 @@ public class OperationRestClientService implements IOperationRestClientService {
     }
 
     @Override
-    public Operation read(UUID operationId, UUID accountId) {
+    public Operation readOperation(UUID operationId, UUID accountId) {
         String uri = accountUrl + "/{accountId}/operation/{operationId}";
         OperationRestObject operationRestObject = this.restTemplate.getForObject(uri, OperationRestObject.class,
                 accountId, operationId);
@@ -51,11 +63,11 @@ public class OperationRestClientService implements IOperationRestClientService {
     }
 
     @Override
-    public String update(Operation operation) {
+    public String updateOperation(Operation operation) {
         String uri = accountUrl + "/{accountId}/operation/{operationId}/dt_update/{dtUpdate}";
 
         OperationRestObject operationRestObject = this.operationRestObjectConverter
-                .toRestObject(this.read(operation.getUuid(), operation.getAccount()));
+                .toRestObject(this.readOperation(operation.getUuid(), operation.getAccount()));
 
         this.restTemplate.put(uri, operation, operationRestObject.getAccount(),
                 operationRestObject.getUuid(), operationRestObject.getDtUpdate());
