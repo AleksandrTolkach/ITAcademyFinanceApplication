@@ -1,12 +1,9 @@
 package by.tolkach.mail.service.rest;
 
-import by.tolkach.mail.dto.exception.NotFoundException;
 import by.tolkach.mail.service.rest.api.IClassifierRestClientService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
@@ -24,10 +21,6 @@ public class ClassifierRestClientService implements IClassifierRestClientService
     @Override
     public void readOperationCategory(UUID operationCategoryId) {
         String uri = url + "/operation/category/{operationCategoryId}";
-        try {
-            this.restTemplate.getForObject(uri, String.class, operationCategoryId);
-        } catch (HttpClientErrorException e) {
-            throw new NotFoundException("Категории с Id " + operationCategoryId + " нет в базе.");
-        }
+        this.restTemplate.getForObject(uri, String.class, operationCategoryId);
     }
 }

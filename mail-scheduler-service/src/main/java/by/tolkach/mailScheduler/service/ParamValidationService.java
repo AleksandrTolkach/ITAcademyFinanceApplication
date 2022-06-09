@@ -9,6 +9,7 @@ import by.tolkach.mailScheduler.service.api.IParamValidationService;
 import by.tolkach.mailScheduler.service.rest.api.IAccountRestClientService;
 import by.tolkach.mailScheduler.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.UUID;
@@ -41,7 +42,12 @@ public class ParamValidationService implements IParamValidationService {
                 validationException.add(new SingleError("categories", "ID категории не может быть пустым."));
             } else {
                 for (UUID categoryId: categoriesId) {
-                    this.classifierRestClientService.readOperationCategory(categoryId);
+                    try {
+                        this.classifierRestClientService.readOperationCategory(categoryId);
+                    } catch (HttpClientErrorException e) {
+                        validationException.add(new SingleError("categories", "Категории с Id "
+                                + categoryId + " нет в базе."));
+                    }
                 }
             }
         }
@@ -65,7 +71,12 @@ public class ParamValidationService implements IParamValidationService {
             validationException.add(new SingleError("accountsId", "ID счета не может быть пустым."));
         } else {
             for (UUID accountId: accountsId) {
-                this.accountRestClientService.readAccount(accountId);
+                try {
+                    this.accountRestClientService.readAccount(accountId);
+                } catch (HttpClientErrorException e) {
+                    validationException.add(new SingleError("accounts", "Счета с Id " +
+                            accountId + " нет в базе."));
+                }
             }
         }
         return param;

@@ -9,6 +9,7 @@ import by.tolkach.mail.service.api.IParamValidationService;
 import by.tolkach.mail.service.rest.api.IAccountRestClientService;
 import by.tolkach.mail.service.rest.api.IClassifierRestClientService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,7 +48,12 @@ public class ParamValidationService implements IParamValidationService {
             }
             List<UUID> operationCategoriesId = param.getCategories();
             for (UUID operationCategoryId: operationCategoriesId) {
-                this.classifierRestClientService.readOperationCategory(operationCategoryId);
+                try {
+                    this.classifierRestClientService.readOperationCategory(operationCategoryId);
+                } catch (HttpClientErrorException e) {
+                    validationException.add(new SingleError("categories", "Категориис Id " +
+                            operationCategoryId + " нет в базе."));
+                }
             }
         }
         if (!this.validationException.getErrors().isEmpty()) {
@@ -70,7 +76,12 @@ public class ParamValidationService implements IParamValidationService {
         }
         List<UUID> accountsId = param.getAccounts();
         for (UUID accountId: accountsId) {
-            this.accountRestClientService.readAccount(accountId);
+            try {
+                this.accountRestClientService.readAccount(accountId);
+            } catch (HttpClientErrorException e) {
+                validationException.add(new SingleError("accounts", "Счета с Id " +
+                        accountId + " нет в базе."));
+            }
         }
         return param;
     }

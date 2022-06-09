@@ -1,11 +1,9 @@
 package by.tolkach.mailScheduler.service.rest;
 
-import by.tolkach.mailScheduler.dto.exception.NotFoundException;
 import by.tolkach.mailScheduler.service.rest.api.IAccountRestClientService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
@@ -24,10 +22,6 @@ public class AccountRestClientService implements IAccountRestClientService {
     @Override
     public void readAccount(UUID accountId) {
         String uri = accountUrl + "/{accountId}/";
-        try {
-            this.restTemplate.getForObject(uri, String.class, accountId);
-        } catch (HttpClientErrorException e) {
-            throw new NotFoundException("Счета с Id + " + accountId + " не существует.");
-        }
+        this.restTemplate.getForObject(uri, String.class, accountId);
     }
 }

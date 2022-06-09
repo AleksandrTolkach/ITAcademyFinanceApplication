@@ -24,7 +24,13 @@ public class OperationValidationService implements IValidationService<Operation>
     @Override
     public Operation validate(Operation operation) {
         MultipleErrorsException validationException = new MultipleErrorsException();
-        this.accountRestClientService.readAccount(operation.getAccount());
+
+        try {
+            this.accountRestClientService.readAccount(operation.getAccount());
+        } catch (HttpClientErrorException e) {
+            validationException.add(new SingleError("account", "Указанного счета не существует"));
+        }
+
         if (nullOrEmpty(operation.getDescription())) {
             validationException.add(new SingleError("description", "Необходимо указать описание"));
         }

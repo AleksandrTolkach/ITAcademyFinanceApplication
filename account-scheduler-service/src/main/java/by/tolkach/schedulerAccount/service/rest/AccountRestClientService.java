@@ -1,6 +1,5 @@
 package by.tolkach.schedulerAccount.service.rest;
 
-import by.tolkach.schedulerAccount.dto.exception.NotFoundException;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Operation;
 import by.tolkach.schedulerAccount.service.rest.api.IAccountRestClientService;
 import by.tolkach.schedulerAccount.service.rest.object.OperationRestObject;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -35,11 +33,7 @@ public class AccountRestClientService implements IAccountRestClientService {
     @Override
     public void readAccount(UUID accountId) {
         String uri = accountUrl + "/{accountId}";
-        try {
-            this.restTemplate.getForObject(uri, String.class, accountId);
-        } catch (HttpClientErrorException e) {
-            throw new NotFoundException("Счета с Id " + accountId + " не существует.");
-        }
+        this.restTemplate.getForObject(uri, String.class, accountId);
     }
 
     public String createOperation(Operation operation) {
