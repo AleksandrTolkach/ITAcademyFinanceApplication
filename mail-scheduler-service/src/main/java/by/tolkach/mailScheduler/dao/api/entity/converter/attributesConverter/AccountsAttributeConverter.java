@@ -43,7 +43,6 @@ public class AccountsAttributeConverter implements AttributeConverter<AccountsEn
 
         AccountsEntity accountsEntity = new AccountsEntity();
         List<UUID> uuids = new ArrayList<>();
-        String firstPiece = !pieces[0].isEmpty() ? pieces[0] : null;
         for (int i = 0; i < pieces.length; i++) {
             uuids.add(UUID.fromString(pieces[i]));
         }

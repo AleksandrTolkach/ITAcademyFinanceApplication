@@ -5,18 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"stackTrace", "suppressed", "cause", "localizedMessage"})
 public abstract class EssenceException extends IllegalArgumentException {
 
-    private String logRef = "error";
+    private final  static String LOG_REF = "error";
 
-    public EssenceException(String message) {
+    protected EssenceException(String message) {
         super(message, null);
     }
 
     public String getLogRef() {
-        return logRef;
-    }
-
-    @Override
-    public String getMessage() {
-        return super.getMessage();
+        return LOG_REF;
     }
 }

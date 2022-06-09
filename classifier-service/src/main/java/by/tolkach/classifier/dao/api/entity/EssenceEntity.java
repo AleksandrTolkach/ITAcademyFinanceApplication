@@ -15,10 +15,10 @@ public abstract class EssenceEntity {
     private LocalDateTime dtCreate;
     private LocalDateTime dtUpdate;
 
-    public EssenceEntity() {
+    protected EssenceEntity() {
     }
 
-    public EssenceEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate) {
+    protected EssenceEntity(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;

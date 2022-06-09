@@ -9,7 +9,7 @@ public class BytesAttributeConverter implements AttributeConverter<ByteArrayOutp
     @Override
     public byte[] convertToDatabaseColumn(ByteArrayOutputStream attribute) {
         if (attribute == null) {
-            return null;
+            return new byte[0];
         }
         return attribute.toByteArray();
     }

@@ -7,6 +7,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.UUID;
 
 public class TelegramUtil {
+
+    private TelegramUtil() {
+    }
+
     public static Chat start(Update update) {
         return Chat.Builder.createBuilder()
                 .setUuid(UUID.randomUUID())

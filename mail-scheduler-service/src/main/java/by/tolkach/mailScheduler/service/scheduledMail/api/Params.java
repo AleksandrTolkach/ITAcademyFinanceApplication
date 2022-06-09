@@ -3,6 +3,10 @@ package by.tolkach.mailScheduler.service.scheduledMail.api;
 import by.tolkach.mailScheduler.dto.scheduledMail.Param;
 
 public class Params {
+
+    private Params() {
+    }
+
     public static Param updateParameters(Param currentParam, Param newParam) {
         currentParam.setFrom(newParam.getFrom());
         currentParam.setTo(newParam.getTo());

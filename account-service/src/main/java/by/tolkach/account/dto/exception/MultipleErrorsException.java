@@ -1,6 +1,5 @@
 package by.tolkach.account.dto.exception;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;

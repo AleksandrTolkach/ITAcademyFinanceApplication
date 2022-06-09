@@ -1,6 +1,6 @@
 package by.tolkach.account.dto.serializer;
 
-import com.fasterxml.jackson.core.JacksonException;
+import by.tolkach.account.dto.exception.NotFoundException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -17,7 +17,11 @@ public class LongLocalDateTimeDeserializer extends StdDeserializer<LocalDateTime
     }
 
     @Override
-    public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+    public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        long value = p.getValueAsLong();
+        if (value == 0) {
+            throw new NotFoundException("Неверный тип данных - " + value);
+        }
         return Instant.ofEpochMilli(p.getValueAsLong())
                 .atZone(ZoneId.systemDefault()).toLocalDateTime();
     }

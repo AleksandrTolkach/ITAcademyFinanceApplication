@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CurrencyRestConverter implements IRestObjectConverter<Currency, CurrencyRestObject> {
-
     @Override
     public CurrencyRestObject toRestObject(Currency currency) {
         return CurrencyRestObject.Builder.createBuilder()

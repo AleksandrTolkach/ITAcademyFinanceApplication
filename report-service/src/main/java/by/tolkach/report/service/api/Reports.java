@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Reports {
+
+    private Reports() {
+    }
+
     public static Report createProperties(Param param, ReportType reportType,
                                           IOperationCategoryService operationCategoryService) {
         LocalDateTime dtCreate = LocalDateTime.now();

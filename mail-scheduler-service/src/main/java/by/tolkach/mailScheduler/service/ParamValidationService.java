@@ -20,14 +20,14 @@ public class ParamValidationService implements IParamValidationService {
             throw new NotFoundException("Укажите тип отчета");
         }
         if (!reportType.equals(ReportType.BALANCE)) {
-            if (param.getCategories() == null || param.getCategories().size() == 0) {
+            if (param.getCategories() == null || param.getCategories().isEmpty()) {
                 this.validationException.add(
                         new SingleError("categories", "Укажите минимум одну категорию."));
             } else if (param.getCategories().contains(null)) {
                 validationException.add(new SingleError("categories", "ID категории не может быть пустым."));
             }
         }
-        if (this.validationException.getErrors().size() > 0) {
+        if (!this.validationException.getErrors().isEmpty()) {
             throw validationException;
         }
         return param;
@@ -39,7 +39,7 @@ public class ParamValidationService implements IParamValidationService {
         if (param == null) {
             throw new NotFoundException("Необходимо передать объект параметров.");
         }
-        if (param.getAccounts() == null || param.getAccounts().size() == 0) {
+        if (param.getAccounts() == null || param.getAccounts().isEmpty()) {
             validationException.add(
                     new SingleError("accounts", "Необходимо передать хотя бы один ID счета."));
         } else if (param.getAccounts().contains(null)) {

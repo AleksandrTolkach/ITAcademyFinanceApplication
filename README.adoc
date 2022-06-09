@@ -3,23 +3,21 @@
 http://165.232.159.153:81/[OpenAPI]
 
 == Summary
-This is application for accounting and planning of your own income and expenses.
-The application is developed using microservice architecture.
-At this stage, seven microservices have been made:
+The  application "Program for accounting of income and expenses" is used for tracking income and  expenses. This application has been developed using microservice architecture. Seven microservices have been created:
 
-* *account-service*  - main service which operates with accounts, operations;
+* *account-service*  - main service for running accounts and operating transactions;
 * *classifier-service* - service for creating, storing currencies and categories of operations;
-* *account-scheduler-service* - service which provides the ability to automatically create transactions;
-* *report-service* - transaction reporting service;
-* *mail-service* - email reporting service;
+* *account-scheduler-service* - service for creating  transactions automatically;
+* *report-service* - service for transaction reporting;
+* *mail-service* - service for email reporting;
 * *mail-scheduler-service* - service for scheduling emails with reports;
-* *telegram-service* - service for quickly creating an account transaction via telegram application (the service is under testing).
+* *telegram-service* - service for quick creating an account transaction via telegram application (the service is in testing period).
 
-One services are under development:
+The next service is under development:
 
-* *user-service* - user service. Provides security.
+* *user-service* - service for providing security.
 
-The dependency between services can be seen in the https://miro.com/app/board/uXjVOu8eOOU=/?share_link_id=471729910648[diagram].
+The dependency between services can be seen from the https://miro.com/app/board/uXjVOu8eOOU=/?share_link_id=471729910648[diagram].
 
 == Technologies
 === Programming language

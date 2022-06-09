@@ -1,6 +1,5 @@
 package by.tolkach.bot.dto.exception;
 
-
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class TypeMismatchException extends EssenceException {

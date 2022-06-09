@@ -3,6 +3,7 @@ package by.tolkach.report.service.helper;
 import by.tolkach.report.dao.api.entity.converter.IEntityConverter;
 import by.tolkach.report.dao.api.helper.IOperationStorage;
 import by.tolkach.report.dao.api.helper.entity.OperationEntity;
+import by.tolkach.report.dto.exception.NotFoundException;
 import by.tolkach.report.dto.operation.Operation;
 import by.tolkach.report.dto.report.Param;
 import by.tolkach.report.service.helper.api.IOperationCategoryService;
@@ -61,6 +62,9 @@ public class OperationService implements IOperationService {
     @Override
     public void update(Operation operation) {
         OperationEntity operationEntity = this.operationStorage.findById(operation.getUuid()).orElse(null);
+        if (operationEntity == null) {
+            throw new NotFoundException("Операции с таим Id не существует");
+        }
         this.operationStorage.save(this.updateOperationParameters(operation, operationEntity));
     }
 

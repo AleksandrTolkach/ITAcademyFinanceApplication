@@ -21,10 +21,10 @@ public abstract class EssenceRestObject {
     @JsonDeserialize(using = LongLocalDateTimeDeserializer.class)
     private LocalDateTime dtUpdate;
 
-    public EssenceRestObject() {
+    protected EssenceRestObject() {
     }
 
-    public EssenceRestObject(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate) {
+    protected EssenceRestObject(UUID uuid, LocalDateTime dtCreate, LocalDateTime dtUpdate) {
         this.uuid = uuid;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;

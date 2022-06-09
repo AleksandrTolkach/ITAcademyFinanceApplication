@@ -1,9 +1,6 @@
 package by.tolkach.schedulerAccount.controller.advice;
 
-import by.tolkach.schedulerAccount.dto.exception.ConversionException;
-import by.tolkach.schedulerAccount.dto.exception.MultipleErrorsException;
-import by.tolkach.schedulerAccount.dto.exception.NotFoundException;
-import by.tolkach.schedulerAccount.dto.exception.TypeMismatchException;
+import by.tolkach.schedulerAccount.dto.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -33,5 +30,10 @@ public class ExceptionAdvice {
     public ResponseEntity<TypeMismatchException> methodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException e) {
         return new ResponseEntity<>(new TypeMismatchException("Передан неверный тип данных в параметр " + e.getName() + "."),
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ScheduleException.class)
+    public ResponseEntity<ScheduleException> methodArgumentTypeMismatchHandler(ScheduleException e) {
+        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 }

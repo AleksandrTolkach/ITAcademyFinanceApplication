@@ -4,6 +4,10 @@ import by.tolkach.schedulerAccount.dao.api.entity.ScheduleEntity;
 import by.tolkach.schedulerAccount.dto.scheduledOperation.Schedule;
 
 public class Schedules {
+
+    private Schedules() {
+    }
+
     public static ScheduleEntity updateParameters(Schedule schedule, ScheduleEntity scheduleEntity) {
         scheduleEntity.setStartTime(schedule.getStartTime());
         scheduleEntity.setStopTime(schedule.getStopTime());

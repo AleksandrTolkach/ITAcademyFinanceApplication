@@ -21,3 +21,7 @@ server:
   port: 8086
 rep:
   url: http://report-service:8085/report
+classifier:
+  url: http://classifier-service:8084/classifier
+account:
+  url: http://account-service:8082/account

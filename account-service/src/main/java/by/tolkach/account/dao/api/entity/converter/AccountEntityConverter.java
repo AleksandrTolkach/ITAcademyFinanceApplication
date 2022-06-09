@@ -6,13 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AccountEntityConverter implements IEntityConverter<Account, AccountEntity> {
-
-    private final BalanceEntityConverter balanceEntityConverter;
-
-    public AccountEntityConverter(BalanceEntityConverter balanceEntityConverter) {
-        this.balanceEntityConverter = balanceEntityConverter;
-    }
-
     @Override
     public AccountEntity toEntity(Account account) {
         return AccountEntity.Builder.createBuilder()

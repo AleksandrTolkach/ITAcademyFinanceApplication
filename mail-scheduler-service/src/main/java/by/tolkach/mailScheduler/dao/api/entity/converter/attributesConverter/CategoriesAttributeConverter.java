@@ -1,6 +1,5 @@
 package by.tolkach.mailScheduler.dao.api.entity.converter.attributesConverter;
 
-
 import by.tolkach.mailScheduler.dao.api.entity.CategoriesEntity;
 
 import javax.persistence.AttributeConverter;
@@ -44,7 +43,6 @@ public class CategoriesAttributeConverter implements AttributeConverter<Categori
 
         CategoriesEntity categoriesEntity = new CategoriesEntity();
         List<UUID> uuids = new ArrayList<>();
-        String firstPiece = !pieces[0].isEmpty() ? pieces[0] : null;
         for (int i = 0; i < pieces.length; i++) {
             uuids.add(UUID.fromString(pieces[i]));
         }

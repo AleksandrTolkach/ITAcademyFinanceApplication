@@ -1,5 +1,6 @@
 package by.tolkach.bot.service.handler.api;
 
+import by.tolkach.bot.dto.exception.NotFoundException;
 import by.tolkach.bot.service.handler.userText.CategoryHandler;
 import by.tolkach.bot.service.handler.userText.CurrencyHandler;
 import org.springframework.context.ApplicationContext;
@@ -22,7 +23,7 @@ public class CallBackQueryHandlerFactory {
                 return applicationContext.getBean(CategoryHandler.class);
             case "currency":
                 return applicationContext.getBean(CurrencyHandler.class);
-            default: throw new RuntimeException();
+            default: throw new NotFoundException("Неверный тип.");
         }
     }
 }

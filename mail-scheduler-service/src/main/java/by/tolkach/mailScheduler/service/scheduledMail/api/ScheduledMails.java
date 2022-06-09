@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ScheduledMails {
+
+    private ScheduledMails() {
+    }
+
     public static ScheduledMail createParameters(Mail mail, Param param, Schedule schedule) {
         LocalDateTime dtCreate = LocalDateTime.now();
         return ScheduledMail.Builder.createBuilder()

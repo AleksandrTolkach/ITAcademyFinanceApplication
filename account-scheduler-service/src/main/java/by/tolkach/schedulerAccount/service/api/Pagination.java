@@ -18,9 +18,7 @@ public class Pagination<T,Z> {
         for (Z item: items) {
             page.add(converter.toDto(item));
         }
-        int totalPages = (int) totalElements / pageable.getSize();
         return page.createPageProperty(pageable.getPage(), pageable.getSize(), (int) totalElements,
-                (int) totalElements / pageable.getSize(), pageable.getPage() == 0, items.size(),
-                pageable.getPage() == totalPages);
+                (int) totalElements / pageable.getSize(), items.size());
     }
 }

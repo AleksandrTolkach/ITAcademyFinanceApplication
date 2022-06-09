@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AccountRestObjectConverter implements IRestObjectConverter<Account, AccountRestObject> {
-
     @Override
     public AccountRestObject toRestObject(Account account) {
         return AccountRestObject.Builder.createBuilder()

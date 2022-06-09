@@ -63,12 +63,18 @@ public class ReportService implements IReportService {
         reportEntity = this.reportStorage.save(reportEntity);
         IReportHandler reportHandler = this.reportHandlerFactory.getReportService(reportType);
         reportEntity = this.reportStorage.findById(reportEntity.getUuid()).orElse(null);
+        if (reportEntity == null) {
+            throw new NotFoundException("Отчета с таким Id не существует.");
+        }
         reportEntity.setStatus(ReportStatus.PROGRESS);
         this.reportStorage.save(reportEntity);
         List<Operation> operations = reportHandler.getOperations(param);
         ByteArrayOutputStream book = this.bookService.createBook(operations, reportType);
         this.reportFileService.save(book, report);
         reportEntity = this.reportStorage.findById(reportEntity.getUuid()).orElse(null);
+        if (reportEntity == null) {
+            throw new NotFoundException("Отчета с таким Id не существует");
+        }
         reportEntity.setStatus(ReportStatus.DONE);
         this.reportStorage.save(reportEntity);
         return book;

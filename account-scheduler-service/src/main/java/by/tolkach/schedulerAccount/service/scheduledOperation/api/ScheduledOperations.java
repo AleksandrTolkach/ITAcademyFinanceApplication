@@ -8,6 +8,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ScheduledOperations {
+
+    private ScheduledOperations() {
+    }
+
     public static ScheduledOperation createParameters(Schedule schedule, Operation operation) {
         LocalDateTime dtCreate = LocalDateTime.now();
         return ScheduledOperation.Builder.createBuilder()

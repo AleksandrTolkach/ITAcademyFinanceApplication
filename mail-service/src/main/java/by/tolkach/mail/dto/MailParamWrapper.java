@@ -5,9 +5,6 @@ public class MailParamWrapper {
     private Mail mail;
     private Param param;
 
-    public MailParamWrapper() {
-    }
-
     public Mail getMail() {
         return mail;
     }

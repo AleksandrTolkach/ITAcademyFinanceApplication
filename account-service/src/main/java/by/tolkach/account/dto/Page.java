@@ -102,14 +102,14 @@ public class Page <T> {
     }
 
     public Page<T> createPageProperty(Integer number, Integer size, Integer totalElements, Integer totalPages,
-                                      boolean first, Integer numberOfElements, boolean last) {
+                                      Integer numberOfElements) {
         this.setNumber(number);
         this.setSize(size);
         this.setTotalElements((totalElements));
         this.setTotalPages(totalElements / size);
         this.setFirst(number == 0);
         this.setNumberOfElements(numberOfElements);
-        this.setLast(number == totalPages);
+        this.setLast(number >= (totalPages - 1));
         return this;
     }
 

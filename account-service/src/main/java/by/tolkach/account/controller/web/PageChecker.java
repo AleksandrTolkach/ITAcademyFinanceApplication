@@ -4,6 +4,9 @@ import by.tolkach.account.dto.SimplePageable;
 
 public class PageChecker {
 
+    private PageChecker() {
+    }
+
     public static SimplePageable checkParameters(Integer page, Integer size) {
         if (page == null) {
             page = 0;

@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Operations {
+
+    private Operations() {
+    }
+
     public static OperationEntity createParameters(OperationEntity operationEntity, AccountEntity accountEntity) {
         if (operationEntity.getDate() == null) {
             operationEntity.setDate(LocalDateTime.now());

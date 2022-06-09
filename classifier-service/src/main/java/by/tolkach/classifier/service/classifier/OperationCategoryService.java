@@ -47,7 +47,7 @@ public class OperationCategoryService implements IOperationCategoryService {
         OperationCategoryEntity operationCategoryEntity = this.operationCategoryEntityConverter.toEntity(operationCategory);
         OperationCategoryEntity check = this.operationCategoryStorage.findByTitle(operationCategoryEntity.getTitle());
         if (check != null) {
-            throw new DuplicateException("Категория с таким названием уже существует.");
+            throw new DuplicateException("Категории с таким названием уже существует.");
         }
         operationCategory = this.operationCategoryEntityConverter
                 .toDto(this.operationCategoryStorage.save(operationCategoryEntity));

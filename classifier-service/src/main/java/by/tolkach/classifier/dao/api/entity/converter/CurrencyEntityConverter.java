@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CurrencyEntityConverter implements IEntityConverter<Currency, CurrencyEntity> {
-
     @Override
     public CurrencyEntity toEntity(Currency currency) {
         return CurrencyEntity.Builder.createBuilder()

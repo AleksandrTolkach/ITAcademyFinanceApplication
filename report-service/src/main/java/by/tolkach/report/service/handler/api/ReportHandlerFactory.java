@@ -1,5 +1,6 @@
 package by.tolkach.report.service.handler.api;
 
+import by.tolkach.report.dto.exception.NotFoundException;
 import by.tolkach.report.dto.report.ReportType;
 import by.tolkach.report.service.handler.BalanceReportHandler;
 import by.tolkach.report.service.handler.ByCategoryReportHandler;
@@ -24,7 +25,7 @@ public class ReportHandlerFactory {
                 return applicationContext.getBean(ByDateReportHandler.class);
             case BY_CATEGORY:
                 return applicationContext.getBean(ByCategoryReportHandler.class);
-            default: throw new RuntimeException();
+            default: throw new NotFoundException("Неверный тип отчета.");
         }
     }
 }

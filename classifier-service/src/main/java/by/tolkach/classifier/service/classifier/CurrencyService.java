@@ -64,9 +64,7 @@ public class CurrencyService implements ICurrencyService {
     @Override
     public Currency read(UUID currencyId) {
         CurrencyEntity currencyEntity = this.currencyStorage.findById(currencyId).orElse(null);
-        if (currencyEntity == null) {
-            throw new NotFoundException("Валюты с таким ID не существует.");
-        }
+        Currencies.isExistingCurrency(currencyEntity);
         return this.currencyEntityConverter.toDto(currencyEntity);
     }
 
@@ -83,9 +81,7 @@ public class CurrencyService implements ICurrencyService {
     @Override
     public Currency read(String title) {
         CurrencyEntity currencyEntity = this.currencyStorage.findByTitle(title);
-        if (currencyEntity == null) {
-            throw new NotFoundException("Валюты с такой аббревиатурой не существует.");
-        }
+        Currencies.isExistingCurrency(currencyEntity);
         return this.currencyEntityConverter.toDto(currencyEntity);
     }
 }

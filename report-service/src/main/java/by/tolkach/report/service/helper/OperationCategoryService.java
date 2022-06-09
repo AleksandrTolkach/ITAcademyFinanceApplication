@@ -5,6 +5,7 @@ import by.tolkach.report.dao.api.helper.IOperationCategoryStorage;
 import by.tolkach.report.dao.api.helper.entity.OperationCategoryEntity;
 import by.tolkach.report.dto.operation.OperationCategory;
 import by.tolkach.report.service.helper.api.IOperationCategoryService;
+import by.tolkach.report.service.helper.api.OperationCategories;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -33,12 +34,14 @@ public class OperationCategoryService implements IOperationCategoryService {
     public OperationCategory read(UUID operationCategoryId) {
         OperationCategoryEntity operationCategoryEntity =
                 this.operationCategoryStorage.findById(operationCategoryId).orElse(null);
+        OperationCategories.isExistingCategory(operationCategoryEntity);
         return this.operationCategoryEntityConverter.toDto(operationCategoryEntity);
     }
 
     @Override
     public OperationCategory read(String title) {
         OperationCategoryEntity operationCategoryEntity = this.operationCategoryStorage.findByTitle(title);
+        OperationCategories.isExistingCategory(operationCategoryEntity);
         return this.operationCategoryEntityConverter.toDto(operationCategoryEntity);
     }
 
@@ -46,16 +49,8 @@ public class OperationCategoryService implements IOperationCategoryService {
     public OperationCategory update(OperationCategory operationCategory) {
         OperationCategoryEntity operationCategoryEntity =
                 this.operationCategoryEntityConverter.toEntity(operationCategory);
-        this.updateOperationCategoryParameters(operationCategory, operationCategoryEntity);
+        OperationCategories.updateOperationCategoryParameters(operationCategory, operationCategoryEntity);
         this.operationCategoryStorage.save(operationCategoryEntity);
         return this.operationCategoryEntityConverter.toDto(operationCategoryEntity);
-    }
-
-    private OperationCategoryEntity updateOperationCategoryParameters(OperationCategory operationCategory,
-                                                                      OperationCategoryEntity operationCategoryEntity) {
-        operationCategoryEntity.setDtCreate(operationCategory.getDtCreate());
-        operationCategoryEntity.setDtUpdate(operationCategory.getDtUpdate());
-        operationCategoryEntity.setTitle(operationCategory.getTitle());
-        return operationCategoryEntity;
     }
 }

@@ -24,7 +24,7 @@ public class ParamEntityConverter implements IParamEntityConverter {
             builder.setFrom(param.getFrom())
                     .setTo(param.getTo());
         }
-        if (param.getCategories().size() > 0) {
+        if (!param.getCategories().isEmpty()) {
             builder.setCategories(new CategoriesEntity(param.getCategories()));
         }
         return builder.build();

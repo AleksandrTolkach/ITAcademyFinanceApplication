@@ -8,9 +8,6 @@ public class MailParamWrapper {
     private Param param;
     private Schedule schedule;
 
-    public MailParamWrapper() {
-    }
-
     public Mail getMail() {
         return mail;
     }
