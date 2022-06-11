@@ -38,7 +38,7 @@ public class ScheduledMailController {
         return ResponseEntity.ok("Рассылка писем запланирована.");
     }
 
-    @RequestMapping(value = "/{uuid}/{type}/{dt_update}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{uuid}/{type}/dt_update/{dt_update}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> update(@PathVariable(name = "uuid", required = false) UUID scheduledMailId,
                                     @PathVariable(name = "type", required = false) ReportType reportType,

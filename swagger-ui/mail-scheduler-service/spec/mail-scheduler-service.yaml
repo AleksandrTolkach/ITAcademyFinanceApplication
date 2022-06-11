@@ -1,0 +1,401 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Управление личными финансами
+  contact:
+    name: Aleksandr Tolkach
+    url: https://www.linkedin.com/in/aleksandr-tolkach/
+
+servers:
+  - url: http://{host}:{port}
+    description: custom server
+    variables:
+      host:
+        description: host name
+        default: 165.232.159.153
+      port:
+        description: port value
+        default: "80"
+
+tags:
+  - name: "Планирование рассылки писем"
+    description: "Планирование рассылки писем с отетами по счетам и операциям"
+
+paths:
+  /api/v1/scheduler/mail/{type}:
+    post:
+      tags:
+        - "Планирование рассылки писем"
+      summary: "Добавление запланированной рассылки отчета"
+      parameters:
+        - in: path
+          name: type
+          description: "Тип отчёта"
+          required: true
+          schema:
+            $ref: '#/components/schemas/ReportType'
+      requestBody:
+        $ref: "#/components/requestBodies/CreateScheduledMail"
+      responses:
+        '201':
+          description: "Рассылка писем запланирована"
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+  /api/v1/scheduler/mail/:
+    get:
+      tags:
+        - "Планирование рассылки писем"
+      summary: "Получить страницу запланированных рассылок"
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Номер страницы
+          required: false
+        - in: query
+          name: size
+          schema:
+            type: integer
+          description: Размер страницы
+          required: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfMail'
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+  /api/v1/scheduler/mail/{uuid}/{type}/dt_update/{dt_update}:
+    put:
+      tags:
+        - "Планирование рассылки писем"
+      summary: "Меняем запланированную рассылку писем"
+      parameters:
+        - in: path
+          name: uuid
+          description: "Идентификатор рассылки которую редактируем"
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: type
+          description: "Тип отчёта"
+          required: true
+          schema:
+            $ref: '#/components/schemas/ReportType'
+        - in: path
+          name: dt_update
+          required: true
+          schema:
+            type: string
+            format: int64
+          description: Дата последнего обновления записи
+      requestBody:
+        $ref: "#/components/requestBodies/CreateScheduledMail"
+      responses:
+        '200':
+          description: "Запланированная рассылка писем изменена"
+        '400':
+          $ref: '#/components/responses/Bad_Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/Internal_Server_Error'
+
+components:
+  requestBodies:
+    CreateScheduledMail:
+      description: Тело для создания рассылки писем
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScheduledMailWithParam'
+  responses:
+    Bad_Request:
+      description: Запрос некорректен. Сервер не может обработать запрос
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: array
+                items:
+                  $ref: '#/components/schemas/t_single_error_response'
+              - $ref: '#/components/schemas/t_multiple_error_response'
+          examples:
+            t_single_error_response:
+              value:
+                - logref: error
+                  message:  Запрос содержит некорретные данные. Измените запрос и отправьте его ещё раз
+            t_multiple_error_response:
+              value:
+                logref: structured_error
+                errors:
+                  - field: time_unit
+                    message: Поле должно быть положительным числом
+    Unauthorized:
+      description: Для выполнения запроса на данный адрес требуется передать токен авторизации
+    Forbidden:
+      description: Данному токенту авторизации запрещено выполнять запроса на данный адрес
+    Internal_Server_Error:
+      description: Внутренняя ошибка сервера. Сервер не смог корректно обработать запрос
+      content:
+        applicaion/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/t_single_error_response'
+          example:
+            - logref: error
+              message:  Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору
+  schemas:
+    ScheduledMailWithParam:
+      type: object
+      description: Письмо с параметрами
+      allOf:
+        - $ref: '#/components/schemas/t_base_essence'
+      properties:
+        mail:
+          $ref: '#/components/schemas/Mail'
+        param:
+          oneOf:
+            - $ref: '#/components/schemas/ReportParamBalance'
+            - $ref: '#/components/schemas/ReportParamByDate'
+            - $ref: '#/components/schemas/ReportParamByCategory'
+        schedule:
+          type: object
+          description: Настройки работы
+          properties:
+            start_time:
+              description: Дата исполнения запланированной операции (linux time)
+              type: integer
+              format: int64
+            stop_time:
+              description: Дата окончания исполнения запланированной операции (linux time)
+              type: integer
+              format: int64
+            interval:
+              description: Интервал с которым должна происходить операция
+              type: integer
+              format: int64
+            time_unit:
+              type: string
+              description: |
+                Расписание:
+                  * `SECOND` - Секунды
+                  * `MINUTE` - Минуты
+                  * `HOUR` - Часы
+                  * `DAY` - Дни
+                  * `WEEK` - Недели
+                  * `MONTH` - Месяцы
+                  * `YEAR` - Года
+              enum:
+                - "SECOND"
+                - "MINUTE"
+                - "HOUR"
+                - "DAY"
+                - "WEEK"
+                - "MONTH"
+                - "YEAR"
+    Mail:
+      type: object
+      description: Письмо
+      properties:
+        address:
+          type: string
+          description: "Почтовый адрес"
+        subject:
+          type: string
+          description: "Тема письма"
+        text:
+          type:  string
+          description: "Текст"
+          readOnly: true
+        date:
+          type: number
+          description: "Дата отправки"
+
+    ReportType:
+      type: string
+      description: |
+        Тип отчёта:
+          * `BALANCE` - Остатки по счетам
+          * `BY_DATE` - Выписка со счёта в разрезе дат
+          * `BY_CATEGORY` - Выписка со счёта в разрезе категории
+      enum:
+        - BALANCE
+        - BY_DATE
+        - BY_CATEGORY
+
+    ReportParamBalance:
+      type: object
+      description: Параметры запуска отчёта о балансе
+      properties:
+        accounts:
+          type: array
+          description: Аккаунты
+          items:
+            type: string
+            format: uuid
+
+    ReportParamByDate:
+      type: object
+      description: Параметры запуска отчёта в разрезе даты операции
+      properties:
+        accounts:
+          type: array
+          description: Аккаунты
+          items:
+            type: string
+            format: uuid
+        categories:
+          type: array
+          description: Категории
+          items:
+            type: string
+            format: uuid
+    ReportParamByCategory:
+      type: object
+      description: Параметры запуска отчёта в разрезе категорий
+      properties:
+        accounts:
+          type: array
+          description: Аккаунты
+          items:
+            type: string
+            format: uuid
+        categories:
+          type: array
+          description: Категории
+          items:
+            type: string
+            format: uuid
+
+    PageOfMail:
+      type: object
+      description: Запланированные рассылки писем
+      allOf:
+        - $ref: '#/components/schemas/t_page'
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduledMailWithParam'
+
+    t_base_essence:
+      type: object
+      description: Описание базовой сущности.
+      required:
+        - uuid
+        - dt_create
+        - dt_update
+      properties:
+        uuid:
+          description: Уникальный идентификатор сущности
+          type: string
+          format: uuid
+          readOnly: true
+        dt_create:
+          description: Дата создания сущности (linux time)
+          type: number
+          format: int64
+          readOnly: true
+        dt_update:
+          description: Дата последнего обновления сущности (linux time)
+          type: integer
+          format: int64
+          readOnly: true
+
+    t_page:
+      type: object
+      required:
+        - number
+        - size
+        - total_pages
+        - total_elements
+        - content
+        - first
+        - number_of_elements
+        - last
+      description: Страница с опросами
+      properties:
+        number:
+          type: integer
+          description: Номер страницы
+        size:
+          description: Размер страницы
+          type: integer
+        total_pages:
+          description: Количество страниц
+          type: integer
+        total_elements:
+          description: Количество записей
+          type: integer
+        first:
+          description: Признак является ли элемент первым
+          type: boolean
+        number_of_elements:
+          description: Номер элемента
+          type: integer
+        last:
+          description: Признак является ли элемент последним
+          type: boolean
+
+    t_single_error_response:
+      type: object
+      description: Ошибка. Содержит общее описание ошибки
+      required:
+        - logref
+        - message
+      properties:
+        logref:
+          type: string
+          description: Тип ошибки
+          example: error
+        message:
+          description: Сообщение ошибки
+          type: string
+          example: Запрос содержит некорретные данные. Измените запрос и отправьте его ещё раз
+
+    t_multiple_error_response:
+      type: object
+      description: Ошибка. Содержит описание ошибок со ссылками на поля сущности
+      required:
+        - logref
+        - errors
+      properties:
+        logref:
+          type: string
+          description: Тип ошибки
+        errors:
+          description: Наименование ошибочного поля
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Сообщение об ошибке
+                example: Поле должно быть положительным числом
+              field:
+                type: string
+                description: Наименование ошибочного поля
+                example: time_unit
