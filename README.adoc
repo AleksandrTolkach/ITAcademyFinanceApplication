@@ -1,6 +1,6 @@
 = Program for accounting of income and expenses
 
-http://165.232.159.153:81/[OpenAPI]
+http://167.99.5.132:81/[OpenAPI]
 
 == Summary
 The  application "Program for accounting of income and expenses" is used for tracking income and  expenses. This application has been developed using microservice architecture. Seven microservices have been created:
